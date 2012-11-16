@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
+    android:paddingRight="?android:attr/scrollbarSize"
+    android:paddingLeft="?android:attr/scrollbarSize"
+	android:orientation="vertical"
+	android:background="@drawable/preference_row_click_button"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">    
+	<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+   		android:minHeight="?android:attr/listPreferredItemHeight"
+	    android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@color/blue">
+        <TextView
+            android:id="@+android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+		    android:textStyle="bold"
+            android:textColor="@color/white" />	            
+        <TextView android:id="@+android:id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@android:id/title"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+		    android:textStyle="bold"
+		    android:paddingLeft="10dp"
+		    android:paddingTop="5dp"
+		    android:paddingBottom="5dp"
+            android:textColor="@color/white" />	
+    </RelativeLayout>   
+</LinearLayout>

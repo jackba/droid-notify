@@ -119,8 +119,13 @@
     <string name="bottom">Bottom</string>
     
     <!-- Popup Width Strings -->
-    <string name="preference_popup_width_padding_title">Popup Width Padding</string>
-    <string name="preference_popup_width_padding_summary">Select the window width padding amount.</string> 
+    <string name="auto_popup_width">Auto Popup Width</string>
+    <string name="auto_popup_width_summary">Automatically set the popup window width. This is based on the screen size. Window padding is only set on higher resolution screens.</string> 
+    <string name="portrait_popup_width">Portrait Popup Width</string>
+    <string name="portrait_popup_width_summary">The popup window width when in portrait mode.</string>
+    <string name="landscape_popup_width">Landscape Popup Width</string>
+    <string name="landscape_popup_width_summary">The popup window width when in landscape mode.</string>
+    <string name="enter_width_in_pixels">Enter Width In Pixels</string>
     
     <!-- K9 Package Not Found Strings -->
     <string name="package_not_found">Package Not Found</string>
@@ -306,6 +311,8 @@
    	<string name="preference_screen_timeout_summary">Define how long to wait before releasing the phones screen after a notification is shown. The smaller the timeout, the less battery power is used.</string>
    	<string name="auto_rotate_screen">Auto Rotate Screen</string>
    	<string name="auto_rotate_screen_summary">Automatically rotate the notifications when the screen is rotated.</string>
+   	<string name="hide_status_bar">Hide Status Bar</string>
+   	<string name="hide_status_bar_summary">Hide the status bar when notifications are displayed.</string>
    	  	  	 	 	
    	<!-- Keyguard Strings -->
  	<string name="preference_keyguard_enabled_title">Unlock Phone</string>
@@ -314,6 +321,11 @@
  
     <!-- Settings Customize Strings -->
     <string name="customize_category">CUSTOMIZE</string>
+    <string name="notification_header_category">NOTIFICATION HEADER</string>
+    <string name="contact_photo_category">CONTACT PHOTO</string>
+    <string name="contact_name_category">CONTACT NUMBER</string>
+    <string name="contact_number_category">CONTACT NAME</string>
+    <string name="notification_body_category">NOTIFICATION BODY</string>
     <string name="customize">Customize</string>
     <string name="customize_notification_summary">Customize these notifications.</string>
     
@@ -323,6 +335,7 @@
     
     <!-- Theme Strings -->
     <string name="theme">Theme</string>
+    <string name="theme_category">THEME</string>
    	<string name="theme_summary">Select the theme for the notifications.</string>
    	<string name="theme_chooser_instructions">Using a swiping motion, select the desired theme from the available examples below. When you find the theme you would like press the OK button to save the theme.</string>
 	<string name="more_category">MORE</string>
@@ -385,6 +398,8 @@
    	<string name="preference_notification_body_max_lines_summary">Select the maximum lines that will display in the notification body.</string>
    	<string name="bold_notification_body">Bold Notification Body</string>
    	<string name="bold_notification_body_summary">Bold the notification body text.</string>
+   	<string name="disable_notification_body_links">Disable Notification Body Links</string>
+   	<string name="disable_notification_body_links_summary">Disable the auto-links in the notification body text.</string>
 
    	<!-- SMS Strings -->
     <string name="sms_category">SMS</string>

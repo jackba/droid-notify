@@ -146,8 +146,7 @@
 			android:layout_gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:gravity="center"
-			android:padding="15dp" 
-			android:selectAllOnFocus="true"
+			android:padding="15dp"
 			android:focusable="true" 
 			android:clickable="true"
 			android:textStyle="bold"
@@ -158,12 +157,13 @@
 			android:layout_width="match_parent"
 			android:layout_gravity="left"
 			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:gravity="left" 
-			android:autoLink="all"
+			android:gravity="left"
 			android:scrollbars="vertical"
 			android:maxLines = "5"
-			android:padding="5dp" 
-			android:selectAllOnFocus="true"/>
+			android:padding="5dp"
+			android:linksClickable="true"
+			android:autoLink="all"
+			android:textIsSelectable="true" />
 		<TextView
 			android:id="@+id/calendar_snooze_text_view"
 			android:layout_width="match_parent"

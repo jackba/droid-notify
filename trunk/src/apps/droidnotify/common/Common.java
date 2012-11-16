@@ -15,7 +15,6 @@ import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
@@ -62,8 +61,6 @@ import android.widget.Toast;
 
 import apps.droidnotify.calendar.CalendarCommon;
 import apps.droidnotify.common.Constants;
-import apps.droidnotify.db.DBConstants;
-import apps.droidnotify.db.SQLiteHelperBlockingApps;
 import apps.droidnotify.NotificationActivity;
 import apps.droidnotify.NotificationViewFlipper;
 import apps.droidnotify.log.Log;
@@ -186,75 +183,6 @@ public class Common {
 	 * @return boolean - Returns true if a the notification should be blocked.
 	 */
 	public static boolean isNotificationBlocked(Context context){
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		if(preferences.getBoolean(Constants.BLOCKING_APPS_ENABLED_KEY, false)){
-			return Common.isBlockingAppRunning(context);
-		}else{
-			return false;
-		}
-	}
-	
-	/**
-	 * Determine if the users device has a blocked app currently running on the device.
-	 * 
-	 * @param context - The application context.
-	 * 
-	 * @return boolean - Returns true if a app that is flagged to block is currently running.
-	 */
-	public static boolean isBlockingAppRunning(Context context){
-		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-	    ComponentName runningTaskComponent = activityManager.getRunningTasks(1).get(0).topActivity;
-		String runningTaskPackageName = runningTaskComponent.getPackageName();
-		String runningTaskClassName = runningTaskComponent.getClassName();		
-		if (_debug) Log.v(context, "Common.isBlockingAppRunning() CURRENTLY RunningTaskPackageName: " + runningTaskPackageName + " CURRENTLY RunningTaskClassName: " + runningTaskClassName);
-    	//Scan SMS Apps
-        int smsPackageNamesArraySize = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY.length;
-        for(int i = 0; i < smsPackageNamesArraySize; i++){
-        	String[] blockedInfoArray = Constants.BLOCKED_SMS_PACKAGE_NAMES_ARRAY[i].split(",");
-	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() SMS BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() SMS BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-	        			return true;
-	        		}
-	        	}else{
-	        		return true;
-	        	}
-	        }
-        }	        
-        //Scan Email Apps
-        int emailPackageNamesArraySize = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY.length;
-        for(int i = 0; i < emailPackageNamesArraySize; i++){
-        	String[] blockedInfoArray = Constants.BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY[i].split(",");
-	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() EMAIL BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() EMAIL BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-	        			return true;
-	        		}
-	        	}else{
-	        		return true;
-	        	}
-	        }
-        }	        
-        //Scan Misc Apps
-        int miscPackageNamesArraySize = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY.length;
-        for(int i = 0; i < miscPackageNamesArraySize; i++){
-        	String[] blockedInfoArray = Constants.BLOCKED_MISC_PACKAGE_NAMES_ARRAY[i].split(",");
-	        if(blockedInfoArray[0].equals(runningTaskPackageName)){
-	        	if (_debug) Log.v(context, "Common.isBlockingAppRunning() MISC BlockedInfoArray[0]: " + blockedInfoArray[0] + " RunningTaskPackageName: " + runningTaskPackageName);
-	        	if(blockedInfoArray.length > 1){
-	        		if (_debug) Log.v(context, "Common.isBlockingAppRunning() MISC BlockedInfoArray[1]: " + blockedInfoArray[1] + " RunningTaskClassName: " + runningTaskClassName);
-	        		if(blockedInfoArray[1].equals(runningTaskClassName)){
-	        			return true;
-	        		}
-	        	}else{
-	        		return true;
-	        	}
-	        }
-        }
 		return false;
 	}
 	
@@ -1638,15 +1566,8 @@ public class Common {
 	public static void rescheduleBlockedNotification(Context context, boolean callStateIdle, boolean rescheduleNotificationInCall, int notificationType, Bundle incomingNotificationBundle){
 		boolean rescheduleNotification = false;
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    	String blockingAppRunningAction = preferences.getString(Constants.BLOCKING_APPS_ACTION_KEY, Constants.BLOCKING_APPS_ACTION_IGNORE);
     	if(rescheduleNotificationInCall && !callStateIdle){
     		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() IN CALL = TRUE");
-    		rescheduleNotification = true;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_IGNORE)){
-    		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_IGNORE = FALSE");
-    		rescheduleNotification = false;
-    	}else if(blockingAppRunningAction.equals(Constants.BLOCKING_APPS_ACTION_RESCHEDULE)){
-    		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() BLOCKING_APPS_ACTION_RESCHEDULE = TRUE");
     		rescheduleNotification = true;
     	}
 		if (_debug) Log.v(context, "Common.rescheduleBlockedNotification() RescheduleBlockedNotification? " + rescheduleNotification);
@@ -1701,11 +1622,11 @@ public class Common {
 			if(stopTime.equals("")){
 				return false;
 			}
-			String[] startTimeArray = startTime.split("\\|");
+			String[] startTimeArray = startTime.split("-");
 			if(startTimeArray.length != 2){
 				return false;
 			}
-			String[] stopTimeArray = stopTime.split("\\|");
+			String[] stopTimeArray = stopTime.split("-");
 			if(stopTimeArray.length != 2){
 				return false;
 			}
@@ -2134,24 +2055,6 @@ public class Common {
 				}
 				bufferedWriter.flush();
 				bufferedWriter.close();
-				if(exportDB){
-					boolean dbExportOK = true;
-		    		//Export the SQLite DB's as well.
-		    		String packageName = context.getPackageName();
-		    		File dbFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/DB/");
-		    		dbFilePath.mkdirs();
-		        	//BlockedApps DB export.
-		        	File blockedAppsDBFile = new File(dbFilePath, DBConstants.DATABASE_NAME_BLOCKINGAPPS);
-		    		if(blockedAppsDBFile.exists()){
-		    			blockedAppsDBFile.delete();   			
-		    		}
-		    		blockedAppsDBFile.createNewFile();
-		    		SQLiteHelperBlockingApps blockingAppsDBHelper = new SQLiteHelperBlockingApps(context);
-		        	if(!blockingAppsDBHelper.exportDatabase(blockedAppsDBFile.getAbsolutePath(), packageName)){
-		        		dbExportOK = false;
-		        	}
-		        	if(!dbExportOK) return false;
-				}
 	    	}
 		}catch (Exception ex){
 			Log.e(context, "Common.exportApplicationPreferences() ERROR: " + ex.toString());

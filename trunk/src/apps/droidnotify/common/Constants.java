@@ -92,6 +92,7 @@ public class Constants {
 	public static final String KEYGUARD_ENABLED_KEY = "keyguard_enabled";
 	public static final String HIDE_SINGLE_MESSAGE_HEADER_KEY = "hide_single_message_header_enabled";
     public static final String CLEAR_STATUS_BAR_NOTIFICATIONS_ON_EXIT_KEY = "clear_status_bar_notifications_on_exit_enabled";
+    public static final String HIDE_STATUS_BAR_KEY = "hide_status_bar";
     
 	public static final String CALL_STATE_KEY = LOGTAG + "_call_state";
 	public static final String PREVIOUS_CALL_STATE_KEY = LOGTAG + "_previous_call_state";
@@ -105,9 +106,6 @@ public class Constants {
 
 	//-----BLOCKING APP CONSTANTS-----//
 	public static final String BLOCKING_APPS_ENABLED_KEY = "blocking_apps_enabled";
-	public static final String BLOCKING_APPS_ACTION_KEY = "blocking_app_action";
-	public static final String BLOCKING_APPS_ACTION_RESCHEDULE = "0";
-	public static final String BLOCKING_APPS_ACTION_IGNORE = "1";
 	
 	//-----NOTIFICATION TYPE CONSTANTS-----//
 	public static final int NOTIFICATION_TYPE_PHONE = 0;
@@ -241,63 +239,6 @@ public class Constants {
 	//-----UPGRADE CONSTATNS-----//
 	public static final String UPGRADE_TO_PRO_PREFERENCE_KEY = "upgrade_app_to_pro";
 	
-	//Array of the top SMS Messaging Apps:
-	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
-	// Android Stock SMS App
-	// Handcent
-	// Go SMS
-	// Chomp SMS
-	// Pansi
-	// Magic Text
-	// Zlango Messaging
-	// WhatsApp
-	// Motorola Messaging
-	// Hookt
-	// Google Talk
-	// Google Messenger
-	//
-	public static final String[] BLOCKED_SMS_PACKAGE_NAMES_ARRAY = new String[]{ 
-		"com.android.mms,com.android.mms.ui.ConversationList", 
-		"com.android.mms,com.android.mms.ui.ComposeMessageActivity",
-		"com.handcent.nextsms,com.handcent.sms.ui.ConversationExList",
-		"com.jb.gosms,com.jb.gosms.ui.mainscreen.GoSmsMainActivity",  
-		"com.p1.chompsms,com.p1.chompsms.activities.ConversationList", 
-		"com.pansi.msg,com.pansi.msg.ui.ConversationList", 
-		"com.pompeiicity.magictext,com.pompeiicity.magictext.SMSList",
-		"com.zlango.zms,com.zlango.zms.app.ConversationList",
-		"com.whatsapp,com.whatsapp.Conversations",
-		"com.motorola.blur.conversations,com.motorola.blur.conversations.ui.ConversationList",
-		"com.motorola.blur.messaging,com.motorola.blur.messaging.MessagingActivity",
-		"com.airg.hookt,com.airg.hookt.activity.Conversation",
-		"com.google.android.talk,com.google.android.talk.SigningInActivity",
-		"com.google.android.apps.plus,com.google.android.apps.plus.phone.ConversationActivity"};
-
-	//Array of the top Email Messaging Apps:
-	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
-	// Android Stock Email App
-	// Google Gmail
-	// Kaiten Mail
-	// K-9 Mail
-	// Yahoo Mail
-	// Hotmail
-	//
-	public static final String[] BLOCKED_EMAIL_PACKAGE_NAMES_ARRAY = new String[]{ 
-		"com.android.email,com.android.email.activity.AccountFolderList,",
-		"com.google.android.gm,com.google.android.gm.ConversationListActivity",
-		"com.kaitenmail,com.kaitenmail.activity.Accounts",
-		"com.fsck.k9,com.fsck.k9.activity.Accounts",
-		"com.yahoo.mobile.client.android.mail,com.yahoo.mobile.client.android.mail.activity.YahooMail",
-		"com.hotmail.Z7,com.seven.Z7.app.email.EmailFront"};
-
-	//Array of the Misc Apps:
-	//---FORMAT = PACKAGE_NAME , CLASS_NAME---
-	// Text'n Drive
-	// Motorola You Mail Voicemail
-	//
-	public static final String[] BLOCKED_MISC_PACKAGE_NAMES_ARRAY = new String[]{
-		"com.drivevox.drivevox",
-		"com.youmail.android.vvm,com.youmail.android.vvm.activity.MainTabActivity"};
-	
 	//-----APP THEME CONSTANTS-----//
     public static final String APP_THEME_KEY = "app_theme";       
 	public static final String APP_THEME_PREFIX = "apps.droidnotify.theme.";
@@ -379,6 +320,8 @@ public class Constants {
 	public static final String NOTIFICATION_BODY_MAX_LINES_KEY = "notification_body_max_lines";
 	public static final String NOTIFICATION_BODY_MAX_LINES_DEFAULT = "5";
 	public static final String NOTIFICATION_BODY_BOLD_KEY = "bold_notification_body";
+	public static final String DISABLE_NOTIFICATION_BODY_LINKS_KEY = "disable_notification_body_links";
+	public static final String NOTIFICATION_BODY_DISPLAY_HTML_KEY = "notification_body_display_html";
 	
 	//-----NOTIFICATION TYPE INFO CONSTANTS-----//
 	public static final String NOTIFICATION_TYPE_INFO_ICON_DISPLAY_KEY  = "display_notification_type_info_icon";
@@ -725,8 +668,9 @@ public class Constants {
 	public static final String POPUP_VERTICAL_LOCATION_CENTER = "1";
 	public static final String POPUP_VERTICAL_LOCATION_BOTTOM = "2";
 	public static final String POPUP_VERTICAL_LOCATION_DEFAULT = POPUP_VERTICAL_LOCATION_CENTER;
-	public static final String POPUP_WINDOW_WIDTH_PADDING_KEY = "popup_width_padding";
-	public static final String POPUP_WINDOW_WIDTH_PADDING_DEFAULT = "0";
+	public static final String AUTO_POPUP_WIDTH_KEY = "auto_popup_width";	
+	public static final String PORTRAIT_POPUP_WIDTH_KEY = "portrait_popup_width";	
+	public static final String LANDSCAPE_POPUP_WIDTH_KEY = "landscape_popup_width";
 	
 	//-----FLASH SMS CONSTANTS-----//
 	public static final String SMS_IGNORE_CLASS_0_MESSAGES_KEY = "sms_ignore_class_0_messages";	
@@ -774,175 +718,13 @@ public class Constants {
 	//-----EMOJI CONSTANTS-----//
 	public static final String EMOTICONS_ENABLED = "emoticons_enabled";
 	
-	//-----DROID NOTIFY API CONSTANTS-----//
-//	public static final String DROID_NOTIFY_API_NOTIFICATION_ACTION = "apps.droidnotify.api.NOTIFICATION_RECEIVED";
-//	public static final String DROID_NOTIFY_API_PACKAGE = "package";
-//	public static final String DROID_NOTIFY_API_TIMESTAMP = "timeStamp";
-//	public static final String DROID_NOTIFY_API_DISPLAY_TEXT = "displayText";
-//	public static final String DROID_NOTIFY_API_DISMISS_PENDINGINTENT = "dismissPendingIntent";
-//	public static final String DROID_NOTIFY_API_DELETE_PENDINGINTENT = "deletePendingIntent";
-//	public static final String DROID_NOTIFY_API_VIEW_PENDINGINTENT = "viewPendingIntent";	
-//	public static final String DROID_NOTIFY_API_CONTACT_ID  = "contactID";
-//	public static final String DROID_NOTIFY_API_CONTACT_NAME  = "contactName";
-//	public static final String DROID_NOTIFY_API_SENT_FROM_ADDRESS = "sentFromAddress";	
-//	public static final String DROID_NOTIFY_API_ENABLE_STATUS_BAR_NOTIFICATION = "enableStatusBarNotification";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_SOUND_URI = "statusBarNotificationSoundURI";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_ALWAYS_VALUE = "0";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_NEVER_VALUE = "1";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATIONS_VIBRATE_WHEN_VIBRATE_MODE_VALUE = "2";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_SETTING = "statusBarNotificationVibrateSetting";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_VIBRATE_PATTERN = "statusBarNotificationVibratePattern";
-//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_ENABLED = "statusBarNotificationLEDEnabled";
-//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_PATTERN = "statusBarNotificationLEDPattern";
-//	//public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_LED_COLOR = "statusBarNotificationLEDColor";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_SOUND_ENABLED = "statusBarNotificationInCallSoundEnabled";
-//	public static final String DROID_NOTIFY_API_STATUS_BAR_NOTIFICATION_IN_CALL_VIBRATE_ENABLED = "statusBarNotificationInCallVibrateEnabled";
-	
 	//-----LONG PRESS DISMISS BUTTON CONSTANTS-----//
 	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_KEY = "long_press_dismiss_button_action";
-	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL = "0";
-	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_LAUNCH_OPTIONS_MENU = "1";
-	
-	//-----PACKAGE LOADING CONSTANTS-----//
-	//Array of packages to ignore when loading.
-	public static final String[] IGNORE_PACKAGES_ARRAY = new String[]{
-		"android.tts",
-		"jp.co.omronsoft.openwnn",
-		"com.svox.pico",
-		"com.android.certinstaller",
-		"com.google.android.apps.uploader",
-		"com.google.android.gsf",
-		"com.google.android.location",
-		"com.google.android.partnersetup",
-		"com.android.backupconfirm", 
-		"com.android.defcontainer",
-		"com.android.emulator.connectivity.test",
-		"com.android.emulator.gps.test", 
-		"com.android.development", 
-		"com.android.gesture.builder", 
-		"com.android.DunServer",  
-		"com.android.htmlviewer", 
-		"com.android.inputmethod.latin", 
-		"com.android.LGSetupWizard",
-		"com.android.packageinstaller",
-		"com.android.providers.applications", 
-		"com.android.providers.downloads",   
-		"com.android.providers.drm", 
-		"com.android.providers.media", 
-		"com.android.providers.userdictionary", 
-		"com.android.sdksetup",
-		"com.android.server.vpn",
-		"com.android.setupwizard", 
-		"com.android.sharedstoragebackup", 
-		"com.android.vending.updater", 
-		"com.android.voicedialer", 
-		"com.google.android.feedback",
-		"com.lge.hiddenmenu",
-		"com.lge.internal",
-		"com.lge.LgHiddenMenu",  
-		"com.lge.SprintHiddenMenu",
-		"com.lge.uts",
-		"com.adobe.flashplayer",
-		"com.android.CSDFunctionG",
-		"com.android.backupconfirm",
-		"com.android.certinstaller",
-		"com.android.defcontainer",
-		"com.android.dmportread",
-		"com.android.providers.htcCheckin",
-		"com.android.providers.htcmessage",
-		"com.android.sharedstoragebackup",
-		"com.android.smith",
-		"com.android.updater",
-		"com.android.vpndialogs",
-		"com.android.MtpApplication",
-		"com.android.Preconfig",
-		"com.android.keychain",
-		"com.android.pickuptutorial",
-		"com.android.server.device.enterprise",
-		"com.android.server.vpn.enterprise",
-		"com.android.smspush",
-		"com.broadcom.bt.app.system",
-		"com.cellmania.android.storefront.webview.vmu",
-		"com.fd.httpd.service.wifi.detect",
-		"com.google.android.backup",
-		"com.google.android.onetimeinitializer",
-		"com.google.android.setupwizard",
-		"com.google.android.tts",
-		"com.htc",
-		"com.htc.AutoMotive.Traffic",
-		"com.htc.CustomizationSetup",
-		"com.htc.MediaAutoUploadSetting",
-		"com.htc.MediaCacheService",
-		"com.htc.android.epst",
-		"com.htc.android.fieldtrial",
-		"com.htc.android.inputset.cxt9ldb",
-		"com.htc.android.inputset.pphwr",
-		"com.htc.android.inputset.xt9bul",
-		"com.htc.android.inputset.xt9cze",
-		"com.htc.android.inputset.xt9dan",
-		"com.htc.android.inputset.xt9dut",
-		"com.htc.android.inputset.xt9eng",
-		"com.htc.android.inputset.xt9est",
-		"com.htc.android.inputset.xt9fin",
-		"com.htc.android.inputset.xt9fre",
-		"com.htc.android.inputset.xt9ger",
-		"com.htc.android.inputset.xt9gre",
-		"com.htc.android.inputset.xt9hrv",
-		"com.htc.android.inputset.xt9hun",
-		"com.htc.android.inputset.xt9ita",
-		"com.htc.android.inputset.xt9lav",
-		"com.htc.android.inputset.xt9lit",
-		"com.htc.android.inputset.xt9nor",
-		"com.htc.android.inputset.xt9pol",
-		"com.htc.android.inputset.xt9por",
-		"com.htc.android.inputset.xt9rom",
-		"com.htc.android.inputset.xt9rus",
-		"com.htc.android.inputset.xt9slo",
-		"com.htc.android.inputset.xt9slv",
-		"com.htc.android.inputset.xt9spa",
-		"com.htc.android.inputset.xt9srp",
-		"com.htc.android.inputset.xt9swe",
-		"com.htc.android.inputset.xt9tur",
-		"com.htc.csengine",
-		"com.htc.demoflopackageinstaller",
-		"com.htc.dlnamiddlelayer",
-		"com.htc.dropbox.glrplugin",
-		"com.htc.dummyskin",
-		"com.htc.framework",
-		"com.htc.fusion.FusionApk",
-		"com.htc.htcCOTAClient",
-		"com.htc.htcsprintservice",
-		"com.htc.providers.settings",
-		"com.htc.resetnotify",
-		"com.htc.task.gtask",
-		"com.google.android.gsf",
-		"com.google.android.gsf.login",
-		"com.infraware.filemanager.webstorage.boxnet",
-		"com.infraware.filemanager.webstorage.dropbox",
-		"com.infraware.filemanager.webstorage.google",
-		"com.monotype.android.font.chococooky",
-		"com.monotype.android.font.helvneuelt",
-		"com.monotype.android.font.rosemary",
-		"com.samsung.app.playreadyui",
-		"com.sec.android.app.DataCreate",
-		"com.sec.android.app.FileShareServer",
-		"com.sec.android.app.SecSetupWizard",
-		"com.sec.android.app.bluetoothtest",
-		"com.sec.android.app.factorymode",
-		"com.sec.android.app.kieswifi",
-		"com.sec.android.app.lcdtest",
-		"com.sec.android.app.minimode.res",
-		"com.sec.android.app.personalization",
-		"com.sec.android.app.phoneutil",
-		"com.sec.android.app.popupuireceiver",
-		"com.sec.android.app.samsungapps.una2",
-		"com.sec.android.app.shareapp",
-		"com.sec.android.app.wallpaperchooser",
-		"com.sec.android.app.wlantest",
-		"com.sec.android.drmpopup",
-		"com.sec.android.dttsupport",
-		"com.sec.android.providers.downloads",
-		"com.sec.factory",
-		"com.sec.minimode.taskcloser"};
+	public static final int DISMISS_BUTTON_LONG_PRESS_ACTION_NOTHING = -1;
+	public static final int DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL = 0;
+	public static final int DISMISS_BUTTON_LONG_PRESS_ACTION_DISPLAY_ALL_OPTIONS = 1;
+	public static final int DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL_SAME_USER = 2;
+	public static final int DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL_SAME_APP = 3;
+	public static final String DISMISS_BUTTON_LONG_PRESS_ACTION_DEFAULT = String.valueOf(DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL);
 	
 }

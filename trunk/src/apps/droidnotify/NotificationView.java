@@ -28,9 +28,10 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -250,7 +251,9 @@ public class NotificationView extends LinearLayout {
   	public void setNotificationBodyMaxLines(int maxLines){
 		try{
 			_notificationDetailsTextView.setMaxLines(maxLines);
-    		_notificationDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
+			if(_preferences.getBoolean(Constants.DISABLE_NOTIFICATION_BODY_LINKS_KEY, false)){
+				_notificationDetailsTextView.setLinksClickable(false);
+			}
   		}catch(Exception ex){
   			Log.e(_context, "NotificationView.setNotificationBodyMaxLines() ERROR: " + ex.toString());
   		}
@@ -331,14 +334,6 @@ public class NotificationView extends LinearLayout {
 		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
 			_contactLinearLayout.setClickable(false);
 		}
-		//Set the width padding based on the user preferences.
-		int windowPaddingTop = 0;
-		int windowPaddingBottom = 0;
-		int windowPaddingLeft = Integer.parseInt(_preferences.getString(Constants.POPUP_WINDOW_WIDTH_PADDING_KEY, Constants.POPUP_WINDOW_WIDTH_PADDING_DEFAULT));
-		int windowPaddingRight = windowPaddingLeft;
-		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		layoutParams.setMargins(windowPaddingLeft, windowPaddingTop, windowPaddingRight, windowPaddingBottom);
-		_notificationWindowLinearLayout.setLayoutParams(layoutParams);
 	}
 	
 	/**
@@ -948,6 +943,15 @@ public class NotificationView extends LinearLayout {
 					_callButton.setTypeface(null, Typeface.NORMAL);
 					_replyButton.setTypeface(null, Typeface.NORMAL);
 					_viewButton.setTypeface(null, Typeface.NORMAL);
+				}
+				//Set button minimum height.
+				int buttonMinHeight = getButtonMinHeight();
+				if(buttonMinHeight > 0){
+					_dismissButton.setMinHeight(buttonMinHeight);
+					_deleteButton.setMinHeight(buttonMinHeight);
+					_callButton.setMinHeight(buttonMinHeight);
+					_replyButton.setMinHeight(buttonMinHeight);
+					_viewButton.setMinHeight(buttonMinHeight);
 				}
 			}
 			//Setup the views buttons based on the notification type.
@@ -1753,69 +1757,192 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setupDismissButtonLongClickAction(boolean usingImageButtons){
 		if (_debug) Log.v(_context, "NotificationView.setupDismissButtonLongClickAction()");
-		if(usingImageButtons){
-			_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
-		        public boolean onLongClick(View view){
-		        	if(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL).equals(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL)){
-			        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-				        try{
-				        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-				        }catch(Exception ex){
-				        	//Don't set the icon if this fails.
+		int longPressDismissButtonAction = Integer.parseInt(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DEFAULT));
+		switch(longPressDismissButtonAction){
+			case Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_NOTHING:{
+				return;
+			}
+			case Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL:{
+				if(usingImageButtons){
+					_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){		        	
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all));
+							builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
 				        }
-						builder.setTitle(_context.getString(R.string.dismiss_all));
-						builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
-						builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int id){
-									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-									_notificationActivity.dismissAllNotifications();
-								}
-							})
-							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int id){
-									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					            	dialog.cancel();
-								}
-							});
-						builder.create().show();
-		        	}else{
-		        		_notificationActivity.openOptionsMenu();
-		        	}
-		            return true;
-		        }
-		    });
-		}else{
-			_dismissButton.setOnLongClickListener(new OnLongClickListener(){ 
-		        public boolean onLongClick(View view){
-		        	if(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL).equals(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL)){
-			        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-				        try{
-				        	builder.setIcon(android.R.drawable.ic_dialog_alert);
-				        }catch(Exception ex){
-				        	//Don't set the icon if this fails.
+				    });
+				}else{
+					_dismissButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all));
+							builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
 				        }
-						builder.setTitle(_context.getString(R.string.dismiss_all));
-						builder.setMessage(_context.getString(R.string.dismiss_all_dialog_text));	
-						builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int id){
-									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-									_notificationActivity.dismissAllNotifications();
-								}
-							})
-							.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
-								public void onClick(DialogInterface dialog, int id){
-									//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-					            	dialog.cancel();
-								}
-							});
-						builder.create().show();
-		        	}else{
-		        		_notificationActivity.openOptionsMenu();
-		        	}
-		            return true;
-		        }
-		    });
-		}		
+				    });
+				}
+				return;
+			}
+			case Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL_SAME_USER:{
+				if(usingImageButtons){
+					_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){		        	
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all_same_user));
+							builder.setMessage(_context.getString(R.string.dismiss_all_same_user_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllUserNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
+				        }
+				    });
+				}else{
+					_dismissButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all_same_user));
+							builder.setMessage(_context.getString(R.string.dismiss_all_same_user_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllUserNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
+				        }
+				    });
+				}
+				return;			
+			}
+			case Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISMISS_ALL_SAME_APP:{
+				if(usingImageButtons){
+					_dismissImageButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){		        	
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all_same_app));
+							builder.setMessage(_context.getString(R.string.dismiss_all_same_app_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllAppNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
+				        }
+				    });
+				}else{
+					_dismissButton.setOnLongClickListener(new OnLongClickListener(){ 
+				        public boolean onLongClick(View view){
+				        	AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+					        try{
+					        	builder.setIcon(android.R.drawable.ic_dialog_alert);
+					        }catch(Exception ex){
+					        	//Don't set the icon if this fails.
+					        }
+							builder.setTitle(_context.getString(R.string.dismiss_all_same_app));
+							builder.setMessage(_context.getString(R.string.dismiss_all_same_app_dialog_text));	
+							builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+										_notificationActivity.dismissAllAppNotifications();
+									}
+								})
+								.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+									public void onClick(DialogInterface dialog, int id){
+										//customPerformHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+						            	dialog.cancel();
+									}
+								});
+							builder.create().show();
+				            return true;
+				        }
+				    });
+				}
+				return;
+			}
+			case Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISPLAY_ALL_OPTIONS:{
+				return;
+			}
+			default:{
+				return;
+			}
+		}
 	}
 	
 	/**
@@ -1833,7 +1960,7 @@ public class NotificationView extends LinearLayout {
     	if(notificationTitle == null || notificationTitle.equals("")){
     		notificationTitle = "No Title";
     	}
-    	//Show/Hide the notification body.
+    	//Setup the notification body view.
 		if(_preferences.getBoolean(Constants.DISPLAY_NOTIFICATION_BODY_KEY, true)){
 			_notificationDetailsTextView.setVisibility(View.VISIBLE);
 		    //Load the notification message.
@@ -2063,10 +2190,11 @@ public class NotificationView extends LinearLayout {
 	 */
 	private void setNotificationMessage(){
 		if (_debug) Log.v(_context, "NotificationView.setNotificationMessage()");
-		String notificationText = "";
+		final String notificationText;
 		int notificationAlignment = Gravity.LEFT;
 		switch(_notificationType){
 			case Constants.NOTIFICATION_TYPE_PHONE:{
+				notificationText = "";
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_SMS:{
@@ -2089,17 +2217,54 @@ public class NotificationView extends LinearLayout {
 				notificationText = _notification.getMessageBody();
 				break;
 			}
-		}
-		try{
-			if(_preferences.getBoolean(Constants.EMOTICONS_ENABLED, true)){
-				_notificationDetailsTextView.setText(Html.fromHtml(EmojiCommon.convertTextToEmoji(_context, notificationText), EmojiCommon.emojiGetter, null));
-			}else{
-				_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+			default:{
+				notificationText = "";
+				return;
 			}
-		}catch(Exception ex){
-			Log.e(_context, "NotificationView.setNotificationMessage() EMOJI LOADING ERROR: " + ex.toString());
-			_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
 		}
+		//Set notification body text.
+		final boolean displayHTML = _preferences.getBoolean(Constants.NOTIFICATION_BODY_DISPLAY_HTML_KEY, true);
+		if(_preferences.getBoolean(Constants.EMOTICONS_ENABLED, true)){
+			try{
+				_notificationDetailsTextView.post(new Runnable(){
+				    public void run() {
+				    	if(displayHTML){
+				    		_notificationDetailsTextView.setText(Html.fromHtml(EmojiCommon.convertTextToEmoji(_context, notificationText), EmojiCommon.emojiGetter, null));
+				    	}else{
+				    		_notificationDetailsTextView.setText(Html.fromHtml(EmojiCommon.convertTextToEmoji(_context, notificationText), EmojiCommon.emojiGetter, null));	
+				    	}
+				    }
+				});
+			}catch(Exception ex){
+				Log.e(_context, "NotificationView.setNotificationMessage() EMOJI LOADING ERROR: " + ex.toString());
+				_notificationDetailsTextView.post(new Runnable(){
+				    public void run() {
+				    	if(displayHTML){
+				    		_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+				    	}else{
+				    		_notificationDetailsTextView.setText(Html.fromHtml(TextUtils.htmlEncode(notificationText)).toString().replace("<br/>", System.getProperty("line.separator")));
+				    	}
+				    }
+				});
+			}
+		}else{
+			_notificationDetailsTextView.post(new Runnable(){
+			    public void run() {
+			    	if(displayHTML){
+			    		_notificationDetailsTextView.setText(Html.fromHtml(notificationText));
+			    	}else{
+			    		_notificationDetailsTextView.setText(Html.fromHtml(TextUtils.htmlEncode(notificationText)).toString().replace("<br/>", System.getProperty("line.separator")));
+			    	}
+			    }
+			});
+		}
+		//Make sure that long text is not auto-scrolled to the end.
+		_notificationDetailsTextView.post(new Runnable(){
+		    public void run() {
+		    	_notificationDetailsTextView.scrollTo(0, 0);
+		    }
+		});
+		//Set notification body text gravity.
 		if(_preferences.getBoolean(Constants.NOTIFICATION_BODY_CENTER_ALIGN_TEXT_KEY, false)){
 			notificationAlignment = Gravity.CENTER_HORIZONTAL;
 		}else{
@@ -2195,11 +2360,12 @@ public class NotificationView extends LinearLayout {
 	 * Setup the context menus for the various items on the notification window.
 	 */
 	private void setupContextMenus(){
-		if (_debug) Log.v(_context, "NotificationView.setupContextMenus()"); 
-		if(_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
-			return;
+		if(!_preferences.getBoolean(Constants.CONTEXT_MENU_DISABLED_KEY, false)){
+			_notificationActivity.registerForContextMenu(_contactLinearLayout);
+		} 
+		if(Integer.parseInt(_preferences.getString(Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_KEY, Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DEFAULT)) == Constants.DISMISS_BUTTON_LONG_PRESS_ACTION_DISPLAY_ALL_OPTIONS){
+			_notificationActivity.registerForContextMenu(_dismissButton);
 		}
-		_notificationActivity.registerForContextMenu(_contactLinearLayout);
 	}
 
 	/**
@@ -2892,6 +3058,26 @@ public class NotificationView extends LinearLayout {
 			        }
 			     }
 			});
+		}
+	}
+	
+	/**
+	 * Get the minimum height of the Views Buttons. This is based on the devices screen resolution.
+	 * 
+	 * @return int - The minimum height of the View Buttons.
+	 */
+	private int getButtonMinHeight(){
+		try{
+			Resources resources = _context.getResources();			
+//			Drawable genericDrawable = resources.getDrawable(R.drawable.ic_dismiss);
+//			int drawableHeight = genericDrawable.getIntrinsicHeight();			
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inTargetDensity = DisplayMetrics.DENSITY_DEFAULT;
+			Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_dismiss, options);
+			int drawableHeight = bitmap.getHeight();			
+			return drawableHeight > -1 ? drawableHeight + 16 : drawableHeight;
+		}catch(Exception ex){
+			return -1;
 		}
 	}
 	

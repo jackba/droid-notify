@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item 
+		android:id="@+id/dismiss_all_context_menu"
+        android:title="@string/dismiss_all" />     
+	<item 
+		android:id="@+id/dismiss_all_same_user_context_menu"
+        android:title="@string/dismiss_all_same_user" />     
+	<item 
+		android:id="@+id/dismiss_all_same_app_context_menu"
+        android:title="@string/dismiss_all_same_app" /> 
+</menu>

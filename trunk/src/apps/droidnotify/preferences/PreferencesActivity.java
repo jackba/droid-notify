@@ -272,7 +272,7 @@ public class PreferencesActivity extends Activity {
 					    	}else if(Log.getSlideMeVersion()){
 					    		rateAppURL = Constants.APP_SLIDEME_WEB_URL;
 					    	}else{
-					    		rateAppURL = "Constants.APP_GOOGLE_URL";
+					    		rateAppURL = Constants.APP_GOOGLE_URL;
 					    	}
 				    		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rateAppURL)));
 				    	}
