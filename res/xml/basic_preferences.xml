@@ -102,7 +102,7 @@
 			android:layout="@layout/custom_preference_title"
 	        android:key="blocking_apps_preference"
 	       	android:title="@string/blocking_apps_settings"
-			android:dependency="blocking_apps_enabled" />
+			android:enabled="false" />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"

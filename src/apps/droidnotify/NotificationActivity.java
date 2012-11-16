@@ -46,6 +46,7 @@ import apps.droidnotify.phone.PhoneCommon;
 import apps.droidnotify.preferences.PreferencesActivity;
 import apps.droidnotify.receivers.ScreenManagementAlarmReceiver;
 import apps.droidnotify.sms.SMSCommon;
+
 /**
  * This is the main activity that runs the notifications.
  * 
@@ -82,7 +83,8 @@ public class NotificationActivity extends Activity{
 	private static final int DISMISS_NOTIFICATION_CONTEXT_MENU = R.id.dismiss_notification_context_menu;
 	private static final int DISMISS_ALL_CONTEXT_MENU = R.id.dismiss_all_context_menu;
 	private static final int DISMISS_ALL_USER_CONTEXT_MENU = R.id.dismiss_all_same_user_context_menu;
-	private static final int DISMISS_ALL_APP_CONTEXT_MENU = R.id.dismiss_all_same_app_context_menu;
+	private static final int DISMISS_ALL_APP_CONTEXT_MENU = R.id.dismiss_all_same_app_context_menu;	
+	private static final int DISMISS_BUTTON = R.id.dismiss_button;	
 
 	//================================================================================
     // Properties
@@ -212,6 +214,14 @@ public class NotificationActivity extends Activity{
 					viewContactMenuItem.setVisible(false);
 				}
 				setupContextMenus(contextMenu, notificationType);
+				break;
+			}
+	        /*
+	         * Dismiss Button ConextMenu.
+	         */
+			case DISMISS_BUTTON:{
+				MenuInflater menuInflater = getMenuInflater();
+				menuInflater.inflate(R.menu.dismissbuttoncontextmenu, contextMenu);
 				break;
 			}
 	    }  
@@ -436,28 +446,14 @@ public class NotificationActivity extends Activity{
 	@Override
 	public void onConfigurationChanged(Configuration config){
         super.onConfigurationChanged(config);   
-        if(_debug) Log.v(_context, "NotificationActivity.onConfigurationChanged()");        
+        if(_debug) Log.v(_context, "NotificationActivity.onConfigurationChanged()");
         if(!_preferences.getBoolean(Constants.AUTO_ROTATE_SCREEN_KEY, false)){
         	return;
         }
-        //Reset the width of the main activity window.
-        Display display = getWindowManager().getDefaultDisplay(); 
-        Point size = new Point();
-        int screenWidth;
-        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
-	        display.getSize(size);
-	        screenWidth = size.x;
-        }else{
-	        screenWidth = display.getWidth();
-        }
-        //if(_debug) Log.e(_context, "NotificationActivity.onConfigurationChanged() screenWidth: " + screenWidth);
-        //Adjust screen width based on the devices screen size.
-        if(screenWidth >= 800 && screenWidth < 1280){
-        	screenWidth = (int) (screenWidth * 0.8);
-        }else if(screenWidth >= 1280){
-        	screenWidth = (int) (screenWidth * 0.5);
-        }
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth, LayoutParams.WRAP_CONTENT);
+        //Adjust the width of the ViewFlipper Views.
+        _notificationViewFlipper.setNotificationProperties();
+        //Adjust the vertical location of the ViewFlipper.
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
 		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){
@@ -469,6 +465,16 @@ public class NotificationActivity extends Activity{
 		}
 		_notificationViewFlipper.setLayoutParams(layoutParams);
 		//Adjust the max lines in the notifications body.
+		//Device properties.
+		Display display = this.getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        int screenWidth;
+        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+	        display.getSize(size);
+	        screenWidth = size.x;
+        }else{
+        	screenWidth = display.getWidth();
+        }
     	int maxLines = Integer.parseInt(_preferences.getString(Constants.NOTIFICATION_BODY_MAX_LINES_KEY, Constants.NOTIFICATION_BODY_MAX_LINES_DEFAULT));
         int phoneOrientation = getResources().getConfiguration().orientation;
 	    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -563,18 +569,18 @@ public class NotificationActivity extends Activity{
   	}
   	
   	/**
-  	 * Dismiss all notifications and close the activity.
+  	 * Dismiss all notifications from the same user.
   	 */
   	public void dismissAllUserNotifications(){
   		try{
-  			//_notificationViewFlipper.dismissAllUserNotifications();
+  			_notificationViewFlipper.dismissAllUserNotifications(_context);
   		}catch(Exception ex){
   			Log.e(_context, "NotificationActivity.dismissAllUsersNotifications() ERROR: " + ex.toString());
   		}
   	}
   	
   	/**
-  	 * Dismiss all notifications and close the activity.
+  	 * Dismiss all notifications from the same app.
   	 */
   	public void dismissAllAppNotifications(){
   		try{
@@ -890,6 +896,10 @@ public class NotificationActivity extends Activity{
 		    params.dimAmount = dimAmt / 100f;
 		    mainWindow.setAttributes(params); 
 	    }
+	    //Hide Status Bar
+	    if(_preferences.getBoolean(Constants.HIDE_STATUS_BAR_KEY, false)){
+	    	mainWindow.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	    }
 	    setContentView(R.layout.notification_wrapper);
 	    setupViews(notificationType);
 	    setupViewFlipperStyles();
@@ -1164,25 +1174,8 @@ public class NotificationActivity extends Activity{
 	/**
 	 * Setup custom style elements of the ViewFlipper.
 	 */
-	@SuppressLint("NewApi") 
-	@SuppressWarnings("deprecation")
 	private void setupViewFlipperStyles(){
-        Display display = getWindowManager().getDefaultDisplay(); 
-        Point size = new Point();
-        int screenWidth;
-        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
-	        display.getSize(size);
-	        screenWidth = size.x;
-        }else{
-	        screenWidth = display.getWidth();
-        }
-        //Adjust screen width based on the devices screen size.
-        if(screenWidth >= 800 && screenWidth < 1280){
-        	screenWidth = (int) (screenWidth * 0.8);
-        }else if(screenWidth >= 1280){
-        	screenWidth = (int) (screenWidth * 0.5);
-        }
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(screenWidth, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
 		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){

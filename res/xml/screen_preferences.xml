@@ -43,6 +43,12 @@
 			android:defaultValue="300"
 			android:entries="@array/screen_timeout_options"
 			android:entryValues="@array/screen_timeout_values" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="hide_status_bar" 
+       		android:title="@string/hide_status_bar" 
+       		android:summary="@string/hide_status_bar_summary" 
+       		android:defaultValue="false" />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:layout="@layout/custom_preference_category"

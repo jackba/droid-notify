@@ -80,10 +80,12 @@ public class RescheduleService extends WakefulIntentService {
 					Bundle rescheduleNotificationBundleSingle = rescheduleNotificationBundle.getBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME + "_1");
 					if(rescheduleNotificationBundleSingle != null){
 						long eventID = rescheduleNotificationBundleSingle.getLong(Constants.BUNDLE_CALENDAR_EVENT_ID, -1);
-				    	if(CalendarCommon.isEventDismissed(context, eventID)){
-				    		Log.e(context, "RescheduleBroadcastReceiverService.doWakefulWork() Calendar event has already been dismissed. Exiting...");
-				    		return;
-				    	}
+						if(preferences.getBoolean(Constants.CALENDAR_USE_CALENDAR_REMINDER_SETTINGS_KEY, true)){
+					    	if(CalendarCommon.isEventDismissed(context, eventID)){
+					    		Log.e(context, "RescheduleBroadcastReceiverService.doWakefulWork() Calendar event has already been dismissed. Exiting...");
+					    		return;
+					    	}
+						}
 				    	if(!CalendarCommon.eventExists(context, eventID)){
 				    		Log.e(context, "RescheduleBroadcastReceiverService.doWakefulWork() Calendar event has been deleted. Exiting...");
 				    		return;

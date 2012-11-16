@@ -2,15 +2,17 @@ package apps.droidnotify.preferences;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
-import apps.droidnotify.preferences.blockingapps.BlockingAppsPreferenceActivity;
 import apps.droidnotify.quickreply.QuickReplyPreferenceActivity;
 
 public class BasicPreferenceActivity extends PreferenceActivity{
@@ -22,7 +24,7 @@ public class BasicPreferenceActivity extends PreferenceActivity{
     private Context _context = null;
 	
 	//================================================================================
-	// Public Methods
+	// Protected Methods
 	//================================================================================
 
 	/**
@@ -39,6 +41,20 @@ public class BasicPreferenceActivity extends PreferenceActivity{
 	    this.addPreferencesFromResource(R.xml.basic_preferences);
 	    this.setContentView(R.layout.basic_preferences);
 	    setupCustomPreferences();
+	}
+	
+	/**
+	 * Activity was resumed after it was stopped or paused.
+	 */
+	@Override
+	protected void onResume(){
+	    super.onResume();
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(_context).edit();
+		editor.putBoolean(Constants.BLOCKING_APPS_ENABLED_KEY, false);
+		editor.commit();
+		@SuppressWarnings("deprecation")
+		CheckBoxPreference blockingAppsPref = (CheckBoxPreference)findPreference("blocking_apps_enabled");
+		if(blockingAppsPref != null) blockingAppsPref.setChecked(false);
 	}
 
 	//================================================================================
@@ -103,11 +119,15 @@ public class BasicPreferenceActivity extends PreferenceActivity{
         	}
 		});
 		//Blocking Apps Preference/Button
-		Preference blockingAppsPref = (Preference)findPreference("blocking_apps_preference");
+		CheckBoxPreference blockingAppsPref = (CheckBoxPreference)findPreference("blocking_apps_enabled");
 		blockingAppsPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
         	public boolean onPreferenceClick(Preference preference) {
 		    	try{
-		    		startActivity(new Intent(_context, BlockingAppsPreferenceActivity.class));
+	    			Bundle bundle = new Bundle();
+	    			bundle.putInt(Constants.DIALOG_UPGRADE_TYPE, Constants.DIALOG_FEATURE_PRO_ONLY);
+			    	Intent upgradeActivityIntent = new Intent(_context, UpgradePreferenceActivity.class);
+			    	upgradeActivityIntent.putExtras(bundle);
+		    		startActivity(upgradeActivityIntent);
 		    		return true;
 		    	}catch(Exception ex){
 	 	    		Log.e(_context, "BasicPreferenceActivity() Blocking Apps Button ERROR: " + ex.toString());

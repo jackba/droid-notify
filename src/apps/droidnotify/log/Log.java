@@ -67,6 +67,8 @@ public class Log {
 	/**
 	 *  Get debug property.
 	 *  
+	 *  @param context - The application context.
+	 *  
 	 *  @return boolean - Returns true if the log class is set to log entries.
 	 */
 	public static boolean getDebug(Context context){
@@ -141,6 +143,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the V (Verbose) type.
 	 *  
+	 *  @param context - The application context.
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void v(Context context, String msg) {
@@ -153,6 +156,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the D (Debug) type.
 	 *  
+	 *  @param context - The application context.
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void d(Context context, String msg) {
@@ -165,6 +169,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the I (Info) type.
 	 *  
+	 *  @param context - The application context.
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void i(Context context, String msg) {
@@ -177,6 +182,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the W (Warning) type.
 	 *  
+	 *  @param context - The application context.
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void w(Context context, String msg) {
@@ -189,6 +195,7 @@ public class Log {
 	/**
 	 *  Add an entry to the Android LogCat log under the E (Error) type.
 	 *  
+	 *  @param context - The application context.
 	 *  @param msg - Entry to be made to the log file.
 	 */
 	public static void e(Context context, String msg) {
@@ -246,6 +253,7 @@ public class Log {
      * Append text to the log file being kept internally.
      * 
      * @param context - The application context.
+     * @param level - The log level.
      * @param msg - The message to append to the log file.
      */
     @SuppressLint("WorldReadableFiles")

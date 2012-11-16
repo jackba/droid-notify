@@ -2,15 +2,21 @@ package apps.droidnotify;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -123,6 +129,7 @@ public class NotificationViewFlipper extends ViewFlipper {
 				//Update the navigation information on the current View every time a new View is added.
 				final View currentView = this.getCurrentView();
 				updateView(currentView, this.getDisplayedChild(), 0);
+				setViewLayoutProperties(currentView);
 				//Update specific type counts.
 				switch(notificationType){
 					case Constants.NOTIFICATION_TYPE_PHONE:{
@@ -461,18 +468,32 @@ public class NotificationViewFlipper extends ViewFlipper {
   	}
 
   	/**
-  	 * Set the max lines property for each notification.
+  	 * Set the max lines property for each notification views.
   	 */
   	public void setNotificationBodyMaxLines(int maxLines){
 		try{
 			int totalNotifications = this.getChildCount();
 			for (int i=0; i<totalNotifications; i++){
-				//Cancel the reminder.
 				NotificationView currentNotificationView = (NotificationView) this.getChildAt(i);
 				currentNotificationView.setNotificationBodyMaxLines(maxLines);
 			}
   		}catch(Exception ex){
   			Log.e(_context, "NotificationViewFlipper.setNotificationBodyMaxLines() ERROR: " + ex.toString());
+  		}
+  	}
+  	
+  	/**
+  	 * Set the width for each notification views.
+  	 */
+  	public void setNotificationProperties(){
+  		try{
+			int totalNotifications = this.getChildCount();
+			for (int i=0; i<totalNotifications; i++){
+				NotificationView currentNotificationView = (NotificationView) this.getChildAt(i);
+				setViewLayoutProperties(currentNotificationView);
+			}
+  		}catch(Exception ex){
+  			Log.e(_context, "NotificationViewFlipper.setNotificationProperties() ERROR: " + ex.toString());
   		}
   	}
   	
@@ -736,6 +757,72 @@ public class NotificationViewFlipper extends ViewFlipper {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Set the view width parameters.
+	 * 
+	 * @param view - The view we want updated.
+	 */
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
+	private void setViewLayoutProperties(View view){
+		if(_debug) Log.v(_context, "NotificationViewFlipper.setViewLayoutProperties()");
+		//Device properties.
+		Display display = _notificationActivity.getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        int screenWidth;
+        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+	        display.getSize(size);
+	        screenWidth = size.x;
+        }else{
+        	screenWidth = display.getWidth();
+        }
+        int deviceScreenWidth = screenWidth;
+        if(_debug) Log.v(_context, "NotificationViewFlipper.setViewLayoutProperties() Screen Width: " + screenWidth);
+		//Set the width based on the user preferences.
+		if(_preferences.getBoolean(Constants.AUTO_POPUP_WIDTH_KEY, true)){
+			//Automatically set the padding of the view.
+	        //Adjust screen width based on the devices screen size.
+	        if(screenWidth >= 800 && screenWidth < 1280){
+	        	screenWidth = (int) (screenWidth * 0.8);
+	        }else if(screenWidth >= 1280){
+	        	screenWidth = (int) (screenWidth * 0.5);
+	        }else{
+	        	//Use the current screens width.
+	        }
+		}else{
+			//Manually set the padding of the view based on the users preferences.
+			int phoneOrientation = getResources().getConfiguration().orientation;
+		    if(phoneOrientation == Configuration.ORIENTATION_LANDSCAPE){
+		    	try{
+		    		screenWidth = Integer.parseInt(_preferences.getString(Constants.LANDSCAPE_POPUP_WIDTH_KEY, String.valueOf(screenWidth)));
+		    	}catch(Exception ex){
+		    		Log.e(_context, "NotificationViewFlipper.setViewLayoutProperties() LANDSCAPE SCREEN WIDTH ERROR: " + ex.toString());
+		    		screenWidth = deviceScreenWidth;
+		    	}
+			}else{
+		    	try{
+		    		screenWidth = Integer.parseInt(_preferences.getString(Constants.PORTRAIT_POPUP_WIDTH_KEY, String.valueOf(screenWidth)));
+		    	}catch(Exception ex){
+		    		Log.e(_context, "NotificationViewFlipper.setViewLayoutProperties() PORTRAIT SCREEN WIDTH ERROR: " + ex.toString());
+		    		screenWidth = deviceScreenWidth;
+		    	}
+			}
+		}
+		if(_debug) Log.v(_context, "NotificationViewFlipper.setViewLayoutProperties() NEW Screen Width: " + screenWidth);
+		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(screenWidth, FrameLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+		//Set the vertical gravity of the view.
+		String verticalLocation = _preferences.getString(Constants.POPUP_VERTICAL_LOCATION_KEY, Constants.POPUP_VERTICAL_LOCATION_DEFAULT);
+		if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_TOP)){
+			layoutParams.gravity |= Gravity.TOP;
+		}else if(verticalLocation.equals(Constants.POPUP_VERTICAL_LOCATION_BOTTOM)){
+			layoutParams.gravity |= Gravity.BOTTOM;
+		}else{			
+			layoutParams.gravity |= Gravity.CENTER_VERTICAL;
+		}
+		view.setLayoutParams(layoutParams);
 	}
 	
 	/**

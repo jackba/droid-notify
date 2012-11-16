@@ -47,7 +47,7 @@
 			android:layout="@layout/custom_preference_checkbox"
 			android:key="message_delivered_notification_enabled" 
 			android:title="@string/message_delivered_notification" 
-			android:summary="@string/message_failed_notification_summary"
+			android:summary="@string/message_delivered_notification_summary"
 			android:defaultValue="false" />						
 		<CheckBoxPreference
 			android:layout="@layout/custom_preference_checkbox"

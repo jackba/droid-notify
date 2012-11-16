@@ -92,21 +92,25 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 		String startTime = _preferences.getString(Constants.QUIET_TIME_START_TIME_KEY, "");
 		String stopTime = _preferences.getString(Constants.QUIET_TIME_STOP_TIME_KEY, "");
 		if(!startTime.equals("")){
-			String[] startTimeArray = startTime.split("\\|");
+			String[] startTimeArray = startTime.split("-");
 			if(startTimeArray.length == 2){
 				startTimePicker.setCurrentHour(Integer.parseInt(startTimeArray[0]));
 				startTimePicker.setCurrentMinute(Integer.parseInt(startTimeArray[1]));
+			}else{
+				Log.e(_context, "QuietTimePreferenceActivity() Quiet Time StartTime ERROR: " + startTime);
 			}
 		}
 		if(!stopTime.equals("")){
-			String[] stopTimeArray = stopTime.split("\\|");
+			String[] stopTimeArray = stopTime.split("-");
 			if(stopTimeArray.length == 2){
 				stopTimePicker.setCurrentHour(Integer.parseInt(stopTimeArray[0]));
 				stopTimePicker.setCurrentMinute(Integer.parseInt(stopTimeArray[1]));
+			}else{
+				Log.e(_context, "QuietTimePreferenceActivity() Quiet Time StopTime ERROR: " + stopTime);
 			}
 		}
 		//Build & Display Dialog
-		AlertDialog.Builder quietTimePeriodAlertBuilder = new AlertDialog.Builder(_context);		
+		AlertDialog.Builder quietTimePeriodAlertBuilder = new AlertDialog.Builder(_context);
 	    try{
 	    	quietTimePeriodAlertBuilder.setIcon(android.R.drawable.ic_dialog_info); 
         }catch(Exception ex){
@@ -117,8 +121,8 @@ public class QuietTimePreferenceActivity extends PreferenceActivity{
 		quietTimePeriodAlertBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				SharedPreferences.Editor editor = _preferences.edit();
-	        	editor.putString(Constants.QUIET_TIME_START_TIME_KEY, startTimePicker.getCurrentHour() + "|" + startTimePicker.getCurrentMinute());
-	        	editor.putString(Constants.QUIET_TIME_STOP_TIME_KEY, stopTimePicker.getCurrentHour() + "|" + stopTimePicker.getCurrentMinute());
+	        	editor.putString(Constants.QUIET_TIME_START_TIME_KEY, startTimePicker.getCurrentHour() + "-" + startTimePicker.getCurrentMinute());
+	        	editor.putString(Constants.QUIET_TIME_STOP_TIME_KEY, stopTimePicker.getCurrentHour() + "-" + stopTimePicker.getCurrentMinute());
 	            editor.commit();
 				Toast.makeText(_context, _context.getString(R.string.preference_quiet_time_period_set), Toast.LENGTH_LONG).show();
 			}

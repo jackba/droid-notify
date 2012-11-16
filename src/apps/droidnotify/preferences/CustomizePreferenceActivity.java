@@ -1,14 +1,19 @@
 package apps.droidnotify.preferences;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.view.Display;
 import android.view.HapticFeedbackConstants;
 
 import apps.droidnotify.R;
@@ -17,7 +22,7 @@ import apps.droidnotify.common.Constants;
 import apps.droidnotify.log.Log;
 import apps.droidnotify.preferences.theme.ThemePreferenceActivity;
 
-public class CustomizePreferenceActivity extends PreferenceActivity{
+public class CustomizePreferenceActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	
 	//================================================================================
     // Properties
@@ -28,6 +33,22 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 	
 	//================================================================================
 	// Public Methods
+	//================================================================================
+    
+	/**
+	 * When a SharedPreference is changed this registered function is called.
+	 * 
+	 * @param sharedPreferences - The Preference object who's key was changed.
+	 * @param key - The String value of the preference Key who's preference value was changed.
+	 */
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		if(key.equals(Constants.AUTO_POPUP_WIDTH_KEY)){
+			checkPopupWidthPreferences();
+		}
+	}
+
+	//================================================================================
+	// Protected Methods
 	//================================================================================
 
 	/**
@@ -42,14 +63,72 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 	    _context = this;
 	    _preferences = PreferenceManager.getDefaultSharedPreferences(_context);
 	    Common.setApplicationLanguage(_context, this);
+	    setPopupWidthDefaults();
 	    this.addPreferencesFromResource(R.xml.customize_preferences);
 	    this.setContentView(R.layout.customize_preferences);
 	    setupCustomPreferences();
+	    checkPopupWidthPreferences();
+	}
+	
+	/**
+	 * Activity was resumed after it was stopped or paused.
+	 */
+	@Override
+	protected void onResume(){
+	    super.onResume();
+	    _preferences.registerOnSharedPreferenceChangeListener(this);
+	}
+	  
+	/**
+	 * Activity was paused due to a new Activity being started or other reason.
+	 */
+	@Override
+	protected void onPause(){
+	    super.onPause();
+	    _preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	//================================================================================
 	// Private Methods
 	//================================================================================
+	
+	/**
+	 * Set the default value of the popup width user preferences.
+	 */
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
+	private void setPopupWidthDefaults(){
+		Display display = getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        int screenWidth;
+        int screenHeight;
+        if(Common.getDeviceAPILevel() >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2){
+	        display.getSize(size);
+	        screenWidth = size.x;
+	        screenHeight = size.y;
+        }else{
+	        screenWidth = display.getWidth();
+	        screenHeight = display.getHeight();
+        }
+        Log.v(_context, "CustomizePreferenceActivity.setPopupWidthDefaults() Screen Width: " + screenWidth);
+        Log.v(_context, "CustomizePreferenceActivity.setPopupWidthDefaults() Screen Height: " + screenHeight);
+        //Swap the values if they are backwards. Screen width should always be the smaller value.
+        if(screenHeight < screenWidth){
+        	int tempSize = screenHeight;
+        	screenHeight = screenWidth;
+        	screenWidth = tempSize;
+        }
+		if(_preferences.getString(Constants.PORTRAIT_POPUP_WIDTH_KEY, null) == null){
+			SharedPreferences.Editor editor = _preferences.edit();
+    		editor.putString(Constants.PORTRAIT_POPUP_WIDTH_KEY, String.valueOf(screenWidth));
+    		editor.commit();
+		}
+		if(_preferences.getString(Constants.LANDSCAPE_POPUP_WIDTH_KEY, null) == null){
+			SharedPreferences.Editor editor = _preferences.edit();
+    		editor.putString(Constants.LANDSCAPE_POPUP_WIDTH_KEY, String.valueOf(screenHeight));
+    		editor.commit();
+		}
+	}
 
 	/**
 	 * Setup click events on custom preferences.
@@ -162,6 +241,17 @@ public class CustomizePreferenceActivity extends PreferenceActivity{
 		k9Bundle.putBundle(Constants.BUNDLE_NOTIFICATION_BUNDLE_NAME, k9NotificationBundle);
 		Common.startNotificationActivity(_context, k9Bundle);
 
+	}
+	
+	/**
+	 * 
+	 */
+	@SuppressWarnings("deprecation")
+	private void checkPopupWidthPreferences(){
+		EditTextPreference portraitPopupwidthListPreference = (EditTextPreference)findPreference(Constants.PORTRAIT_POPUP_WIDTH_KEY);
+		EditTextPreference landscapePopupwidthListPreference = (EditTextPreference)findPreference(Constants.LANDSCAPE_POPUP_WIDTH_KEY);
+		if (portraitPopupwidthListPreference != null) portraitPopupwidthListPreference.setEnabled(!_preferences.getBoolean(Constants.AUTO_POPUP_WIDTH_KEY, true));
+		if (landscapePopupwidthListPreference != null) landscapePopupwidthListPreference.setEnabled(!_preferences.getBoolean(Constants.AUTO_POPUP_WIDTH_KEY, true));
 	}
 
 	/**

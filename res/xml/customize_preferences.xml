@@ -4,252 +4,312 @@
 	xmlns:droidnotify="http://schemas.android.com/apk/res/apps.droidnotify"
 	android:key="customize_settings_screen">
 	<Preference
-		android:layout="@layout/custom_preference_button"
+		android:layout="@layout/custom_notification_preview_button"
         android:key="notification_preview_preference"
        	android:title="@string/notification_preview"
        	android:summary="@string/notification_preview_summary" />	
-	<Preference
-		android:layout="@layout/custom_preference"
-        android:key="theme_preference"
-       	android:title="@string/theme"
-       	android:summary="@string/theme_summary" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="popup_vertical_location"
-		android:title="@string/popup_vertical_location_title"
-		android:summary="@string/popup_vertical_location_summary"
-		android:defaultValue="1"
-		android:entries="@array/popup_vertical_location_options"
-		android:entryValues="@array/popup_vertical_location_values" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="popup_width_padding"
-		android:title="@string/preference_popup_width_padding_title"
-		android:summary="@string/preference_popup_width_padding_summary"
-		android:defaultValue="0"
-		android:entries="@array/popup_width_padding_options"
-		android:entryValues="@array/popup_width_padding_values" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="hide_single_message_header_enabled" 
-		android:title="@string/preference_hide_single_message_header_enabled_title" 
-		android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
-		android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
-		android:defaultValue="false" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_notification_type_info_icon" 
-		android:title="@string/preference_notification_type_info_icon_enabled_title" 
-		android:summary="@string/preference_notification_type_info_icon_enabled_summary"
-		android:defaultValue="true" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_notification_type_info" 
-		android:title="@string/display_notification_type_info" 
-		android:summary="@string/display_notification_type_info_summary"
-		android:defaultValue="true" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="center_align_notification_type_info" 
-		android:title="@string/center_align_notification_type_info" 
-		android:summary="@string/center_align_notification_type_info_summary"
-		android:defaultValue="false"
-		android:dependency="display_notification_type_info" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="notification_type_info_font_size"
-		android:title="@string/preference_notification_type_info_size"
-		android:summary="@string/preference_notification_type_info_size_summary"
-		android:defaultValue="14"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values"
-		android:dependency="display_notification_type_info" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_notification_type_info" 
-		android:title="@string/bold_notification_type_info" 
-		android:summary="@string/bold_notification_type_info_summary"
-		android:defaultValue="false"
-		android:dependency="display_notification_type_info" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_contact_photo" 
-		android:title="@string/preference_display_contact_photo_title" 
-		android:summary="@string/preference_display_contact_photo_summary" 
-		android:defaultValue="true" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="contact_photo_size"
-		android:title="@string/preference_contact_photo_size"
-		android:summary="@string/preference_contact_photo_size_summary"
-		android:defaultValue="100"
-		android:entries="@array/contact_photo_size_options"
-		android:entryValues="@array/contact_photo_size_values"
-		android:dependency="display_contact_photo" />	
-	<apps.droidnotify.preferences.custom.ImageListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="contact_placeholder"
-		android:title="@string/preference_contact_placeholder_image"
-		android:summary="@string/preference_contact_placeholder_image_summary"
-		android:entries="@array/contact_placeholder_options"
-		android:entryValues="@array/contact_placeholder_values"
-		android:defaultValue="1"
-		droidnotify:entryImages="@array/contact_placeholder_images"
-		android:dependency="display_contact_photo" />
-	<apps.droidnotify.preferences.custom.ImageListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="contact_photo_background"
-		android:title="@string/preference_contact_photo_background"
-		android:summary="@string/preference_contact_photo_background_summary"
-		android:entries="@array/contact_photo_background_options"
-		android:entryValues="@array/contact_photo_background_values"
-		android:defaultValue="0"
-		droidnotify:entryImages="@array/contact_photo_background_images"
-		android:dependency="display_contact_photo" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_contact_name" 
-		android:title="@string/preference_display_contact_name_title" 
-		android:summary="@string/preference_display_contact_name_summary"
-		android:defaultValue="true" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="center_align_contact_name" 
-		android:title="@string/center_align_contact_name" 
-		android:summary="@string/center_align_contact_name_summary"
-		android:defaultValue="false"
-		android:dependency="display_contact_name" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="contact_name_font_size"
-		android:title="@string/preference_contact_name_font_size_title"
-		android:summary="@string/preference_contact_name_font_size_summary"
-		android:defaultValue="22"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values"
-		android:dependency="display_contact_name" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_contact_name" 
-		android:title="@string/bold_contact_name" 
-		android:summary="@string/bold_contact_name_summary"
-		android:defaultValue="true"
-		android:dependency="display_contact_name" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="hide_unknown_contact_name" 
-		android:title="@string/preference_hide_unknown_contact_name_title" 
-		android:summary="@string/preference_hide_unknown_contact_name_summary"
-		android:defaultValue="false"
-		android:dependency="display_contact_name" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_contact_number" 
-		android:title="@string/preference_display_contact_number_title" 
-		android:summary="@string/preference_display_contact_number_summary" 
-		android:defaultValue="true" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="center_align_contact_number" 
-		android:title="@string/center_align_contact_number" 
-		android:summary="@string/center_align_contact_number_summary"
-		android:defaultValue="false"
-		android:dependency="display_contact_number" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="contact_number_font_size"
-		android:title="@string/preference_contact_number_font_size_title"
-		android:summary="@string/preference_contact_number_font_size_summary"
-		android:defaultValue="18"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values"
-		android:dependency="display_contact_number" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_contact_number" 
-		android:title="@string/bold_contact_number" 
-		android:summary="@string/bold_contact_number_summary"
-		android:defaultValue="true"
-		android:dependency="display_contact_number" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="display_unknown_contact_number" 
-		android:title="@string/preference_display_unknown_contact_number_title" 
-		android:summary="@string/preference_display_unknown_contact_number_summary" 
-		android:defaultValue="true" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox" 
-		android:key="display_notification_body" 
-		android:title="@string/preference_display_notification_body_title" 
-		android:summary="@string/preference_display_notification_body_summary"
-		android:defaultValue="true" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="center_align_body_text" 
-		android:title="@string/preference_center_align_body_text_title" 
-		android:summary="@string/preference_center_align_body_text_summary"
-		android:defaultValue="false"
-		android:dependency="display_notification_body" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="notification_body_font_size"
-		android:title="@string/preference_notification_body_font_size_title"
-		android:summary="@string/preference_notification_body_font_size_summary"
-		android:defaultValue="14"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values"
-		android:dependency="display_notification_body" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="notification_body_max_lines"
-		android:title="@string/preference_notification_body_max_lines_title"
-		android:summary="@string/preference_notification_body_max_lines_summary"
-		android:defaultValue="5"
-		android:entries="@array/max_lines_options"
-		android:entryValues="@array/max_lines_values"
-		android:dependency="display_notification_body" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_notification_body" 
-		android:title="@string/bold_notification_body" 
-		android:summary="@string/bold_notification_body_summary"
-		android:defaultValue="false"
-		android:dependency="display_notification_body" />	
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="emoticons_enabled" 
-		android:title="@string/enable_emoticons" 
-		android:summary="@string/enable_emoticons_summary"
-		android:defaultValue="true"
-		android:dependency="display_notification_body" />
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="button_display_style"
-		android:title="@string/preference_button_style_title"
-		android:summary="@string/preference_button_style_summary"
-		android:defaultValue="0"
-		android:entries="@array/button_display_style_options"
-		android:entryValues="@array/button_display_style_values" />		
-	<ListPreference
-		android:layout="@layout/custom_preference_list"
-		android:key="button_font_size"
-		android:title="@string/button_font_size_title"
-		android:summary="@string/button_font_size_summary"
-		android:defaultValue="14"
-		android:entries="@array/font_size_options"
-		android:entryValues="@array/font_size_values" />
-	<CheckBoxPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="bold_button_text" 
-		android:title="@string/bold_button_text_title" 
-		android:summary="@string/bold_button_text_summary"
-		android:defaultValue="false" />
-	<ListPreference
-		android:layout="@layout/custom_preference_checkbox"
-		android:key="long_press_dismiss_button_action" 
-		android:title="@string/long_press_dismiss_button_action" 
-		android:summary="@string/long_press_dismiss_button_action_summary"
-		android:defaultValue="0"
-		android:entries="@array/long_press_dismiss_button_options"
-		android:entryValues="@array/long_press_dismiss_button_values" />
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="theme_category"
+		android:title="@string/theme_category">	
+		<Preference
+			android:layout="@layout/custom_preference"
+	        android:key="theme_preference"
+	       	android:title="@string/theme"
+	       	android:summary="@string/theme_summary" />
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="basic_category"
+		android:title="@string/basic_category">	
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="popup_vertical_location"
+			android:title="@string/popup_vertical_location_title"
+			android:summary="@string/popup_vertical_location_summary"
+			android:defaultValue="1"
+			android:entries="@array/popup_vertical_location_options"
+			android:entryValues="@array/popup_vertical_location_values" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="auto_popup_width" 
+			android:title="@string/auto_popup_width" 
+			android:summary="@string/auto_popup_width_summary"
+			android:defaultValue="true" />	
+		<EditTextPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="portrait_popup_width"
+			android:title="@string/portrait_popup_width"
+			android:summary="@string/portrait_popup_width_summary"
+			android:inputType="number"
+			android:dialogTitle="@string/enter_width_in_pixels" />	
+		<EditTextPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="landscape_popup_width"
+			android:title="@string/landscape_popup_width"
+			android:summary="@string/landscape_popup_width_summary"
+			android:inputType="number"
+			android:dialogTitle="@string/enter_width_in_pixels" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="notification_header_category"
+		android:title="@string/notification_header_category">	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="hide_single_message_header_enabled" 
+			android:title="@string/preference_hide_single_message_header_enabled_title" 
+			android:summaryOn="@string/preference_hide_single_message_header_enabled_summaryOn" 
+			android:summaryOff="@string/preference_hide_single_message_header_enabled_summaryOff" 
+			android:defaultValue="false" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_notification_type_info_icon" 
+			android:title="@string/preference_notification_type_info_icon_enabled_title" 
+			android:summary="@string/preference_notification_type_info_icon_enabled_summary"
+			android:defaultValue="true" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_notification_type_info" 
+			android:title="@string/display_notification_type_info" 
+			android:summary="@string/display_notification_type_info_summary"
+			android:defaultValue="true" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="center_align_notification_type_info" 
+			android:title="@string/center_align_notification_type_info" 
+			android:summary="@string/center_align_notification_type_info_summary"
+			android:defaultValue="false"
+			android:dependency="display_notification_type_info" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="notification_type_info_font_size"
+			android:title="@string/preference_notification_type_info_size"
+			android:summary="@string/preference_notification_type_info_size_summary"
+			android:defaultValue="14"
+			android:entries="@array/font_size_options"
+			android:entryValues="@array/font_size_values"
+			android:dependency="display_notification_type_info" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="bold_notification_type_info" 
+			android:title="@string/bold_notification_type_info" 
+			android:summary="@string/bold_notification_type_info_summary"
+			android:defaultValue="false"
+			android:dependency="display_notification_type_info" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="contact_photo_category"
+		android:title="@string/contact_photo_category">
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_contact_photo" 
+			android:title="@string/preference_display_contact_photo_title" 
+			android:summary="@string/preference_display_contact_photo_summary" 
+			android:defaultValue="true" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="contact_photo_size"
+			android:title="@string/preference_contact_photo_size"
+			android:summary="@string/preference_contact_photo_size_summary"
+			android:defaultValue="100"
+			android:entries="@array/contact_photo_size_options"
+			android:entryValues="@array/contact_photo_size_values"
+			android:dependency="display_contact_photo" />	
+		<apps.droidnotify.preferences.custom.ImageListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="contact_placeholder"
+			android:title="@string/preference_contact_placeholder_image"
+			android:summary="@string/preference_contact_placeholder_image_summary"
+			android:entries="@array/contact_placeholder_options"
+			android:entryValues="@array/contact_placeholder_values"
+			android:defaultValue="1"
+			droidnotify:entryImages="@array/contact_placeholder_images"
+			android:dependency="display_contact_photo" />
+		<apps.droidnotify.preferences.custom.ImageListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="contact_photo_background"
+			android:title="@string/preference_contact_photo_background"
+			android:summary="@string/preference_contact_photo_background_summary"
+			android:entries="@array/contact_photo_background_options"
+			android:entryValues="@array/contact_photo_background_values"
+			android:defaultValue="0"
+			droidnotify:entryImages="@array/contact_photo_background_images"
+			android:dependency="display_contact_photo" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="contact_name_category"
+		android:title="@string/contact_name_category">
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_contact_name" 
+			android:title="@string/preference_display_contact_name_title" 
+			android:summary="@string/preference_display_contact_name_summary"
+			android:defaultValue="true" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="center_align_contact_name" 
+			android:title="@string/center_align_contact_name" 
+			android:summary="@string/center_align_contact_name_summary"
+			android:defaultValue="false"
+			android:dependency="display_contact_name" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="contact_name_font_size"
+			android:title="@string/preference_contact_name_font_size_title"
+			android:summary="@string/preference_contact_name_font_size_summary"
+			android:defaultValue="22"
+			android:entries="@array/font_size_options"
+			android:entryValues="@array/font_size_values"
+			android:dependency="display_contact_name" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="bold_contact_name" 
+			android:title="@string/bold_contact_name" 
+			android:summary="@string/bold_contact_name_summary"
+			android:defaultValue="true"
+			android:dependency="display_contact_name" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="hide_unknown_contact_name" 
+			android:title="@string/preference_hide_unknown_contact_name_title" 
+			android:summary="@string/preference_hide_unknown_contact_name_summary"
+			android:defaultValue="false"
+			android:dependency="display_contact_name" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="contact_number_category"
+		android:title="@string/contact_number_category">
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_contact_number" 
+			android:title="@string/preference_display_contact_number_title" 
+			android:summary="@string/preference_display_contact_number_summary" 
+			android:defaultValue="true" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="center_align_contact_number" 
+			android:title="@string/center_align_contact_number" 
+			android:summary="@string/center_align_contact_number_summary"
+			android:defaultValue="false"
+			android:dependency="display_contact_number" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="contact_number_font_size"
+			android:title="@string/preference_contact_number_font_size_title"
+			android:summary="@string/preference_contact_number_font_size_summary"
+			android:defaultValue="18"
+			android:entries="@array/font_size_options"
+			android:entryValues="@array/font_size_values"
+			android:dependency="display_contact_number" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="bold_contact_number" 
+			android:title="@string/bold_contact_number" 
+			android:summary="@string/bold_contact_number_summary"
+			android:defaultValue="true"
+			android:dependency="display_contact_number" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="display_unknown_contact_number" 
+			android:title="@string/preference_display_unknown_contact_number_title" 
+			android:summary="@string/preference_display_unknown_contact_number_summary" 
+			android:defaultValue="true"
+			android:dependency="display_contact_number" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="notification_body_category"
+		android:title="@string/notification_body_category">
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox" 
+			android:key="display_notification_body" 
+			android:title="@string/preference_display_notification_body_title" 
+			android:summary="@string/preference_display_notification_body_summary"
+			android:defaultValue="true" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="center_align_body_text" 
+			android:title="@string/preference_center_align_body_text_title" 
+			android:summary="@string/preference_center_align_body_text_summary"
+			android:defaultValue="false"
+			android:dependency="display_notification_body" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="notification_body_font_size"
+			android:title="@string/preference_notification_body_font_size_title"
+			android:summary="@string/preference_notification_body_font_size_summary"
+			android:defaultValue="14"
+			android:entries="@array/font_size_options"
+			android:entryValues="@array/font_size_values"
+			android:dependency="display_notification_body" />
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="notification_body_max_lines"
+			android:title="@string/preference_notification_body_max_lines_title"
+			android:summary="@string/preference_notification_body_max_lines_summary"
+			android:defaultValue="5"
+			android:entries="@array/max_lines_options"
+			android:entryValues="@array/max_lines_values"
+			android:dependency="display_notification_body" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="bold_notification_body" 
+			android:title="@string/bold_notification_body" 
+			android:summary="@string/bold_notification_body_summary"
+			android:defaultValue="false"
+			android:dependency="display_notification_body" />	
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="emoticons_enabled" 
+			android:title="@string/enable_emoticons" 
+			android:summary="@string/enable_emoticons_summary"
+			android:defaultValue="true"
+			android:dependency="display_notification_body" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="disable_notification_body_links" 
+			android:title="@string/disable_notification_body_links" 
+			android:summary="@string/disable_notification_body_links_summary"
+			android:defaultValue="false"
+			android:dependency="display_notification_body" />	
+	</PreferenceCategory>	
+	<PreferenceCategory
+		android:layout="@layout/custom_preference_category"
+		android:key="butons_category"
+		android:title="@string/buttons_category">
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="button_display_style"
+			android:title="@string/preference_button_style_title"
+			android:summary="@string/preference_button_style_summary"
+			android:defaultValue="0"
+			android:entries="@array/button_display_style_options"
+			android:entryValues="@array/button_display_style_values" />		
+		<ListPreference
+			android:layout="@layout/custom_preference_list"
+			android:key="button_font_size"
+			android:title="@string/button_font_size_title"
+			android:summary="@string/button_font_size_summary"
+			android:defaultValue="14"
+			android:entries="@array/font_size_options"
+			android:entryValues="@array/font_size_values" />
+		<CheckBoxPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="bold_button_text" 
+			android:title="@string/bold_button_text_title" 
+			android:summary="@string/bold_button_text_summary"
+			android:defaultValue="false" />
+		<ListPreference
+			android:layout="@layout/custom_preference_checkbox"
+			android:key="long_press_dismiss_button_action" 
+			android:title="@string/long_press_dismiss_button_action" 
+			android:summary="@string/long_press_dismiss_button_action_summary"
+			android:defaultValue="0"
+			android:entries="@array/long_press_dismiss_button_options"
+			android:entryValues="@array/long_press_dismiss_button_values" />
+	</PreferenceCategory>
 </PreferenceScreen>
