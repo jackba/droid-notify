@@ -240,11 +240,11 @@ The answer is, it depends.
 
 2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Droid Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
 
+==After Droid Notify Plus updates, the app stops working. Why?==
+
+There is a bug in all versions of Android which stops the accessibility services from running after an update. You must disable and then re-enable the accessibility service in the phones settings restart/reenable the service.
+
 ==Known Issues==
 
 Here are confirmed, known issues that have not been resolved yet:
  * 
-
-==After Droid Notify Plus updates, the app stops working. Why?==
-
-There is a bug in all versions of Android prior to Android 4.0 which stops the accessibility services from running after an update. Either disable and then re-enable the accessibility service in the phones settings or restarts your phone to restart the service/app.
