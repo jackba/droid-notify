@@ -35,10 +35,8 @@
 = *Droid Notify Plus* =
 
  * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working._Why? After Droid Notify Plus updates, the app stops working. Why?]
-
- * [FAQ#When I enable the Notify Plus accessibility service my device begins to speak to me, why? ==
-
- * [FAQ#When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why? ==
+ * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify Plus accessibility service my device begins to speak to me, why?]
+ * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
 
 ----
 
