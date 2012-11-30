@@ -29,6 +29,7 @@
  *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Issues_When_Using_Quick_Reply Issues When Using Quick Reply]
  * [FAQ#Can_I_Suppress_Notifications_When_I_Am_Using_Application_X? Can I Suppress Notifications When I Am Using Application X?]
+ * [FAQ#Can_A_Notification_Be_Shown_Over_The_Lock_Screen? Can A Notification Be Shown Over The Lock Screen?]
  * [FAQ#Known_Issues Known Issues]
 
 = *Droid Notify Plus* =
@@ -230,6 +231,14 @@ Yes, you can prevent the popup notification from appearing when you are using al
 _*App Settings->Basic->Blocking Apps Settings*_
 
 Simply enable app blocking and select the apps on your phone that you want to block notifications.
+
+==Can A Notification Be Shown Over The Lock Screen?==
+
+The answer is, it depends. 
+
+1) Android OS: If you are using the Android OS (default, stock) lockscreen, then no, you can't. Android does not currently have a way to display anything "over" a locked lockscreen. Developers can either lock or unlock the device and that's it.
+
+2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Droid Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
 
 ==Known Issues==
 
