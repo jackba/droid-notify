@@ -8,6 +8,7 @@
 
 *v3.27* _Coming Soon..._
  * Fixed a bug which prevented the Quick Reply Delivery Reports from working properly.
+ * Fixed a bug which prevented the blacklist from working for emial notifications.
  * Updated translations.
  * Small bug fixes.
 
