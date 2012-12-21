@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Ceci masquera toutes les notifications pour cet utilisateur.</string>
   <string name="dismiss_all_same_app">Masquer tout (application)</string>
   <string name="dismiss_all_same_app_dialog_text">Ceci masquera toutes les notifications de l\'application.</string>
-  <string name="dismiss_all_action">Masquer toutes les notifications</string>
-  <string name="launch_options_menu">Afficher le menu contextuel</string>
+  <string name="display_all_dismiss_options">Afficher les options de Masquer</string>
   <string name="share">Partager</string>
   <string name="share_title">Quelqu\'un que vous connaissez souhaite que vous essayez l\'application Android Droid Notify!</string>
   <string name="share_description">J\'utilise cette application Android géniale appelée Droid Notify. Elle affiche un message sur mon écran quand je reçois certaines notifications.\n\nVous pouvez télécharger cette application sur la plupart des boutiques Android, avec le mot clé \"Droid Notify\".</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">PERSONNALISER</string>
   <string name="notification_header_category">ENTÊTE NOTIFICATION</string>
   <string name="contact_photo_category">PHOTO DU CONTACT</string>
-  <string name="contact_name_category">NUMERO DU CONTACT</string>
-  <string name="contact_number_category">NOM DU CONTACT</string>
+  <string name="contact_name_category">NOM DU CONTACT</string>
+  <string name="contact_number_category">NUMERO DU CONTACT</string>
   <string name="notification_body_category">CORPS DE LA NOTIFICATION</string>
   <string name="customize">Personnaliser</string>
   <string name="customize_notification_summary">Personnalise ces notifications.</string>

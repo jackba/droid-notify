@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Ezzel elutasít minden értesítést ettől a felhasználótól.</string>
   <string name="dismiss_all_same_app">Összes elutasítása (azonos app.-tól)</string>
   <string name="dismiss_all_same_app_dialog_text">Ezzel elutasít minden értesítést ettől az alkalmazástól.</string>
-  <string name="dismiss_all_action">Minden értesítést elutasít</string>
-  <string name="launch_options_menu">Indítja a Beállítások menüt</string>
+  <string name="display_all_dismiss_options">Minden elutasítási lehetőség megjelenítés</string>
   <string name="share">Megoszt</string>
   <string name="share_title">Próbáld ki a Droid Notify Android alkalmazást!</string>
   <string name="share_description">\"Én használtam ezt a döbbenetes Android alkalmazást, amit Droid Notify-nek hívnak. Ez bemutat egy előugró párbeszédet a képernyőmön, amikor bizonyos értesítéseket kapok.
@@ -258,8 +257,8 @@ Köszönjük!\"</string>
   <string name="customize_category">TESTRESZABÁS</string>
   <string name="notification_header_category">ÉRTESÍTÉS FEJLÉCE</string>
   <string name="contact_photo_category">KAPCSOLAT FOTÓJA</string>
-  <string name="contact_name_category">KAPCSOLAT SZÁMA</string>
-  <string name="contact_number_category">KAPCSOLAT NEVE</string>
+  <string name="contact_name_category">KAPCSOLAT NEVE</string>
+  <string name="contact_number_category">KAPCSOLAT SZÁMA</string>
   <string name="notification_body_category">ÉRTESÍTÉS TÖRZSE</string>
   <string name="customize">Testreszabás</string>
   <string name="customize_notification_summary">Az értesítések testreszabása.</string>

@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Cuirfidh sé seo a bhriseadh gach fógra ón úsáideoir.</string>
   <string name="dismiss_all_same_app">Bhriseadh go léir (App same)</string>
   <string name="dismiss_all_same_app_dialog_text">Cuirfidh sé seo a bhriseadh gach fógra ó iarratas seo.</string>
-  <string name="dismiss_all_action">Bhriseadh go léir Fógraí</string>
-  <string name="launch_options_menu">Seoladh Roghanna Menu</string>
+  <string name="display_all_dismiss_options">Taispeáin Díbhe Gach Roghanna</string>
   <string name="share">Comhroinn</string>
   <string name="share_title">Mian le duine éigin a fhios agat go bhfuil tú chun iarracht a dhéanamh ar an app Android Droid in iúl!</string>
   <string name="share_description">Tá mé ag baint úsáide as an uamhnach Android iarratas a dtugtar Droid in iúl. Taispeánann sé dialóg aníos ar mo scáileán nuair a gheobhaidh mé fógraí áirithe. Is féidir \ n \ nTá seo a íoslódáil app ar an chuid is mó siopaí app Android, ach cuardach a dhéanamh ar na heochairfhocail \'Droid fógra a thabhairt\'.</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">SHAINCHEAPADH</string>
   <string name="notification_header_category">CEANNTÁSC FÓGRA</string>
   <string name="contact_photo_category">DÉAN TEAGMHÁIL LE Photo</string>
-  <string name="contact_name_category">DÉAN TEAGMHÁIL LE LÍON</string>
-  <string name="contact_number_category">DÉAN TEAGMHÁIL LE AINM</string>
+  <string name="contact_name_category">DÉAN TEAGMHÁIL LE AINM</string>
+  <string name="contact_number_category">DÉAN TEAGMHÁIL LE LÍON</string>
   <string name="notification_body_category">COMHLACHT FÓGRA</string>
   <string name="customize">Saincheap</string>
   <string name="customize_notification_summary">Saincheap na fógraí.</string>

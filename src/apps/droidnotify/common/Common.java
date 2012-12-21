@@ -2072,23 +2072,12 @@ public class Common {
 	 */
 	public static boolean clearLogFiles(Context context){
 		try{
-			//Remove internal preferences file.
-			File internalPeferencesFile = new File(context.getFilesDir(), "Preferences.txt");
-			if(internalPeferencesFile.exists()){
-				internalPeferencesFile.delete();
-			}
 			//Remove internal log file.
 	    	File internalLogFile = new File(context.getFilesDir(), "Log.txt");
 	    	if(internalLogFile.exists()){
 	    		internalLogFile.delete();
 	    	}		
 			if(Log.writeExternalStorage()){
-				//Remove external preferences file.
-		    	File preferencesFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log/Preferences");
-		    	File preferencesFile = new File(preferencesFilePath, "DroidNotifyPreferences.txt");
-				if(preferencesFile.exists()){
-					preferencesFile.delete();   			
-				}
 				//Remove external log file.
 		    	File externalLogFilePath = Environment.getExternalStoragePublicDirectory("DroidNotify/Log");
 		    	File externalLogFile = new File(externalLogFilePath, "DroidNotifyLog.txt");

@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Esto será descartar todas las notificaciones de este usuario.</string>
   <string name="dismiss_all_same_app">Despedir Todos (Misma App)</string>
   <string name="dismiss_all_same_app_dialog_text">Esto será descartar todas las notificaciones de esta aplicación.</string>
-  <string name="dismiss_all_action">Descartar Todas las Notificaciones</string>
-  <string name="launch_options_menu">Inicie Menú Opciones</string>
+  <string name="display_all_dismiss_options">Pantalla Todo Descartar Opciones</string>
   <string name="share">Compartir</string>
   <string name="share_title">Alguien que usted conoce quiere probar la app Android Droid Notify!</string>
   <string name="share_description">He estado usando esta impresionante aplicación Android llamada Droid Notify. Muestra un menú emergente diálogo en mi pantalla cuando recibo ciertos notifications.\n\nYou pueden descargar esta aplicación en la mayoría de tiendas app Android, sólo busca las palabras clave «Droid Notify».</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">PERSONALIZAR</string>
   <string name="notification_header_category">ENCABEZADO DE NOTIFICACIÓN</string>
   <string name="contact_photo_category">FOTO DE CONTACTO</string>
-  <string name="contact_name_category">NÚMERO DE CONTACTO</string>
-  <string name="contact_number_category">NOMBRE DE CONTACTO</string>
+  <string name="contact_name_category">NOMBRE DE CONTACTO</string>
+  <string name="contact_number_category">NÚMERO DE CONTACTO</string>
   <string name="notification_body_category">CUERPO DE NOTIFICACIÓN</string>
   <string name="customize">Personalizar</string>
   <string name="customize_notification_summary">Personalizar estas notificaciones.</string>

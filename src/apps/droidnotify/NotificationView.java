@@ -160,13 +160,6 @@ public class NotificationView extends LinearLayout {
 	/**
      * Class Constructor.
      */	
-	public NotificationView(Context context, AttributeSet attrs, int defStyle) {
-	    super(context, attrs, defStyle);
-	}
-	
-	/**
-     * Class Constructor.
-     */	
 	public NotificationView(Context context, Notification notification){
 		super(context);
 	    _debug = Log.getDebug(context);;
@@ -477,17 +470,6 @@ public class NotificationView extends LinearLayout {
 			_calendarSnoozeSpinner.setBackgroundDrawable(getThemeButton(Constants.THEME_SPINNER));
 			_messageEditText.setBackgroundDrawable(getThemeButton(Constants.THEME_EDIT_TEXT));
 			_messageEditText.setTextColor(quickReplyTextColorID);
-			_messageEditText.addTextChangedListener(new TextWatcher(){				
-				public void afterTextChanged(Editable s){
-					Log.v(_context, "EditText afterTextChanged()");
-				}				
-				public void beforeTextChanged(CharSequence s, int start, int count, int after){
-					Log.v(_context, "EditText beforeTextChanged()");
-				}				
-				public void onTextChanged(CharSequence s, int start, int before, int count){
-					Log.v(_context, "EditText onTextChanged()");
-				}
-			});
 
 			final int finalSpinnerTextColorID = spinnerTextColorID;
 			_calendarSnoozeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -2337,7 +2319,7 @@ public class NotificationView extends LinearLayout {
 		_notificationInfoTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(_preferences.getString(Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_KEY, Constants.NOTIFICATION_TYPE_INFO_FONT_SIZE_DEFAULT)));
 	    _notificationInfoTextView.setText(receivedAtText);
 	    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_DISPLAY_KEY, true)){
-	    	_notificationInfoLinearLayout.setVisibility(View.VISIBLE);
+	    	_notificationInfoTextView.setVisibility(View.VISIBLE);
 		    //Set the notification info alignment. This includes the image and text.
 		    int notificationInfoAlignment = Gravity.LEFT;
 		    if(_preferences.getBoolean(Constants.NOTIFICATION_TYPE_INFO_CENTER_ALIGN_KEY, false)){
@@ -2352,7 +2334,7 @@ public class NotificationView extends LinearLayout {
 		    	_notificationInfoTextView.setTypeface(null, Typeface.NORMAL);
 		    }
 	    }else{
-	    	_notificationInfoLinearLayout.setVisibility(View.GONE);
+	    	_notificationInfoTextView.setVisibility(View.GONE);
 	    }
 	}
 	
@@ -2533,7 +2515,7 @@ public class NotificationView extends LinearLayout {
 					return;
 				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY);
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY, Constants.NOTIFICATION_TYPE_SMS);
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_MMS:{
@@ -2542,7 +2524,7 @@ public class NotificationView extends LinearLayout {
 					return;
 				}
 				//Reply using any installed SMS messaging app.
-				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY);
+				SMSCommon.startMessagingAppReplyActivity(_context, _notificationActivity, sentFromAddress, _notification.getMessageID(), _notification.getThreadID(), Constants.SEND_SMS_ACTIVITY, Constants.NOTIFICATION_TYPE_MMS);
 				return;
 			}
 			case Constants.NOTIFICATION_TYPE_CALENDAR:{			
@@ -2956,7 +2938,7 @@ public class NotificationView extends LinearLayout {
     	}else{		
     		//Cancel the reminder.
     		_notification.cancelReminder();
-    		SMSCommon.sendSMSTask(_context, _notification.getSentFromAddress(), message, _notification.getMessageID(), _notification.getThreadID());
+    		SMSCommon.sendSMSTask(_context, _notification.getSentFromAddress(), message, _notification.getMessageID(), _notification.getThreadID(), _notification.getNotificationType());
     		dismissNotification(false);
     		//Hide the soft keyboard.
     		hideSoftKeyboard();

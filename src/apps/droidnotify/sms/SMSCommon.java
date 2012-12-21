@@ -19,7 +19,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
@@ -55,7 +54,6 @@ public class SMSCommon {
     //================================================================================
 	
 	private static boolean _debug = false;
-	private static Context _context = null;
 	
 	//================================================================================
 	// Public Methods
@@ -750,10 +748,11 @@ public class SMSCommon {
 	 * @param messageID - The Message ID that we want to alter.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * @param requestCode - The request code we want returned.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Returns true if the activity can be started.
 	 */
-	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, long messageID, long threadID, int requestCode){
+	public static boolean startMessagingAppReplyActivity(Context context, NotificationActivity notificationActivity, String address, long messageID, long threadID, int requestCode, int notificationType){
 		_debug = Log.getDebug(context);
 		if(address == null){
 			Toast.makeText(context, context.getString(R.string.app_android_reply_messaging_address_error), Toast.LENGTH_LONG).show();
@@ -768,8 +767,10 @@ public class SMSCommon {
 			//	intent.putExtra("sms_body", preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature)));  
 	        //}
 	        notificationActivity.startActivityForResult(intent, requestCode);
-	        //Mark SMS Message as read.
-	        setMessageRead(context, messageID, threadID, true);
+	        if(notificationType == Constants.NOTIFICATION_TYPE_SMS || notificationType == Constants.NOTIFICATION_TYPE_MMS){
+		        //Mark SMS Message as read.
+		        setMessageRead(context, messageID, threadID, true, notificationType);
+	        }
 	        Common.setInLinkedAppFlag(context, true);
 	        return true;
 		}catch(Exception ex){
@@ -840,7 +841,7 @@ public class SMSCommon {
 	 * 
 	 * @param context - The application context.
 	 * @param threadID - The Thread ID that we want to delete.
-	 * @param notificationType - The notification type.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Returns true if the thread was deleted successfully.
 	 */
@@ -851,17 +852,18 @@ public class SMSCommon {
 				if(_debug) Log.v(context, "SMSCommon.deleteMessageThread() Thread ID < 0. Exiting...");
 				return false;
 			}
+			String uriString = null;
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				context.getContentResolver().delete(
-						Uri.parse("content://mms/conversations/" + String.valueOf(threadID)), 
-						null, 
-						null);
+				uriString = "content://mms";
 			}else{
-				context.getContentResolver().delete(
-						Uri.parse("content://sms/conversations/" + String.valueOf(threadID)), 
-						null, 
-						null);
+				uriString = "content://sms";
 			}
+			String selection = "thread_id=?";
+			String[] selectionArgs = new String[]{String.valueOf(threadID)};
+			context.getContentResolver().delete(
+					Uri.parse(uriString),
+					selection, 
+					selectionArgs);
 			return true;
 		}catch(Exception ex){
 			Log.e(context, "SMSCommon.deleteMessageThread() ERROR: " + ex.toString());
@@ -874,6 +876,8 @@ public class SMSCommon {
 	 * 
 	 * @param context - The application context.
 	 * @param messageID - The Message ID that we want to delete.
+	 * @param threadID - The Thread ID that this message belongs to.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Returns true if the message was deleted successfully.
 	 */
@@ -881,24 +885,31 @@ public class SMSCommon {
 		_debug = Log.getDebug(context);
 		try{
 			if(messageID < 0){
-				if(_debug) Log.v(context, "SMSCommon.deleteSingleMessage() Message ID < 0. Exiting...");
+				Log.e(context, "SMSCommon.deleteSingleMessage() Message ID < 0. Exiting...");
 				return false;
-			}	
+			}
+			String uriString = null;
 			String selection = null;
 			String[] selectionArgs = null;
 			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
-				context.getContentResolver().delete(
-						Uri.parse("content://mms/" + String.valueOf(messageID)),
-						selection, 
-						selectionArgs);
+				uriString = "content://mms";
 			}else{
-				context.getContentResolver().delete(
-						Uri.parse("content://sms/" + String.valueOf(messageID)),
-						selection, 
-						selectionArgs);
+				uriString = "content://sms";
 			}
+			if(threadID < 0){
+				Log.v(context, "SMSCommon.deleteSingleMessage() Thread ID < 0. Using only the MessageID to delete.");
+				selection = "_id=?";
+				selectionArgs = new String[]{String.valueOf(messageID)};
+			}else{	
+				selection = "thread_id=? AND _id=?";
+				selectionArgs = new String[]{String.valueOf(threadID), String.valueOf(messageID)};
+			}
+			context.getContentResolver().delete(
+					Uri.parse(uriString),
+					selection, 
+					selectionArgs);
 			//Mark the thread as being read. Without this, the thread may be displayed as unread again.
-			setThreadRead(context, threadID, true);
+			setThreadRead(context, threadID, true, notificationType);
 			return true;
 		}catch(Exception ex){
 			Log.e(context, "SMSCommon.deleteSingleMessage() ERROR: " + ex.toString());
@@ -913,10 +924,11 @@ public class SMSCommon {
 	 * @param messageID - The Message ID that we want to alter.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * @param isViewed - The boolean value indicating if it was read or not.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Returns true if the message was updated successfully.
 	 */
-	public static boolean setMessageRead(Context context, long messageID, long threadID, boolean isViewed){
+	public static boolean setMessageRead(Context context, long messageID, long threadID, boolean isViewed, int notificationType){
 		_debug = Log.getDebug(context);
 		try{
 			if(messageID < 0){
@@ -929,10 +941,24 @@ public class SMSCommon {
 			}else{
 				contentValues.put("READ", 0);
 			}
+			String uriString = null;
 			String selection = null;
-			String[] selectionArgs = null;			
+			String[] selectionArgs = null;
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				uriString = "content://mms";
+			}else{
+				uriString = "content://sms";
+			}
+			if(threadID < 0){
+				Log.v(context, "SMSCommon.setMessageRead() Thread ID < 0. Using only the MessageID to set the message read value.");
+				selection = "_id=?";
+				selectionArgs = new String[]{String.valueOf(messageID)};		
+			}else{
+				selection = "thread_id=? AND _id=?";
+				selectionArgs = new String[]{String.valueOf(threadID), String.valueOf(messageID)};
+			}		
 			context.getContentResolver().update(
-					Uri.parse("content://sms/" + String.valueOf(messageID)), 
+					Uri.parse(uriString), 
 		    		contentValues, 
 		    		selection, 
 		    		selectionArgs);
@@ -949,15 +975,22 @@ public class SMSCommon {
 	 * @param context - The application context.
 	 * @param threadID - The Thread ID that we want to alter.
 	 * @param isViewed - The boolean value indicating if it was read or not.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Returns true if the message was updated successfully.
 	 */
-	public static boolean setThreadRead(Context context, long threadID, boolean isViewed){
+	public static boolean setThreadRead(Context context, long threadID, boolean isViewed, int notificationType){
 		_debug = Log.getDebug(context);
 		try{
 			if(threadID < 0){
 				if(_debug) Log.v(context, "SMSCommon.setThreadRead() Thread ID < 0. Exiting...");
 				return false;
+			}
+			String uriString = null;
+			if(notificationType == Constants.NOTIFICATION_TYPE_MMS){
+				uriString = "content://mms";
+			}else{
+				uriString = "content://sms";
 			}
 			ContentValues contentValues = new ContentValues();
 			if(isViewed){
@@ -965,10 +998,10 @@ public class SMSCommon {
 			}else{
 				contentValues.put("READ", 0);
 			}
-			String selection = null;
-			String[] selectionArgs = null;			
+			String selection = "thread_id=?";
+			String[] selectionArgs = new String[]{String.valueOf(threadID)};		
 			context.getContentResolver().update(
-					Uri.parse("content://mms-sms/conversations/" + String.valueOf(threadID)), 
+					Uri.parse(uriString), 
 		    		contentValues, 
 		    		selection, 
 		    		selectionArgs);
@@ -1004,8 +1037,8 @@ public class SMSCommon {
 				selection = "_id=?";
 				selectionArgs = new String[]{String.valueOf(messageID)};
 			}else{
-				selection = "_id=? AND thread_id=?";
-				selectionArgs = new String[]{String.valueOf(messageID), String.valueOf(threadID)};
+				selection = "thread_id=? AND _id=?";
+				selectionArgs = new String[]{String.valueOf(threadID), String.valueOf(messageID)};
 			}
     		final String sortOrder = "date DESC";
 				cursor = context.getContentResolver().query(
@@ -1072,11 +1105,11 @@ public class SMSCommon {
 	 * @param message - The message to send.
 	 * @param messageID - The Message ID that we are replying to.
 	 * @param threadID - The Thread ID that we are replying to.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 */
-	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID){		
+	public static void sendSMSTask(Context context, String address, String message, long messageID, long threadID, int notificationType){		
 		try{
-			_context = context;
-			new sendSMSAsyncTask().execute(address, message, String.valueOf(messageID), String.valueOf(threadID));
+			sendSMS(context, address, message, messageID, threadID, notificationType);
 		}catch(Exception ex){
 			Log.e(context, "SMSCommon.sendSMSTask() ERROR: " + ex.toString());
 		}
@@ -1087,51 +1120,25 @@ public class SMSCommon {
 	//================================================================================
 	
 	/**
-	 * Send a SMS message.
-	 * 
-	 * @author Camille Sévigny
-	 */
-	private static class sendSMSAsyncTask extends AsyncTask<String, Void, Boolean> {
-	    
-	    /**
-	     * Do this work in the background.
-	     * 
-	     * @param params - The SMS message parameters.
-	     */
-	    protected Boolean doInBackground(String... params){
-			return sendSMS(params[0], params[1], Long.parseLong(params[2]), Long.parseLong(params[3]));
-	    }
-	    
-	    /**
-	     * Display a message if the SMS encountered an error.
-	     * 
-	     * @param result - Boolean indicating success.
-	     */
-	    protected void onPostExecute(Boolean result){
-			//Do Nothing
-	    }
-	    
-	}
-	
-	/**
 	 * Send SMS message.
 	 * 
+	 * @param methodContext - The application context.
 	 * @param address - The address the message it to.
 	 * @param message - The message to send.
 	 * @param messageID - The Message ID that we are replying to.
 	 * @param threadID - The Thread ID that we are replying to.
+	 * @param notificationType - The notification type, either SMS or MMS.
 	 * 
 	 * @return boolean - Return true if successful.
 	 */
-	public static boolean sendSMS(String address, String message, long messageID, long threadID){
-		try{	
-			final Context context = _context;
-	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
-	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);	        
+	public static boolean sendSMS(Context methodContext, String address, String message, long messageID, long threadID, int notificationType){
+		try{
+	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(methodContext, 0, new Intent(SMS_SENT), 0);
+	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(methodContext, 0, new Intent(SMS_DELIVERED), 0);	        
 	        //Register a receiver to catch when the SMS has been sent.
-	        context.registerReceiver(new BroadcastReceiver(){
+	        methodContext.registerReceiver(new BroadcastReceiver(){
 	            @Override
-	            public void onReceive(Context arg0, Intent arg1){
+	            public void onReceive(Context context, Intent intent){
 	            	int resultCode = getResultCode();
 	                switch (resultCode){
 	                    case Activity.RESULT_OK:{
@@ -1168,9 +1175,9 @@ public class SMSCommon {
 	            }
 	        }, new IntentFilter(SMS_SENT));	        
 	        //Register a receiver to catch when the SMS has been delivered.
-	        context.registerReceiver(new BroadcastReceiver(){
+	        methodContext.registerReceiver(new BroadcastReceiver(){
 	            @Override
-	            public void onReceive(Context arg0, Intent arg1){
+	            public void onReceive(Context context, Intent intent){
 	            	int resultCode = getResultCode();
 	                switch (resultCode){
 	                    case Activity.RESULT_OK:{
@@ -1192,11 +1199,11 @@ public class SMSCommon {
 	            }
 	        }, new IntentFilter(SMS_DELIVERED));
 			//Include the signature.			
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(methodContext);
 	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
-	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature));
+	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, methodContext.getString(R.string.quick_reply_default_signature));
 	        }
-	        //if(_debug) Log.v(context, "SMSCommon.sendSMS() Message: " + message);
+	        //if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Message: " + message);
 			SmsManager smsManager = SmsManager.getDefault();
 			if(address.contains("@")){
 				//Send to email address
@@ -1270,42 +1277,42 @@ public class SMSCommon {
 			    		break;
 			    	}
 				} 
-				if(_debug) Log.v(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
+				if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
 				try{
 					if(smsToEmailGatewayNumber != null && smsToEmailMessageHeader != null){
 						int smsToEmailMessageHeaderLength = smsToEmailMessageHeader.length();
 						if(smsToEmailMessageHeaderLength + message.length() <= 160){
 							//Send a single SMS message.
-							//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
-							if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
+							//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
+							if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent");
 							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, sentPendingIntent, deliveredPendingIntent);
 					        //Mark SMS Message as read.
-					        setMessageRead(context, messageID, threadID, true);
+					        setMessageRead(methodContext, messageID, threadID, true, notificationType);
 					        //Save the sent message to the phone.
-							writeSentSMSMessage(context, address, message);
+							writeSentSMSMessage(methodContext, address, message);
 							return true;
 						}else{
 							//Send multiple smaller SMS messages.
 							int splitMessageSize = 160 - smsToEmailMessageHeaderLength;
-							//if(_debug) Log.v(context, "SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
+							//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
 							String[] messageArray = SMSCommon.splitEqually(message, splitMessageSize);
 							int size = messageArray.length;
 							for(int i=0; i<size; i++){
-								//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
+								//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
 								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], sentPendingIntent, deliveredPendingIntent);
 						        //Save the sent message to the phone.
-								writeSentSMSMessage(context, address, message);
+								writeSentSMSMessage(methodContext, address, message);
 							}
 					        //Mark SMS Message as read.
-					        setMessageRead(context, messageID, threadID, true);
+					        setMessageRead(methodContext, messageID, threadID, true, notificationType);
 							return true;
 						}
 					}else{
-						Log.e(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
+						Log.e(methodContext, "SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
 						return false;
 					}
 				}catch(Exception ex){
-		    		Log.e(context, "SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
+		    		Log.e(methodContext, "SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}else{
@@ -1315,7 +1322,7 @@ public class SMSCommon {
 					if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
 						//TODO - Manually split messages and send individualy.
 					}else{
-						if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
+						if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent");
 						ArrayList<String> parts = smsManager.divideMessage(message);
 						int size = parts.size();
 						ArrayList<PendingIntent> sentPendingIntentArray = new ArrayList<PendingIntent>();
@@ -1326,13 +1333,13 @@ public class SMSCommon {
 						}
 						smsManager.sendMultipartTextMessage(address, null, parts, sentPendingIntentArray, deliveredPendingIntentArray);
 				        //Mark SMS Message as read.
-				        setMessageRead(context, messageID, threadID, true);
+				        setMessageRead(methodContext, messageID, threadID, true, notificationType);
 				        //Save the sent message to the phone.
-						writeSentSMSMessage(context, address, message);
+						writeSentSMSMessage(methodContext, address, message);
 					}
 					return true;
 				}catch(Exception ex){
-		    		Log.e(context, "SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
+		    		Log.e(methodContext, "SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}

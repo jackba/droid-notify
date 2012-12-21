@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">This will dismiss all notifications from this user.</string>
   <string name="dismiss_all_same_app">Dismiss All (Same App)</string>
   <string name="dismiss_all_same_app_dialog_text">This will dismiss all notifications from this application.</string>
-  <string name="dismiss_all_action">Dismiss All Notifications</string>
-  <string name="launch_options_menu">Launch Options Menu</string>
+  <string name="display_all_dismiss_options">Display All Dismiss Options</string>
   <string name="share">Share</string>
   <string name="share_title">Someone you know wants you to try the Android app Droid Notify!</string>
   <string name="share_description">I\'ve been using this awesome Android application called Droid Notify. It displays a popup dialogue on my screen when I receive certain notifications.\n\nYou can download this app on most Android app stores, just search for the keywords \'Droid Notify\'.</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">CUSTOMIZE</string>
   <string name="notification_header_category">NOTIFICATION HEADER</string>
   <string name="contact_photo_category">CONTACT PHOTO</string>
-  <string name="contact_name_category">CONTACT NUMBER</string>
-  <string name="contact_number_category">CONTACT NAME</string>
+  <string name="contact_name_category">CONTACT NAME</string>
+  <string name="contact_number_category">CONTACT NUMBER</string>
   <string name="notification_body_category">NOTIFICATION BODY</string>
   <string name="customize">Customize</string>
   <string name="customize_notification_summary">Customize these notifications.</string>
