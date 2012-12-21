@@ -371,6 +371,11 @@
 		        android:paddingLeft="5dp"
 		        android:text="@string/about"
 		        android:textAppearance="?android:attr/textAppearanceLarge" />
+			<ImageView
+		        android:id="@+id/row_divider_about"
+		  		android:src="@drawable/preference_divider_normal"
+		  		android:layout_height="0.5dp"  
+				android:layout_width="match_parent" />
 			
 		</LinearLayout>
 	</ScrollView>

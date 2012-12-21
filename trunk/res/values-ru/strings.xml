@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Отключить уведомления от данного пользователя.</string>
   <string name="dismiss_all_same_app">Удалить все (для одного приложения)</string>
   <string name="dismiss_all_same_app_dialog_text">Отключить все уведомления для данного приложения.</string>
-  <string name="dismiss_all_action">Отклонить все уведомления</string>
-  <string name="launch_options_menu">Меню Параметры запуска</string>
+  <string name="display_all_dismiss_options">Показать все отклоненные параметры</string>
   <string name="share">Поделиться</string>
   <string name="share_title">Вам предложили воспользоваться приложением Droid Notify!</string>
   <string name="share_description">Мне очень нравится приложения для Android Droid Notify. Благодаря ему у меян на экране в всплывющих окнах отображатся разные уведомления.\n\n И вы тоже можете скачать данное приложения почти во всех Android App Storesю Просто введите в поиск название Droid Notify.</string>
@@ -142,9 +141,9 @@
   <string name="preference_reminder_interval_text">Интервал напоминаний</string>
   <string name="preference_reminder_interval_summary">Определить интервал напоминаний.</string>
   <string name="keep_repeating_text">Повторять</string>
-  <string name="quiet_time_category">Режим Quite Time</string>
+  <string name="quiet_time_category">Режим \"Тихое время\"</string>
   <string name="quiet_time_settings">Настройки режима</string>
-  <string name="preference_quiet_time_enabled_title">Разрешить Quite Time</string>
+  <string name="preference_quiet_time_enabled_title">Включить \"Тихое время\"</string>
   <string name="preference_quiet_time_enabled_summary">Остановить оповещения в определенное время.</string>
   <string name="preference_quiet_time_of_week_title">Настройки дней недели</string>
   <string name="preference_quiet_time_of_week_summary">Определеить, когда Quite Time будет установлен.</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">Настроить</string>
   <string name="notification_header_category">Заголовок уведомления</string>
   <string name="contact_photo_category">Фото контакта</string>
-  <string name="contact_name_category">Номер контакта</string>
-  <string name="contact_number_category">Имя контакта</string>
+  <string name="contact_name_category">Имя контакта</string>
+  <string name="contact_number_category">Номер контакта</string>
   <string name="notification_body_category">Тело уведомления</string>
   <string name="customize">Настроить</string>
   <string name="customize_notification_summary">Настроить оповещения.</string>

@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">Wszystkie powiadomienia od tego użytkownika będą odrzucane.</string>
   <string name="dismiss_all_same_app">Odrzuć Wszystkie (Ta sama aplikacja)</string>
   <string name="dismiss_all_same_app_dialog_text">Wszystkie powiadomienia z tej aplikacji będą odrzucane.</string>
-  <string name="dismiss_all_action">Odrzuć wszystkie powiadomienia</string>
-  <string name="launch_options_menu">Uruchom menu opcji</string>
+  <string name="display_all_dismiss_options">Wyświetl wszystkie opcje Odrzucenia powiadomienia</string>
   <string name="share">Udostępnij</string>
   <string name="share_title">Ktoś z Twoich znajomych chce wypróbować Droid Notify!</string>
   <string name="share_description">Używam niesamowitej aplikacji Droid Notify. Wyświetla powiadomienia na ekranie dla różnych zdarzeń.\n\n.Możesz pobrać ją wyszukując w sklapach Androida słowa \'Droid Notify\'.</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">PERSONALIZACJA</string>
   <string name="notification_header_category">NAGŁÓWEK POWIADOMIENIA</string>
   <string name="contact_photo_category">ZDJĘCIE KONTAKTU</string>
-  <string name="contact_name_category">NUMER KONTAKTU</string>
-  <string name="contact_number_category">NAZWA KONTAKTU</string>
+  <string name="contact_name_category">NAZWA KONTAKTU</string>
+  <string name="contact_number_category">NUMER KONTAKTU</string>
   <string name="notification_body_category">TREŚĆ POWIADOMIENIA</string>
   <string name="customize">Personalizacja</string>
   <string name="customize_notification_summary">Dostosuj powiadomienia.</string>

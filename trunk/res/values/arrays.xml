@@ -1403,7 +1403,7 @@
 		<item>@string/dismiss_all</item>
 		<item>@string/dismiss_all_same_user</item>
 		<item>@string/dismiss_all_same_app</item>
-		<item>@string/launch_options_menu</item>
+		<item>@string/display_all_dismiss_options</item>
 		<item>@string/nothing_text</item>
 	</string-array>
 	<string-array name="long_press_dismiss_button_values">

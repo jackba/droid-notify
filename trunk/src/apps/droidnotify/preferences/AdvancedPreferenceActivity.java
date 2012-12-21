@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 import apps.droidnotify.R;
 import apps.droidnotify.common.Common;
 import apps.droidnotify.common.Constants;
+import apps.droidnotify.db.DBConstants;
+import apps.droidnotify.db.SQLiteHelperReminder;
 import apps.droidnotify.log.Log;
 
 /**
@@ -184,9 +187,15 @@ public class AdvancedPreferenceActivity extends PreferenceActivity{
 	     * @param params
 	     */
 	    protected Void doInBackground(Void... params) {
+	    	//Clear the stored preferences.
 			SharedPreferences.Editor editor = _preferences.edit();
 			editor.clear();
 			editor.commit();
+	    	//Reset internal db files.
+	    	//Reminder DB
+			SQLiteHelperReminder reminderDBHelper = new SQLiteHelperReminder(_context);
+			SQLiteDatabase reminderDB = reminderDBHelper.getWritableDatabase();
+			reminderDB.delete(DBConstants.TABLE_NAME_REMINDER, null, null);
 	    	return null;
 	    }
 	    /**

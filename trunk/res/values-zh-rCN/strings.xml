@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">这将消除来自此用户的所有通知。</string>
   <string name="dismiss_all_same_app">解雇所有 （相同的应用程序）</string>
   <string name="dismiss_all_same_app_dialog_text">这将消除来自此应用程序的所有通知。</string>
-  <string name="dismiss_all_action">解雇所有通知</string>
-  <string name="launch_options_menu">启动选项菜单</string>
+  <string name="display_all_dismiss_options">显示所有解雇选项</string>
   <string name="share">共享</string>
   <string name="share_title">你知道有人想您尝试 Droid 通知的 Android 应用程序 ！</string>
   <string name="share_description">我一直在使用称为 Droid 通知此令人敬畏的 Android 应用程序。它显示弹出菜单对话框的当我收到某些 notifications.\n\nYou 我的屏幕上可以下载这款软件对大多数 Android 应用商店，只是搜索关键字 Droid 通告。</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">自定义</string>
   <string name="notification_header_category">通知标头</string>
   <string name="contact_photo_category">联系人照片</string>
-  <string name="contact_name_category">联系人数量</string>
-  <string name="contact_number_category">联系人名称</string>
+  <string name="contact_name_category">联系人名称</string>
+  <string name="contact_number_category">联系人数量</string>
   <string name="notification_body_category">通知正文</string>
   <string name="customize">定制</string>
   <string name="customize_notification_summary">自定义这些通知。</string>

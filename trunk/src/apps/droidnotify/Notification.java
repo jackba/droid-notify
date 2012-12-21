@@ -1164,7 +1164,7 @@ public class Notification {
 	 */
 	private void setMessageRead(boolean isViewed){
 		if(_debug)Log.v(_context, "Notification.setMessageRead()");
-		SMSCommon.setMessageRead(_context, getMessageID(), getThreadID(), isViewed);
+		SMSCommon.setMessageRead(_context, getMessageID(), getThreadID(), isViewed, _notificationType);
 	}
 	
 }

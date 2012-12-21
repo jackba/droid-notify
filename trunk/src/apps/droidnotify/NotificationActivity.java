@@ -1206,7 +1206,7 @@ public class NotificationActivity extends Activity{
 	 */
 	private boolean sendSMSMessage(String phoneNumber){
 		Notification notification = _notificationViewFlipper.getActiveNotification();
-		return SMSCommon.startMessagingAppReplyActivity(_context, this, phoneNumber, notification.getMessageID(), notification.getThreadID(), Constants.SEND_SMS_ACTIVITY);
+		return SMSCommon.startMessagingAppReplyActivity(_context, this, phoneNumber, notification.getMessageID(), notification.getThreadID(), Constants.SEND_SMS_ACTIVITY, notification.getNotificationType());
 	}
 	
 	/**

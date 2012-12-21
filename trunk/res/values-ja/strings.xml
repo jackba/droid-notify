@@ -13,8 +13,7 @@
   <string name="dismiss_all_same_user_dialog_text">これはこのユーザーからの全ての通知を破棄します.</string>
   <string name="dismiss_all_same_app">同じアプリからの全通知を破棄</string>
   <string name="dismiss_all_same_app_dialog_text">これはこのアプリからの全ての通知を破棄します</string>
-  <string name="dismiss_all_action">全通知を破棄</string>
-  <string name="launch_options_menu">オプション メニューを起動</string>
+  <string name="display_all_dismiss_options">全ての破棄オプションを表示</string>
   <string name="share">共有</string>
   <string name="share_title">あなたの知人があなたにアンドロイドアプリのDroid Notifyを試してもらいたいと思っています!</string>
   <string name="share_description">わたしはこのすばらしいアンドロイドアプリ Droid Notifyを使っています. 対応する通知を受け取った時にこのアプリはポップアップダイアログをスクリーンに表示します.\n\nアンドロイドアプリストアでこのアプリをダウンロードできます, \'Droid Notify\'で検索してみてください.</string>
@@ -252,8 +251,8 @@
   <string name="customize_category">カスタマイズ</string>
   <string name="notification_header_category">通知ヘッダー</string>
   <string name="contact_photo_category">連絡先の写真</string>
-  <string name="contact_name_category">連絡先番号</string>
-  <string name="contact_number_category">連絡先氏名</string>
+  <string name="contact_name_category">連絡先氏名</string>
+  <string name="contact_number_category">連絡先番号</string>
   <string name="notification_body_category">通知内容</string>
   <string name="customize">カスタマイズ</string>
   <string name="customize_notification_summary">これらの通知をカスタマイズします.</string>
