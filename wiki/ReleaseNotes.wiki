@@ -3,12 +3,15 @@
 
 = Release Notes =
 
+*v3.29* _Coming Soon..._
+ *
+
 *v3.28* _Coming Soon..._
  *
 
-*v3.27* _Coming Soon..._
+*v3.27* (December 21, 2012)
  * Fixed a bug which prevented the Quick Reply Delivery Reports from working properly.
- * Fixed a bug which prevented the blacklist from working for emial notifications.
+ * Fixed a bug which prevented the blacklist from working for email notifications.
  * Updated translations.
  * Small bug fixes.
 
