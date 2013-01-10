@@ -10,7 +10,7 @@
  *
 
 *v3.28* _Coming Soon..._
- *Fixed a bug in the Quick Reply Delivery Reports code which kept the feature enabled even when user disabled it.
+ * Fixed a bug in the Quick Reply Delivery Reports code which kept the feature enabled even when user disabled it.
  * Small bug fixes.
 
 *v3.27* (December 21, 2012)
