@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -261,7 +262,7 @@ public class Log {
     	try{
         	_context = context;
     		FileOutputStream fileOutputStream = context.openFileOutput("Log.txt", Context.MODE_WORLD_READABLE | Context.MODE_APPEND);
-    		String logString = level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg + "\n";
+    		String logString = level + " - " + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss:SSS", Locale.US).format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg + "\n";
     		fileOutputStream.write(logString.getBytes());
     		fileOutputStream.close();
 			return true; 
@@ -295,7 +296,7 @@ public class Log {
     		}
     		//Write each preference to the text file.
 			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(logFile, true), msg.length());
-			bufferedWriter.append(level + " - " + new SimpleDateFormat().format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg);
+			bufferedWriter.append(level + " - " + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss:SSS", Locale.US).format(System.currentTimeMillis()) + " - " + Constants.LOGTAG + " - " + msg);
 			bufferedWriter.newLine();
 			bufferedWriter.flush();
 			bufferedWriter.close();

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -103,7 +104,7 @@ public class SMSCommon {
             timeStamp = Common.convertGMTToLocalTime(context, timeStamp, preferences.getBoolean(Constants.SMS_TIME_IS_UTC_KEY, false));
     		//long timeStampAdjustment = Long.parseLong(preferences.getString(Constants.SMS_TIMESTAMP_ADJUSTMENT_KEY, "0")) * 60 * 60 * 1000;
     		//timeStamp = timeStamp + timeStampAdjustment;
-            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase();
+            sentFromAddress = sms.getDisplayOriginatingAddress().toLowerCase(Locale.getDefault());
             sentFromAddress = sentFromAddress.contains("@") ? EmailCommon.removeEmailFormatting(sentFromAddress) : PhoneCommon.removePhoneNumberFormatting(sentFromAddress);
             messageSubject = sms.getPseudoSubject();
             messageBodyBuilder = new StringBuilder();
@@ -1122,7 +1123,7 @@ public class SMSCommon {
 	/**
 	 * Send SMS message.
 	 * 
-	 * @param methodContext - The application context.
+	 * @param context - The application context.
 	 * @param address - The address the message it to.
 	 * @param message - The message to send.
 	 * @param messageID - The Message ID that we are replying to.
@@ -1131,79 +1132,95 @@ public class SMSCommon {
 	 * 
 	 * @return boolean - Return true if successful.
 	 */
-	public static boolean sendSMS(Context methodContext, String address, String message, long messageID, long threadID, int notificationType){
+	public static boolean sendSMS(Context context, String address, String message, long messageID, long threadID, int notificationType){
 		try{
-	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(methodContext, 0, new Intent(SMS_SENT), 0);
-	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(methodContext, 0, new Intent(SMS_DELIVERED), 0);	        
-	        //Register a receiver to catch when the SMS has been sent.
-	        methodContext.registerReceiver(new BroadcastReceiver(){
-	            @Override
-	            public void onReceive(Context context, Intent intent){
-	            	int resultCode = getResultCode();
-	                switch (resultCode){
-	                    case Activity.RESULT_OK:{
-	                    	Log.v(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() RESULT_OK");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-	            		}
-	                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:{
-	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_GENERIC_FAILURE");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-	                    }
-	                    case SmsManager.RESULT_ERROR_NO_SERVICE:{
-	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NO_SERVICE");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-    						}
-	                    case SmsManager.RESULT_ERROR_NULL_PDU:{
-	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NULL_PDU");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-						}
-	                    case SmsManager.RESULT_ERROR_RADIO_OFF:{
-	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_RADIO_OFF");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-						}
-	                    default:{
-	                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: UNKNOWN ERROR");
-	                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
-	                    	return;
-	                    }
-	        		}
-	            }
-	        }, new IntentFilter(SMS_SENT));	        
-	        //Register a receiver to catch when the SMS has been delivered.
-	        methodContext.registerReceiver(new BroadcastReceiver(){
-	            @Override
-	            public void onReceive(Context context, Intent intent){
-	            	int resultCode = getResultCode();
-	                switch (resultCode){
-	                    case Activity.RESULT_OK:{
-	                    	Log.v(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_OK");
-	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
-	                        return;
-	                    }
-	                    case Activity.RESULT_CANCELED:{
-	                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_CANCELED");
-	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
-	                    	return;  
-	                    }
-	                    default:{
-	                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() UNKNOWN ERROR");
-	                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
-	                    	return;
-	                    }
-	                }
-	            }
-	        }, new IntentFilter(SMS_DELIVERED));
-			//Include the signature.			
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(methodContext);
-	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
-	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, methodContext.getString(R.string.quick_reply_default_signature));
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SENT), 0);
+	        PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVERED), 0);
+	        boolean sendPendingIntentActive = false;
+	        if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_SENT_DELIVERY_REPORT_ENABLED_KEY, false) || preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_DELIVERED_DELIVERY_REPORT_ENABLED_KEY, false)){
+	        	sendPendingIntentActive = true;
 	        }
-	        //if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Message: " + message);
+	        boolean deliveredPendingIntentActive = false;
+	        if(preferences.getBoolean(Constants.QUICK_REPLY_MESSAGE_FAILED_DELIVERY_REPORT_ENABLED_KEY, false)){
+	        	deliveredPendingIntentActive = true;
+	        }
+	        if(sendPendingIntentActive){
+		        //Register a receiver to catch when the SMS has been sent.
+		        context.registerReceiver(new BroadcastReceiver(){
+		            @Override
+		            public void onReceive(Context context, Intent intent){
+		            	int resultCode = getResultCode();
+		                switch (resultCode){
+		                    case Activity.RESULT_OK:{
+		                    	Log.v(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() RESULT_OK");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+		            		}
+		                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:{
+		                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_GENERIC_FAILURE");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+		                    }
+		                    case SmsManager.RESULT_ERROR_NO_SERVICE:{
+		                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NO_SERVICE");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+	    						}
+		                    case SmsManager.RESULT_ERROR_NULL_PDU:{
+		                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_NULL_PDU");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+							}
+		                    case SmsManager.RESULT_ERROR_RADIO_OFF:{
+		                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: RESULT_ERROR_RADIO_OFF");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+							}
+		                    default:{
+		                    	Log.e(context, "SMSCommon.sendSMS.sentPendingIntent.onReceive() SEND ERROR: UNKNOWN ERROR");
+		                        postDeliveryReportStatusBarNotification(context, SMS_SENT, resultCode);
+		                    	return;
+		                    }
+		        		}
+		            }
+		        }, new IntentFilter(SMS_SENT));	     
+	        }else{
+	        	sentPendingIntent = null;
+	        }
+	        if(deliveredPendingIntentActive){
+		        //Register a receiver to catch when the SMS has been delivered.
+		        context.registerReceiver(new BroadcastReceiver(){
+		            @Override
+		            public void onReceive(Context context, Intent intent){
+		            	int resultCode = getResultCode();
+		                switch (resultCode){
+		                    case Activity.RESULT_OK:{
+		                    	Log.v(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_OK");
+		                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+		                        return;
+		                    }
+		                    case Activity.RESULT_CANCELED:{
+		                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() RESULT_CANCELED");
+		                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+		                    	return;  
+		                    }
+		                    default:{
+		                    	Log.e(context, "SMSCommon.sendSMS.deletePendingIntent.onReceive() UNKNOWN ERROR");
+		                        postDeliveryReportStatusBarNotification(context, SMS_DELIVERED, resultCode);
+		                    	return;
+		                    }
+		                }
+		            }
+		        }, new IntentFilter(SMS_DELIVERED));
+	        }else{
+	        	deliveredPendingIntent = null;
+	        }
+			//Include the signature.
+	        if(preferences.getBoolean(Constants.QUICK_REPLY_SIGNATURE_ENABLED_KEY, true)){
+	        	message += " " + preferences.getString(Constants.QUICK_REPLY_SIGNATURE_KEY, context.getString(R.string.quick_reply_default_signature));
+	        }
+	        //if(_debug) Log.v(context, "SMSCommon.sendSMS() Message: " + message);
 			SmsManager smsManager = SmsManager.getDefault();
 			if(address.contains("@")){
 				//Send to email address
@@ -1277,42 +1294,42 @@ public class SMSCommon {
 			    		break;
 			    	}
 				} 
-				if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
+				if(_debug) Log.v(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber: " + smsToEmailGatewayNumber);
 				try{
 					if(smsToEmailGatewayNumber != null && smsToEmailMessageHeader != null){
 						int smsToEmailMessageHeaderLength = smsToEmailMessageHeader.length();
 						if(smsToEmailMessageHeaderLength + message.length() <= 160){
 							//Send a single SMS message.
-							//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
-							if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent");
+							//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent: " + smsToEmailMessageHeader + message);
+							if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
 							smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + message, sentPendingIntent, deliveredPendingIntent);
 					        //Mark SMS Message as read.
-					        setMessageRead(methodContext, messageID, threadID, true, notificationType);
+					        setMessageRead(context, messageID, threadID, true, notificationType);
 					        //Save the sent message to the phone.
-							writeSentSMSMessage(methodContext, address, message);
+							writeSentSMSMessage(context, address, message);
 							return true;
 						}else{
 							//Send multiple smaller SMS messages.
 							int splitMessageSize = 160 - smsToEmailMessageHeaderLength;
-							//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
+							//if(_debug) Log.v(context, "SMSCommon.sendSMS() SplitMessageSize: " + splitMessageSize);
 							String[] messageArray = SMSCommon.splitEqually(message, splitMessageSize);
 							int size = messageArray.length;
 							for(int i=0; i<size; i++){
-								//if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
+								//if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Part Sent: " + smsToEmailMessageHeader + messageArray[i]);
 								smsManager.sendTextMessage(smsToEmailGatewayNumber, null, smsToEmailMessageHeader + messageArray[i], sentPendingIntent, deliveredPendingIntent);
 						        //Save the sent message to the phone.
-								writeSentSMSMessage(methodContext, address, message);
+								writeSentSMSMessage(context, address, message);
 							}
 					        //Mark SMS Message as read.
-					        setMessageRead(methodContext, messageID, threadID, true, notificationType);
+					        setMessageRead(context, messageID, threadID, true, notificationType);
 							return true;
 						}
 					}else{
-						Log.e(methodContext, "SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
+						Log.e(context, "SMSCommon.sendSMS() SmsToEmailGatewayNumber (" + smsToEmailGatewayNumber + ") or SmsToEmailMessageHeader (" + smsToEmailMessageHeader + ") is null! Exiting...");
 						return false;
 					}
 				}catch(Exception ex){
-		    		Log.e(methodContext, "SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
+		    		Log.e(context, "SMSCommon.sendSMS() Send To Email ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}else{
@@ -1322,7 +1339,7 @@ public class SMSCommon {
 					if(preferences.getBoolean(Constants.SMS_SPLIT_MESSAGE_KEY, false)){
 						//TODO - Manually split messages and send individualy.
 					}else{
-						if(_debug) Log.v(methodContext, "SMSCommon.sendSMS() Email SMS Message Sent");
+						if(_debug) Log.v(context, "SMSCommon.sendSMS() Email SMS Message Sent");
 						ArrayList<String> parts = smsManager.divideMessage(message);
 						int size = parts.size();
 						ArrayList<PendingIntent> sentPendingIntentArray = new ArrayList<PendingIntent>();
@@ -1333,13 +1350,13 @@ public class SMSCommon {
 						}
 						smsManager.sendMultipartTextMessage(address, null, parts, sentPendingIntentArray, deliveredPendingIntentArray);
 				        //Mark SMS Message as read.
-				        setMessageRead(methodContext, messageID, threadID, true, notificationType);
+				        setMessageRead(context, messageID, threadID, true, notificationType);
 				        //Save the sent message to the phone.
-						writeSentSMSMessage(methodContext, address, message);
+						writeSentSMSMessage(context, address, message);
 					}
 					return true;
 				}catch(Exception ex){
-		    		Log.e(methodContext, "SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
+		    		Log.e(context, "SMSCommon.sendSMS() Send To Number ERROR: " + ex.toString());
 		    		return false;
 		    	}
 			}

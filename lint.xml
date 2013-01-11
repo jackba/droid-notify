@@ -3,4 +3,5 @@
     <issue id="ContentDescription" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore" />
     <issue id="Proguard" severity="ignore" />
+    <issue id="ProtectedPermissons" severity="warning" />
 </lint>
