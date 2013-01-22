@@ -7,7 +7,7 @@
  *
 
 *v3.29* (January 22, 2013)
- * Fixed an Android Jellybean (4.1.X) compatibility problem. Added the Read Call Log permission which was breaking the Missed Calls functionality of the app on some devices.
+ * Fixed an Android Jellybean (4.1.x) compatibility problem. Added the Read Call Log permission which was breaking the Missed Calls functionality of the app on some devices.
 
 *v3.28* (January 1, 2013)
  * Fixed a bug in the Quick Reply Delivery Reports code which kept the feature enabled even when user disabled it.
