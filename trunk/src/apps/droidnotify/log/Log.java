@@ -257,7 +257,8 @@ public class Log {
      * @param level - The log level.
      * @param msg - The message to append to the log file.
      */
-    @SuppressLint("WorldReadableFiles")
+    @SuppressWarnings("deprecation")
+	@SuppressLint("WorldReadableFiles")
 	private static boolean appendToInternalLogFile(Context context, String level, String msg){
     	try{
         	_context = context;
