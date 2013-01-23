@@ -6,6 +6,9 @@
 *v3.30* _Coming Soon..._
  *
 
+*v3.29.2* (January 22, 2013)
+ * I upgraded to the latest compiler and compiled against Jellybean. This caused some issues with the resulting .apk file. This .apk file should have resolved any of those problems.
+
 *v3.29* (January 22, 2013)
  * Fixed an Android Jellybean (4.1.x) compatibility problem. Added the Read Call Log permission which was breaking the Missed Calls functionality of the app on some devices.
 
