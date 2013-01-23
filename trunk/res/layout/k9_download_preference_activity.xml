@@ -28,9 +28,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_width="match_parent"
         android:layout_below="@+id/header_title_divider"
-        android:layout_above="@+id/button_divider_below">
+        android:layout_above="@+id/content_linear_layout">
 		<LinearLayout
-			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/content_linear_layout"
 		    android:layout_height="wrap_content"
 		    android:layout_width="match_parent"
