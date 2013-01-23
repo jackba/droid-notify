@@ -3,5 +3,7 @@
     <issue id="ContentDescription" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore" />
     <issue id="Proguard" severity="ignore" />
+    <issue id="ProtectedPermissions" severity="warning" />
     <issue id="ProtectedPermissons" severity="warning" />
+    <issue id="StringFormatInvalid" severity="warning" />
 </lint>

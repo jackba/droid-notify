@@ -11,7 +11,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.preference.PreferenceManager;
-import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -83,27 +82,6 @@ public class ThemeView extends LinearLayout {
 	//================================================================================
 	// Constructors
 	//================================================================================
-
-	/**
-     * Class Constructor.
-     */	
-	public ThemeView(Context context) {
-		super(context);
-	}
-	
-	/**
-     * Class Constructor.
-     */	
-	public ThemeView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
-	
-	/**
-     * Class Constructor.
-     */	
-	public ThemeView(Context context, AttributeSet attrs, int defStyle) {
-	    super(context, attrs, defStyle);
-	}
 	
 	/**
      * Class Constructor.
