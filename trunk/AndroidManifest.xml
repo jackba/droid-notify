@@ -3,8 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	package="apps.droidnotify"
     android:installLocation="internalOnly"
-    android:versionCode="66"
-    android:versionName="3.29">
+    android:versionCode="67"
+    android:versionName="3.29.2">
     
 	<uses-sdk
 		android:minSdkVersion="8" 
@@ -160,23 +160,6 @@
          
         <activity 
         	android:name="apps.droidnotify.sms.SMSCustomizePreferenceActivity"
-    		android:theme="@style/Theme.AppPreferences"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences" />
-
-        <activity 
-        	android:name="apps.droidnotify.sms.MMSPreferenceActivity"
-    		android:theme="@style/Theme.AppPreferences"
-   			android:launchMode="singleTask"
-   			android:taskAffinity="apps.droidnotify.preferences" /> 
-         
-        <activity 
-        	android:name="apps.droidnotify.sms.MMSStatusBarNotificationsPreferenceActivity"
-    		android:theme="@style/Theme.AppPreferences"
-   			android:launchMode="singleTask" /> 
-         
-        <activity 
-        	android:name="apps.droidnotify.sms.MMSCustomizePreferenceActivity"
     		android:theme="@style/Theme.AppPreferences"
    			android:launchMode="singleTask"
    			android:taskAffinity="apps.droidnotify.preferences" />
