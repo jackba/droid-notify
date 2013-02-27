@@ -117,7 +117,7 @@ Apps which users have asked for integration (with comments):
 
 8) Hotmail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Hotmail!
 
-While you wait for more notification types, you can use an add-on called *Droid Notify Plus* which is an accessibility service which will offer a simple notification popup for all of the phones apps. Try it out today!
+While you wait for more notification types, you can use an add-on called *Droid Notify Plus* which is an accessibility service which offers a simple notification popup for all of the phones other apps. Try it out today!
 
 ==Can Droid Notify be moved to the SD card?==
 
