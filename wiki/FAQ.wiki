@@ -99,7 +99,7 @@ Unfortunately, the answer is probably no or not at this time.
 
 Most applications are private apps and do not have an open API so currently there is no way to tap into their application data that they uses. I will continue to monitor all apps and look for any API's that will allow Droid Notify to communicate with them or their data. 
 
-Apps which users have asked for integration (with comments):
+Apps that users have asked for integration (with comments):
 
 1) !WhatsApp - Currently there is no API for this application. I have contacted the company but they refuse to answer. Until they let 3rd party developers access to the data there is nothing we can do.
 
