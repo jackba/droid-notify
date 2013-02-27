@@ -7,7 +7,8 @@
  * Updated the app to use the latest Android 4.0 API.
  * Updated the notification window to use a touch navigation as well as the navigation buttons.
  * Added animation options to the notification swipe gesture.
- * 
+ * Re-wrote many features to improve performance and efficiency.
+ * Updated many of the user preferences.
  * 
  * Updated translations.
 
