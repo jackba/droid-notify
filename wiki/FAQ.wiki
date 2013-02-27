@@ -106,6 +106,7 @@ Apps which users have asked for integration (with comments):
 2) Skype - Looking into the possibility.
 
 3) GMail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with GMail!
+
 4) Google+ - Looking into the possibility.
 
 5) !LinkedIn - Looking into the possibility.
