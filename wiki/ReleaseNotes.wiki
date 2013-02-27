@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v3.30* _Coming Soon..._
- *
+*v4.0* _Coming Soon..._
+ * Updated the app to use the latest Android 4.0 API.
+ * Updated the notification window to use a touch navigation as well as the navigation buttons.
+ * Added animation options to the notification swipe gesture.
+ * 
+ * 
+ * Updated translations.
 
 *v3.29.2* (January 22, 2013)
  * I upgraded to the latest compiler and compiled against Jellybean. This caused some issues with the resulting .apk file. This .apk file should have resolved any of those problems.
