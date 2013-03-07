@@ -8,7 +8,9 @@
  * Updated the notification window to use a touch navigation as well as the navigation buttons.
  * Added animation options to the notification swipe gesture (this is truly exciting!)
  * Re-wrote many features to improve performance and efficiency.
- * Updated many of the user preferences.
+ * Updated many of the user preferences and added a few more as well.
+ * Removed the Contact Photo Background user preference.
+ * 
  * 
  * Updated translations.
 
