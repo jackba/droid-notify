@@ -246,7 +246,9 @@ The answer is, it depends.
 ==Known Issues==
 
 Here are confirmed, known issues that have not been resolved yet:
- * 
+ * Facebook Message are notified when an unread message exists on Facebook.com. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/
+
+I am monitoring this and will continue to search for fixes to this known issue.
 
 ==After Droid Notify Plus updates, the app stops working. Why?==
 
