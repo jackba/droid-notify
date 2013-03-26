@@ -10,7 +10,7 @@
  * Re-wrote many features to improve performance and efficiency.
  * Updated many of the user preferences and added a few more as well.
  * Removed the Contact Photo Background user preference.
- * 
+ * Added some new themes, two of them are built in app themes.
  * 
  * Updated translations.
 
