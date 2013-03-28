@@ -11,8 +11,8 @@
  * Updated many of the user preferences and added a few more as well.
  * Removed the Contact Photo Background user preference.
  * Added some new themes, two of them are built in app themes.
- * Added AquaMail support in the Pro version of the app.
- * 
+ * Added !AquaMail support in the Pro version of the app.
+ * Added !Gmail support in the Pro version of the app (but it's limited to the unread count notification only).
  * 
  * Updated translations.
 
