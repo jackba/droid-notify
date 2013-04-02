@@ -24,7 +24,7 @@
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
  * [FAQ#Why_is_there_a_number_indicating_unread_messages_on_top_of_my_ap Why is there a number indicating unread messages on top of my app icon?]
  * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
- * [FAQ#K-9_Emails_are_not_being_shown._Why? K-9 Emails are not being shown. Why?]
+ * [FAQ#K-9/Kaiten_Emails_are_not_being_shown._Why? K-9/Kaiten Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Issues_When_Using_Quick_Reply Issues When Using Quick Reply]
@@ -52,7 +52,7 @@ Droid Notify (Lite/Pro) is a full featured notification app for very specific no
 
 3) Calendar - Dismiss, view.
 
-4) K-9 Mail Clients - Delete, reply.
+4) K-9/Kaiten Mail Clients - Delete, reply.
 
 
 *Droid Notify Plus*
@@ -69,11 +69,17 @@ Includes all the features of the Droid Notify Lite application and adds a few mo
 
 2) Adds Twitter Notifications
 
-4) Adds A Blacklist Feature
+3) Adds Gmail Notifications
 
-3) Adds A Custom Contact Feature
+4) Adds AquaMail Notifications
 
-4) Any new open API programs might be added as features to this app.
+5) Adds A Quiet Time Feature
+
+6) Adds A Blacklist Feature
+
+7) Adds A Custom Contact Feature
+
+8) Any new open API programs might be added as features to this app.
 
 *Droid Notify Plus*
 
@@ -157,7 +163,7 @@ At this time the Email content on Android phones is secure and 3rd party apps ca
 
 I will look into the Gmail api and see if we can read Gmail email as an alternative.
 
-K-9 and Kaiten email clients are now supported but you will need to have a K-9 mail client (K-9 Mail, Kaiten, etc.) on your phone for those notifications to work. 
+K-9 and Kaiten email clients are now supported but you will need to have a K-9/Kaiten mail client (K-9 Mail, Kaiten, etc.) on your phone for those notifications to work. 
 
 ==Will Droid Notify display calendar events by non Android calendars?==
 
@@ -195,11 +201,11 @@ If you are using the stock Android OS lock screen, the answer is no. It is not p
 
 Here is why: Unfortunately, apps cannot be displayed over lock screens. This is a common misconception among Android users. Android has a built in lock screen and it's not possible to keep the phone locked while displaying information over it. With Android you can unlock or lock the phone, there is no state which is locked, but displaying information on the screen like a popup. There are 3rd party apps which are lock screen replacements but they are apps and are NOT part of the Android OS. When they are running, they DO NOT lock your phone, they are an app that is faking the process. Displaying information over a 3rd party lock screen occurs because your phone is never locked. Displaying an app over another app is perfectly normal and that is what you see when you see a popup over a 3rd party lock screen app.
 
-==K-9 Emails are not being shown. Why?==
+==K-9/Kaiten Emails are not being shown. Why?==
 
 There is most likely one of two reasons that this might happen.
 
-1) The most likely reason is that you installed K-9 or Kaiten AFTER you installed Droid Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Droid Notify uses. If you install Droid Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Droid Notify and re-install it again.
+1) The most likely reason is that you installed K-9/Kaiten AFTER you installed Droid Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Droid Notify uses. If you install Droid Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Droid Notify and re-install it again.
 
 2) The less likely reason is that there is a bug in the code. Try step 1 first and if that doesn't solve the problem please send me an email with a debug log.
 
