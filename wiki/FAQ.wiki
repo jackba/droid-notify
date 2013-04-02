@@ -183,7 +183,7 @@ Yes! I would encourage anyone who speaks English and any other language to help 
 
 This is a problem because depending on the cell carrier, SMS messages will be delivered with a timestamp in either UTC time or in local time. By default, the app expects the incoming timestamp to be in local time. This can be fixed by tell the app that the incoming SMS messages are in UTC time and not local time. Visit the SMS user preferences located here: 
 
-App Settings->Notifications->SMS->Time Is In UTC
+_*App Settings->Notifications->SMS->Time Is In UTC*_
 
 Check the box "Time Is In UTC" to tell the app that incoming SMS timestamps are in UTC time.
 
