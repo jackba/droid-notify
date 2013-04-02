@@ -129,9 +129,9 @@ If the app is moved to the SD Card / External Storage, the functionality of the 
 
 If you want to use GO SMS, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (Settings->Advanced Tab->Important Tips). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Important Tips). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
 ==Known Issues with Pansi SMS & Droid Notify==
 
@@ -167,7 +167,7 @@ Developer apps have the ability to read the Google Calendar that is build into t
 
 ==I get status bar notifications but no popup, why?==
 
-This issue is most likely due to the popup being blocked. Being in a phone call blocks the popup, but there is also an option to block the popup if you using certain apps. You can change this setting here (Settings->Basic->Enable App Blocking / Blocking App Settings. 
+This issue is most likely due to the popup being blocked. Being in a phone call blocks the popup, but there is also an option to block the popup if you using certain apps. You can change this setting here (App Settings->Basic->Blocking App Settings). 
 
 ==Can I help translate this application?==
 
@@ -177,9 +177,11 @@ Yes! I would encourage anyone who speaks English and any other language to help 
 
 This is a problem because depending on the cell carrier, SMS messages will be delivered with a timestamp in either UTC time or in local time. By default, the app expects the incoming timestamp to be in local time. This can be fixed by tell the app that the incoming SMS messages are in UTC time and not local time. Visit the SMS user preferences located here: 
 
-Settings->Notifications->SMS->Time Is In UTC
+App Settings->Notifications->SMS->Time Is In UTC
 
 Check the box "Time Is In UTC" to tell the app that incoming SMS timestamps are in UTC time.
+
+*Note:* Version 4.0 of the app has some code that tries to automagically set this for you, but it might not work 100% of the time.
 
 ==Why is there a number indicating unread messages on top of my app icon?==
 
