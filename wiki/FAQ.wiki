@@ -266,7 +266,7 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
 
-Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387&startId=zzzzz
+Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
 
 ==When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why? ==
 
@@ -274,4 +274,4 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
 
-Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387&startId=zzzzz
+Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
