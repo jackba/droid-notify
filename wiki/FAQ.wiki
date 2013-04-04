@@ -266,8 +266,12 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
 
+Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387&startId=zzzzz
+
 ==When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why? ==
 
 This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jellybean(4.1, 4.2) and Samsung's custom !TouchWiz UI. Unfortunately, there is no known remedy for this issue at this time.
 
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
+
+Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387&startId=zzzzz
