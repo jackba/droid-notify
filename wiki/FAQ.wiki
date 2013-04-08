@@ -1,29 +1,29 @@
 #summary Frequently Asked Questions
 #labels Featured
 
-= Droid Notify - Frequently Asked Questions =
+= Notify - Frequently Asked Questions =
 
- * [FAQ#What_is_the_difference_between_Droid_Notify_and_Droid_Notify_Plu What is the difference between Droid Notify and Droid Notify Plus?]
- * [FAQ#What_is_the_difference_between_Droid_Notify_Pro_and_Droid_Notify What is the difference between Droid Notify Pro and Droid Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plu What is the difference between Notify and Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify What is the difference between Notify Pro and Notify Plus?]
 
-= *Droid Notify* =
+= *Notify* =
 
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowled The notification icon is not removed when I dismiss or acknowledge the new message, why?]
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
- * [FAQ#Can_APPLICATION_X_be_integrated_with_Droid_Notify? Can APPLICATION X be integrated with Droid Notify?]
- * [FAQ#Can_Droid_Notify_be_moved_to_the_SD_card? Can Droid Notify be moved to the SD card?]
- * [FAQ#Known_Issues_with_Go_SMS_&_Droid_Notify Known Issues with Go SMS & Droid Notify]
- * [FAQ#Known_Issues_with_Pansi_SMS_&_Droid_Notify Known Issues with Pansi SMS & Droid Notify]
- * [FAQ#Known_Issues_with_Zlango_Messaging_&_Droid_Notify Known Issues with Zlango Messaging & Droid Notify]
- * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Droid_Notify Known Issues with ATT Messaging App & Droid Notify]
- * [FAQ#Will_email_notifications_be_an_added_feature_in_Droid_Notify? Will email notifications be an added feature in Droid Notify?]
- * [FAQ#Will_Droid_Notify_display_calendar_events_by_non_Android_calenda Will Droid Notify display calendar events by non Android calendars?]
+ * [FAQ#Can_APPLICATION_X_be_integrated_with_Notify? Can APPLICATION X be integrated with Notify?]
+ * [FAQ#Can_Notify_be_moved_to_the_SD_card? Can Notify be moved to the SD card?]
+ * [FAQ#Known_Issues_with_Go_SMS_&_Notify Known Issues with Go SMS & Notify]
+ * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
+ * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
+ * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
+ * [FAQ#Will_email_notifications_be_an_added_feature_in_Notify? Will email notifications be an added feature in Notify?]
+ * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calenda Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
  * [FAQ#Why_is_there_a_number_indicating_unread_messages_on_top_of_my_ap Why is there a number indicating unread messages on top of my app icon?]
- * [FAQ#Can_Droid_Notify_Popups_Display_Over_The_Lock_Screen? Can Droid Notify Popups Display Over The Lock Screen?]
+ * [FAQ#Can_Notify_Popups_Display_Over_The_Lock_Screen? Can Notify Popups Display Over The Lock Screen?]
  * [FAQ#K-9/Kaiten_Emails_are_not_being_shown._Why? K-9/Kaiten Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
@@ -32,19 +32,19 @@
  * [FAQ#Can_A_Notification_Be_Shown_Over_The_Lock_Screen? Can A Notification Be Shown Over The Lock Screen?]
  * [FAQ#Known_Issues Known Issues]
 
-= *Droid Notify Plus* =
+= *Notify Plus* =
 
- * [FAQ#After_Droid_Notify_Plus_updates,_the_app_stops_working._Why? After Droid Notify Plus updates, the app stops working. Why?]
+ * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify Plus updates, the app stops working. Why?]
  * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify Plus accessibility service my device begins to speak to me, why?]
  * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
 
 ----
 
-==What is the difference between Droid Notify and Droid Notify Plus?==
+==What is the difference between Notify and Notify Plus?==
 
-*Droid Notify*
+*Notify*
 
-Droid Notify (Lite/Pro) is a full featured notification app for very specific notification types. Some specific features of each notification type are listed below.
+Notify (Lite/Pro) is a full featured notification app for very specific notification types. Some specific features of each notification type are listed below.
 
 1) SMS/MMS - Mark as read, delete, reply.
 
@@ -55,15 +55,15 @@ Droid Notify (Lite/Pro) is a full featured notification app for very specific no
 4) K-9/Kaiten Mail Clients - Delete, reply.
 
 
-*Droid Notify Plus*
+*Notify Plus*
 
-Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Droid Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
-==What is the difference between Droid Notify Pro and Droid Notify Plus?==
+==What is the difference between Notify Pro and Notify Plus?==
 
-*Droid Notify Pro*
+*Notify Pro*
 
-Includes all the features of the Droid Notify Lite application and adds a few more features and notification types as described below:
+Includes all the features of the Notify Lite application and adds a few more features and notification types as described below:
 
 1) Adds Facebook Notifications
 
@@ -81,9 +81,9 @@ Includes all the features of the Droid Notify Lite application and adds a few mo
 
 8) Any new open API programs might be added as features to this app.
 
-*Droid Notify Plus*
+*Notify Plus*
 
-Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Droid Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
 ==Can I change the UI of the notification?==
 
@@ -93,17 +93,17 @@ Yes. There are built in themes that you can choose from. If you have any themes 
 
 This is likely because you have the messaging app notifications still enabled (or another apps notifications enabled for the type of notification: Calendar app, etc.) Unfortunately, there is no way for developer apps to remove another applications notifications. 
 
-Droid Notify supports its own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Droid Notify supports.
+Notify supports its own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Notify supports.
 
 ==The contact photo in the notification doesn't display even though it shows in the system contacts, why?==
 
 There are many 3rd party apps that hook into the phones contacts (e.g. Facebook, Twitter, Linked In, etc.). Although these apps are displaying user photos in the phones address book, these photos are not available by outside apps. The only photos that are available to all 3rd party apps are those that are part of the devices Google Contacts. You can download a few free apps that will sync your Facebook/Twitter/Linked In user data (including their photo) to the Google Contacts.
 
-==Can APPLICATION X be integrated with Droid Notify?==
+==Can APPLICATION X be integrated with Notify?==
 
 Unfortunately, the answer is probably no or not at this time.
 
-Most applications are private apps and do not have an open API so currently there is no way to tap into their application data that they uses. I will continue to monitor all apps and look for any API's that will allow Droid Notify to communicate with them or their data. 
+Most applications are private apps and do not have an open API so currently there is no way to tap into their application data that they uses. I will continue to monitor all apps and look for any API's that will allow Notify to communicate with them or their data. 
 
 Apps that users have asked for integration (with comments):
 
@@ -123,39 +123,39 @@ Apps that users have asked for integration (with comments):
 
 8) Hotmail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Hotmail!
 
-While you wait for more notification types, you can use an add-on called *Droid Notify Plus* which is an accessibility service which offers a simple notification popup for all of the phones other apps. Try it out today!
+While you wait for more notification types, you can use an add-on called *Notify Plus* which is an accessibility service which offers a simple notification popup for all of the phones other apps. Try it out today!
 
-==Can Droid Notify be moved to the SD card?==
+==Can Notify be moved to the SD card?==
 
 Unfortunately, the answer is no.
 
 If the app is moved to the SD Card / External Storage, the functionality of the application will be impacted in a negative manor. This application uses alarms and phone state intent filters to function normally. When apps are moved to the SD Card, the phone state intent filters are not received and if the SD card is ever removed or unmounted, all alarms are cleared from the memory. These issues would be catastrophic in terms of the apps operation so the application must remain on the phones internal memory.
 
-==Known Issues with Go SMS & Droid Notify==
+==Known Issues with Go SMS & Notify==
 
-If you want to use GO SMS, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
+If you want to use GO SMS, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Important Tips). If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Important Tips). If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-==Known Issues with Pansi SMS & Droid Notify==
+==Known Issues with Pansi SMS & Notify==
 
-If you want to use Pansi SMS, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
+If you want to use Pansi SMS, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Disable other message notifications" option in the Pansi SMS settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other message notifications" option in the Pansi SMS settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-==Known Issues with Zlango Messaging & Droid Notify==
+==Known Issues with Zlango Messaging & Notify==
 
-If you want to use Zlango Messaging, you must follow the steps below in order for Droid Notify to work with SMS/MMS notifications.
+If you want to use Zlango Messaging, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Set as default messaging client" option in the Zlango Messaging settings/preferences. If this option is checked/selected then Droid Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Set as default messaging client" option in the Zlango Messaging settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-==Known Issues with ATT Messaging App & Droid Notify==
+==Known Issues with ATT Messaging App & Notify==
 
 Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem.
 
-==Will email notifications be an added feature in Droid Notify?==
+==Will email notifications be an added feature in Notify?==
 
 The answer is...it depends...(possibly).
 
@@ -165,11 +165,11 @@ I will look into the Gmail api and see if we can read Gmail email as an alternat
 
 K-9 and Kaiten email clients are now supported but you will need to have a K-9/Kaiten mail client (K-9 Mail, Kaiten, etc.) on your phone for those notifications to work. 
 
-==Will Droid Notify display calendar events by non Android calendars?==
+==Will Notify display calendar events by non Android calendars?==
 
 The answer is...it depends.
 
-Developer apps have the ability to read the Google Calendar that is build into the Android OS. If the calendar app syncs all the information to the Google Calendar, then Droid Notify will read the Google Calendar and notify you of the events. On the other hand if the calendar app keeps it's own calendar, then developer apps can't access that data and so Droid Notify won't notify you of the calendar events.
+Developer apps have the ability to read the Google Calendar that is build into the Android OS. If the calendar app syncs all the information to the Google Calendar, then Notify will read the Google Calendar and notify you of the events. On the other hand if the calendar app keeps it's own calendar, then developer apps can't access that data and so Notify won't notify you of the calendar events.
 
 ==I get status bar notifications but no popup, why?==
 
@@ -191,9 +191,9 @@ Check the box "Time Is In UTC" to tell the app that incoming SMS timestamps are 
 
 ==Why is there a number indicating unread messages on top of my app icon?==
 
-Many phones have built on top of the stock Android OS a custom UI (example: HTC Sense, Samsung TouchWiz, Etc...) These phones might have a Message Unread Count number that displays over the app icon. Unfortunately, most of these custom apps do not have a way for 3rd party app to refresh the counter. This means that when Droid Notify updates the SMS data or dismisses an email (using Notify Plus), the counter may not aware of it. This means that even though the Email or SMS has been viewed and is marked as viewed on the phone, the app still says that there are unread messages. Until these apps provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+Many phones have built on top of the stock Android OS a custom UI (example: HTC Sense, Samsung TouchWiz, Etc...) These phones might have a Message Unread Count number that displays over the app icon. Unfortunately, most of these custom apps do not have a way for 3rd party app to refresh the counter. This means that when Notify updates the SMS data or dismisses an email (using Notify Plus), the counter may not aware of it. This means that even though the Email or SMS has been viewed and is marked as viewed on the phone, the app still says that there are unread messages. Until these apps provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
 
-==Can Droid Notify Popups Display Over The Lock Screen?==
+==Can Notify Popups Display Over The Lock Screen?==
 
 The answer is...it depends.
 
@@ -205,7 +205,7 @@ Here is why: Unfortunately, apps cannot be displayed over lock screens. This is 
 
 There is most likely one of two reasons that this might happen.
 
-1) The most likely reason is that you installed K-9/Kaiten AFTER you installed Droid Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Droid Notify uses. If you install Droid Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Droid Notify and re-install it again.
+1) The most likely reason is that you installed K-9/Kaiten AFTER you installed Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Notify uses. If you install Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Notify and re-install it again.
 
 2) The less likely reason is that there is a bug in the code. Try step 1 first and if that doesn't solve the problem please send me an email with a debug log.
 
@@ -249,14 +249,14 @@ The answer is, it depends.
 
 1) Android OS: If you are using the Android OS (default, stock) lockscreen, then no, you can't. Android does not currently have a way to display anything "over" a locked lockscreen. Developers can either lock or unlock the device and that's it.
 
-2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Droid Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
+2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
 
 ==Known Issues==
 
 Here are confirmed, known issues that have not been resolved yet:
  * Facebook Message are notified when an unread message exists on Facebook.com. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/. I am monitoring this and will continue to search for fixes to this known issue.
 
-==After Droid Notify Plus updates, the app stops working. Why?==
+==After Notify Plus updates, the app stops working. Why?==
 
 There is a bug in all versions of Android which stops the accessibility services from running after an update. You must disable and then re-enable the accessibility service in the phones settings restart/re-enable the service.
 
