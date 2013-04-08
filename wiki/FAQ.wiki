@@ -18,7 +18,7 @@
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
  * [FAQ#Will_email_notifications_be_an_added_feature_in_Notify? Will email notifications be an added feature in Notify?]
- * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calenda Will Notify display calendar events by non Android calendars?]
+ * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calendars? Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
