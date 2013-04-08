@@ -3,8 +3,8 @@
 
 = Notify - Frequently Asked Questions =
 
- * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plu What is the difference between Notify and Notify Plus?]
- * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify What is the difference between Notify Pro and Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plus? What is the difference between Notify and Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify_Plus? What is the difference between Notify Pro and Notify Plus?]
 
 = *Notify* =
 
