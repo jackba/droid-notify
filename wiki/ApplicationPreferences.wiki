@@ -7,20 +7,16 @@ Enable Notify
 
 Basic
 
- * Display Text To Speech Button
  * Disable Context Menu
  * Disable Photo Menu
+ * Display TTS Button
+ * Load Order Desc
  * Display Reschedule Button
- * Reschedule Settings
-   * Reschedule Time
+ * Reschedule Time
  * Enable Reminders
  * Reminder Settings
   * Reminder Frequency
   * Reminder Interval
- * Enable Quiet Time
- * Quiet Time Settings
-  * Time Of Week Settings
-  * Quiet Period Settings
  * Enable Quick Reply
  * Quick Reply Settings
   * Insert Signature
@@ -31,12 +27,18 @@ Basic
   * Message Sent Notification
   * Message Delivered Notification
   * Message Failed Notification
- * Enable App Blocking
- * Blocking Apps Settings
-  * Select Blocking Apps
-  * Blocking Action
- * Customize Contacts
- * Blacklist
+ * Enable Quiet Time (Pro feature)
+ * Quiet Time Settings (Pro feature)
+  * Weekdays Enabled (Pro feature)
+  * Weekday Settings (Pro feature)
+  * Weekends Enabled (Pro feature)
+  * Weekend Settings (Pro feature)
+ * Enable App Blocking (Pro feature)
+ * Blocking Apps Settings (Pro feature)
+  * Select Blocking Apps (Pro feature)
+  * Blocking Action (Pro feature)
+ * Customize Contacts (Pro feature)
+ * Blacklist (Pro feature)
 
 Locale
 
@@ -44,16 +46,18 @@ Locale
  * Time Format
  * Date Format
  * Phone Number Format
- * Display 10 Digits
  
 Screen
 
  * Turn Screen On
  * Dim Screen
- * Unlock Phone
- * Auto Rotate Screen
+ * Unlock Device
  * Screen Timeout
+ * Auto Rotate Screen
  * Hide Status Bar
+ * Show Wallpaper
+ * Show When Locked
+ * Show When Unlocked
  * Blur Screen Background (Hidden in Android 4.0+ Devices)
  * Dim Screen Background
  * Dim Screen Value
@@ -61,37 +65,40 @@ Screen
 Customize
 
  * Theme
+ * Animation
  * Popup Vertical Location
  * Auto Popup Width
  * Portrait Popup Width
  * Landscape Popup Width
+ * Display Navigation Buttons
  * Hide Single Message Header
- * Display Type Icon
- * Display Notification Type Info
- * Center Align Notification Type Info
- * Type Font Size
- * Bold Notification Type Info
+ * Display Info Icon
+ * Display Info
+ * Center Align Info
+ * Info Font Size
+ * Bold Info
  * Display Contact Photo
- * Contact Photo Size
- * Contact Placeholder Image
- * Contact Photo Background
+ * Round Photo Corners
+ * Photo Size
+ * Photo Padding
+ * Placeholder Image
  * Display Contact Name
- * Center Align Contact Name
- * Contact Name Font Size
- * Bold Contact Name
- * Hide Unknown Contact
+ * Center Align Name
+ * Name Font Size
+ * Bold Name
+ * Hide Unknown Name
  * Display Contact Number
- * Center Align Contact Number
- * Contact Number Font Size
- * Bold Contact Number
- * Display Unknown Contact Number
+ * Center Align Number
+ * Number Font Size
+ * Bold Number
+ * Display Unknown Number
  * Display Notification Body
  * Center Align Body Text
- * Notification Body Font Size
- * Notification Body Max Lines
- * Bold Notification Body
+ * Body Font Size
+ * Body Max Lines
+ * Bold Body
  * Enable Emoticons
- * Disable Notification Body Links
+ * Disable Body Links
  * Button Style
  * Button Font Size
  * Bold Button Text
@@ -119,7 +126,7 @@ Notifications
    * Enable In-Call Vibrate
   * Enable Quick Reply
   * Customize
-   * Hide Notification Body
+   * Hide Body
    * Notification Count Action
    * Confirm Deletion
    * Display Dismiss Button
@@ -198,16 +205,60 @@ Notifications
    * Enable In-Call Sound
    * Enable In-Call Vibrate
   * Customize
-   * Hide Notification Body
+   * Hide Body
    * Notification Count Action
    * Confirm Deletion
    * Display Dismiss Button
    * Dismiss Button Action
    * Display Delete Button
-   * Delete Button Action
    * Display Reply Button
 
- * Twitter
+ * AquaMail (Pro feature)
+  * Enable AquaMail Email
+  * Include Account Name
+  * Enable Status Bar Notifications
+  * Status Bar Notifications
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Customize
+   * Hide Body
+   * Notification Count Action
+   * Confirm Deletion
+   * Display Dismiss Button
+   * Dismiss Button Action
+   * Display Delete Button
+   * Display Reply Button
+
+ * Gmail (Pro feature)
+  * Enable Gmail
+  * Read Gmail Account
+  * Enable Status Bar Notifications
+  * Status Bar Notifications
+   * Display When Blocked
+   * Notification Icon
+   * Notification Sound
+   * Vibrate Setting
+   * Vibrate Pattern
+   * Enable LED
+   * LED Color Setting
+   * LED Blink Setting
+   * Enable In-Call Sound
+   * Enable In-Call Vibrate
+  * Customize
+   * Hide Body
+   * Notification Count Action
+   * Display Dismiss Button
+   * Display View Button
+
+ * Twitter (Pro feature)
   * Enable Twitter
   * Enable Twitter Direct Messages
   * Enable Twitter Mentions
@@ -229,7 +280,7 @@ Notifications
    * Enable In-Call Vibrate
   * Enable Quick Reply
   * Customize
-   * Hide Notification Body
+   * Hide Body
    * Notification Count Action
    * Confirm Deletion
    * Display Dismiss Button
@@ -238,7 +289,7 @@ Notifications
    * Display View Button
    * Display Reply Button
 
- * Facebook
+ * Facebook (Pro feature)
   * Enable Facebook
   * Enable Facebook Notifications
   * Enable Facebook Friend Requests
@@ -259,13 +310,13 @@ Notifications
    * Enable In-Call Sound
    * Enable In-Call Vibrate
   * Customize
-   * Hide Notification Body
+   * Hide Body
    * Notification Count Action
    * Display Dismiss Button
    * Display View Button
    * Display Reply Button
 
- * Google Voice
+ * Google Voice (Pro feature)
   * Enable Google Voice
   * Read Google Voice Account
   * Select Preferred Client
@@ -284,7 +335,7 @@ Notifications
    * Enable In-Call Vibrate
   * Enable Quick Reply
   * Customize
-   * Hide Notification Body
+   * Hide Body
    * Notification Count Action
    * Confirm Deletion
    * Display Dismiss Button
@@ -299,22 +350,25 @@ Privacy
  * Status Bar Notification Privacy
  * SMS Message Privacy
  * Missed Call Privacy
+ * Calendar Privacy
  * Email Message Privacy
+ * Twitter Privacy
+ * Facebook Privacy
+ * Google Voice Privacy
  
 Advanced
 
- * Enable Haptic Feedback
+ * Enable Tactile Feedback
  * Close In Background
  * Ignore Linked Apps
- * Restrict Popup
+ * Disable API
  * MMS Timeout
  * Call Log Timeout
- * K-9 Timeout
  * Reset Twitter Data
  * Reset Facebook Data
  * Reset Google Voice Data
  * SMS-to-Email Gateway
- * Clear Notifications On Exit
+ * Clear On Exit
  * Reset App Preferences
  * Export Preferences
  * Import Preferences
