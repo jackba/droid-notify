@@ -3,7 +3,7 @@
 
 = Application Preferences =
 
-Enable Droid Notify
+Enable Notify
 
 Basic
 
