@@ -264,6 +264,14 @@ There is a bug in all versions of Android which stops the accessibility services
 
 This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Samsung's custom !TouchWiz UI. Unfortunately, there is no known remedy for this issue at this time.
 
+Here is a possible solution to this issue.
+
+ * Go to Device Settings->Accessibility and enable the service 'TalkBack'. Then under TalkBack Settings uncheck all boxes disable the TalkBack service again.
+
+ * Go to Device Settings->Application Manager. Go to the section 'ALL'  and find 'Google Text-to-speech Engine' and click 'Disable. Then find 'Samsung TTS' and click 'Disable' 
+
+ * Go back to Device Settings->Accessibility and enable Notify Plus. The Notifications should now be running and no more annoying "Folder Open", "Folder Closed"
+
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
 
 Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
