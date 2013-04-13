@@ -266,7 +266,7 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 
 Here is a possible solution to this issue.
 
- * Go to Device Settings->Accessibility and enable the service 'TalkBack'. Then under TalkBack Settings uncheck all boxes disable the TalkBack service again.
+ * Go to Device Settings->Accessibility and enable the service '!TalkBack'. Then under !TalkBack Settings uncheck all boxes disable the TalkBack service again.
 
  * Go to Device Settings->Application Manager. Go to the section 'ALL'  and find 'Google Text-to-speech Engine' and click 'Disable. Then find 'Samsung TTS' and click 'Disable' 
 
