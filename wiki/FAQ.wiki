@@ -23,7 +23,6 @@
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
  * [FAQ#The_SMS_timestamp_is_not_correct._What_can_I_do? The SMS timestamp is not correct. What can I do?]
  * [FAQ#Why_is_there_a_number_indicating_unread_messages_on_top_of_my_ap Why is there a number indicating unread messages on top of my app icon?]
- * [FAQ#Can_Notify_Popups_Display_Over_The_Lock_Screen? Can Notify Popups Display Over The Lock Screen?]
  * [FAQ#K-9/Kaiten_Emails_are_not_being_shown._Why? K-9/Kaiten Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
@@ -57,7 +56,7 @@ Notify (Lite/Pro) is a full featured notification app for very specific notifica
 
 *Notify Plus*
 
-Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
 ==What is the difference between Notify Pro and Notify Plus?==
 
@@ -83,7 +82,7 @@ Includes all the features of the Notify Lite application and adds a few more fea
 
 *Notify Plus*
 
-Adds very basic notifications for ANY app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
 ==Can I change the UI of the notification?==
 
@@ -94,6 +93,8 @@ Yes. There are built in themes that you can choose from. If you have any themes 
 This is likely because you have the messaging app notifications still enabled (or another apps notifications enabled for the type of notification: Calendar app, etc.) Unfortunately, there is no way for developer apps to remove another applications notifications. 
 
 Notify supports its own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Notify supports.
+
+Please note that you may not be able to remove the system Missed Call notification.
 
 ==The contact photo in the notification doesn't display even though it shows in the system contacts, why?==
 
@@ -110,8 +111,6 @@ Apps that users have asked for integration (with comments):
 1) !WhatsApp - Currently there is no API for this application. I have contacted the company but they refuse to answer. Until they let 3rd party developers access to the data there is nothing we can do.
 
 2) Skype - Looking into the possibility.
-
-3) GMail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with GMail!
 
 4) Google+ - Looking into the possibility.
 
@@ -177,7 +176,7 @@ This issue is most likely due to the popup being blocked. Being in a phone call 
 
 ==Can I help translate this application?==
 
-Yes! I would encourage anyone who speaks English and any other language to help translate this application. Currently, I am trying out a collaborative translation tool powered by Translations powered by [http://www.crowdin.net/ CrowdIn.Net]. Email me if you would like to help translate this application (droidnotify@gmail.com).
+Yes! I would encourage anyone who speaks English and any other language to help translate this application. I use a collaborative translation tool powered by [http://www.crowdin.net/ CrowdIn.Net]. Email me if you would like to help translate this application (droidnotify@gmail.com).
 
 ==The SMS timestamp is not correct. What can I do?==
 
@@ -192,14 +191,6 @@ Check the box "Time Is In UTC" to tell the app that incoming SMS timestamps are 
 ==Why is there a number indicating unread messages on top of my app icon?==
 
 Many phones have built on top of the stock Android OS a custom UI (example: HTC Sense, Samsung TouchWiz, Etc...) These phones might have a Message Unread Count number that displays over the app icon. Unfortunately, most of these custom apps do not have a way for 3rd party app to refresh the counter. This means that when Notify updates the SMS data or dismisses an email (using Notify Plus), the counter may not aware of it. This means that even though the Email or SMS has been viewed and is marked as viewed on the phone, the app still says that there are unread messages. Until these apps provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
-
-==Can Notify Popups Display Over The Lock Screen?==
-
-The answer is...it depends.
-
-If you are using the stock Android OS lock screen, the answer is no. It is not possible to display information over the lock screen. If you are using a 3rd party lockscreen app, then the answer is yes (with conditions...you cannot be in security mode).
-
-Here is why: Unfortunately, apps cannot be displayed over lock screens. This is a common misconception among Android users. Android has a built in lock screen and it's not possible to keep the phone locked while displaying information over it. With Android you can unlock or lock the phone, there is no state which is locked, but displaying information on the screen like a popup. There are 3rd party apps which are lock screen replacements but they are apps and are NOT part of the Android OS. When they are running, they DO NOT lock your phone, they are an app that is faking the process. Displaying information over a 3rd party lock screen occurs because your phone is never locked. Displaying an app over another app is perfectly normal and that is what you see when you see a popup over a 3rd party lock screen app.
 
 ==K-9/Kaiten Emails are not being shown. Why?==
 
