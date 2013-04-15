@@ -70,7 +70,7 @@ Includes all the features of the Notify Lite application and adds a few more fea
 
 3) Adds Gmail Notifications
 
-4) Adds AquaMail Notifications
+4) Adds !AquaMail Notifications
 
 5) Adds A Quiet Time Feature
 
