@@ -158,11 +158,13 @@ Users have reported that the a bundled app called "ATT Messaging" can stop SMS &
 
 The answer is...it depends...(possibly).
 
-At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. The only solution to this is to develop an email client which is out of the scope of this project.
+At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. At this time there are a few email clients that have open APIs that 3rd party developers can access.
 
-I will look into the Gmail api and see if we can read Gmail email as an alternative.
+1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
 
-K-9 and Kaiten email clients are now supported but you will need to have a K-9/Kaiten mail client (K-9 Mail, Kaiten, etc.) on your phone for those notifications to work. 
+2) AquaMail email client is supported but you will need to have the AquaMail app installed on your device for notifications to work. 
+
+3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work. 
 
 ==Will Notify display calendar events by non Android calendars?==
 
