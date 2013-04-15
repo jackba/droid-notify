@@ -162,7 +162,7 @@ At this time the Email content on Android phones is secure and 3rd party apps ca
 
 1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
 
-2) AquaMail email client is supported but you will need to have the AquaMail app installed on your device for notifications to work. 
+2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
 
 3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work. 
 
