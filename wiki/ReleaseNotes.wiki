@@ -3,6 +3,9 @@
 
 = Release Notes =
 
+*v4.0.1* _Coming Soon..._
+ *
+
 *v4.0* _Coming Soon..._
  * Updated the app to use the latest Android 4.0 API.
  * Updated the notification window to use a touch navigation as well as the navigation buttons.
@@ -13,6 +16,7 @@
  * Added some new themes, two of them are built in app themes.
  * Added !AquaMail support in the Pro version of the app.
  * Added Gmail support in the Pro version of the app (but it's limited to the unread count notification only).
+ * Fixed a bug which prevented recurring calendar events from appearing.
  * 
  * Updated translations.
 
