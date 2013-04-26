@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v4.0.1* _Coming Soon..._
+*v4.0.2* _Coming Soon..._
  *
+
+*v4.0.1* (April 26, 2013)
+ * Added ability to unlock secure lockscreens.
+ * Fixed bug which prevented some user settings from taking effect.
+ * Fixed a bug which prevented custom notification sounds, vibrations and LED lights to function correctly.
 
 *v4.0* (April 23, 2013)
  * Updated the app to use the latest Android 4.0 API.
