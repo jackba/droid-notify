@@ -216,6 +216,8 @@ If your phone has been rooted, you can install and use a 3rd party add-on called
 
 ==Issues When Using Quick Reply==
 
+When replying to an SMS message via the Quick Reply feature some devices send two identical messages out instead of a single message. This is caused by a bug in the Android OS and is specific to certain devices and manufacturers. More information on this bug can be found here: https://code.google.com/p/android/issues/detail?id=27024
+
 When you use the Quick Reply in the popup notification, the on-screen keyboard aka "soft keyboard" can hide parts of the notification including the reply box which makes it very difficult to type a reply. There are user options to help with this. They are located here:
 
 _*App Settings->Basic->Quick Reply Settings*_
