@@ -218,6 +218,16 @@ The answer is, it depends.
 
 2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
 
+==Email notifications information.==
+
+At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
+
+1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
+
+2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
+
+3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work.
+
 ==Quick Reply information.==
 
 When replying to an SMS message via the Quick Reply feature some devices send two identical messages out instead of a single message. This is caused by a bug in the Android OS and is specific to certain devices and manufacturers. More information on this bug can be found here: https://code.google.com/p/android/issues/detail?id=27024
@@ -233,16 +243,6 @@ On this user settings screen you can hide some of the notification items if the 
 *Hide Contact Panel* - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
 
 *Hide Button Panel* - Hide the row of buttons under the quick reply text box.
-
-==Email notifications information.==
-
-At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
-
-1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
-
-2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
-
-3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work.
 
 ==Known Issues==
 
