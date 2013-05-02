@@ -17,7 +17,6 @@
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
- * [FAQ#Email_notifications_information. Email notifications information.]
  * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calendars? Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
@@ -25,10 +24,11 @@
  * [FAQ#Why_is_there_a_number_indicating_unread_messages_on_top_of_my_ap Why is there a number indicating unread messages on top of my app icon?]
  * [FAQ#K-9/Kaiten_Emails_are_not_being_shown._Why? K-9/Kaiten Emails are not being shown. Why?]
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
- *  [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
- * [FAQ#Issues_When_Using_Quick_Reply Issues When Using Quick Reply]
+ * [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Can_I_Suppress_Notifications_When_I_Am_Using_Application_X? Can I Suppress Notifications When I Am Using Application X?]
  * [FAQ#Can_A_Notification_Be_Shown_Over_The_Lock_Screen? Can A Notification Be Shown Over The Lock Screen?]
+ * [FAQ#Email_notifications_information. Email notifications information.]
+ * [FAQ#Quick_Reply_information. Quick Reply information.]
  * [FAQ#Known_Issues Known Issues]
 
 = *Notify Plus* =
@@ -152,17 +152,7 @@ If you want to use Zlango Messaging, you must follow the steps below in order fo
 
 ==Known Issues with ATT Messaging App & Notify==
 
-Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem.
-
-==Email notifications information.==
-
-At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
-
-1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
-
-2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
-
-3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work. 
+Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem. 
 
 ==Will Notify display calendar events by non Android calendars?==
 
@@ -212,22 +202,6 @@ On most phones, the stock missed call status bar notification will not be remove
 
 If your phone has been rooted, you can install and use a 3rd party add-on called "!NotiGo" which can be found *[http://forum.xda-developers.com/showthread.php?t=1187025 here]* to help remove the system missed call notification.
 
-==Issues When Using Quick Reply==
-
-When replying to an SMS message via the Quick Reply feature some devices send two identical messages out instead of a single message. This is caused by a bug in the Android OS and is specific to certain devices and manufacturers. More information on this bug can be found here: https://code.google.com/p/android/issues/detail?id=27024
-
-When you use the Quick Reply in the popup notification, the on-screen keyboard aka "soft keyboard" can hide parts of the notification including the reply box which makes it very difficult to type a reply. There are user options to help with this. They are located here:
-
-_*App Settings->Basic->Quick Reply Settings*_
-
-On this user settings screen you can hide some of the notification items if the soft keyboard is covering them. These include:
-
-*Hide Header Panel* - Hide the row of navigation buttons and notification count text at the very top of the popup window.
-
-*Hide Contact Panel* - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
-
-*Hide Button Panel* - Hide the row of buttons under the quick reply text box.
-
 ==Can I Suppress Notifications When I Am Using Application X?==
 
 Yes, you can prevent the popup notification from appearing when you are using almost any application. You can select the applications that you wish to block notifications by updating the application settings here:
@@ -243,6 +217,32 @@ The answer is, it depends.
 1) Android OS: If you are using the Android OS (default, stock) lockscreen, then no, you can't. Android does not currently have a way to display anything "over" a locked lockscreen. Developers can either lock or unlock the device and that's it.
 
 2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
+
+==Quick Reply information.==
+
+When replying to an SMS message via the Quick Reply feature some devices send two identical messages out instead of a single message. This is caused by a bug in the Android OS and is specific to certain devices and manufacturers. More information on this bug can be found here: https://code.google.com/p/android/issues/detail?id=27024
+
+When you use the Quick Reply in the popup notification, the on-screen keyboard aka "soft keyboard" can hide parts of the notification including the reply box which makes it very difficult to type a reply. There are user options to help with this. They are located here:
+
+_*App Settings->Basic->Quick Reply Settings*_
+
+On this user settings screen you can hide some of the notification items if the soft keyboard is covering them. These include:
+
+*Hide Header Panel* - Hide the row of navigation buttons and notification count text at the very top of the popup window.
+
+*Hide Contact Panel* - Hide the row under the navigation buttons that has the contact photo, name and number of the notification.
+
+*Hide Button Panel* - Hide the row of buttons under the quick reply text box.
+
+==Email notifications information.==
+
+At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
+
+1) K-9 and Kaiten email clients are supported but you will need to have a K-9/Kaiten app (K-9 Mail, Kaiten Mail, etc.) installed on your device for notifications to work. 
+
+2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
+
+3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work.
 
 ==Known Issues==
 
