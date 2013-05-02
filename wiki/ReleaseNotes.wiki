@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v4.0.2* _Coming Soon..._
+*v4.0.3* _Coming Soon..._
  *
+
+*v4.0.2* _Coming Soon..._
+ * Fixed a bug that prevented the LED color from changing.
+ * Fixed a bug that prevented the SMS delivery reports from working.
+ * 
 
 *v4.0.1* (April 26, 2013)
  * Added ability to unlock secure lockscreens.
