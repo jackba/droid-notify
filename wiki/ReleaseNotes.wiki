@@ -9,7 +9,7 @@
 *v4.0.2* _Coming Soon..._
  * Fixed a bug that prevented the LED color from changing.
  * Fixed a bug that prevented the SMS delivery reports from working.
- * 
+ * Fixed a bug that prevented the custom contacts from working properly.
 
 *v4.0.1* (April 26, 2013)
  * Added ability to unlock secure lockscreens.
