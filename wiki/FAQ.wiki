@@ -17,7 +17,7 @@
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
- * [FAQ#Will_email_notifications_be_an_added_feature_in_Notify? Will email notifications be an added feature in Notify?]
+ * [FAQ#Email_notifications_information. Email notifications information.]
  * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calendars? Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
@@ -154,9 +154,7 @@ If you want to use Zlango Messaging, you must follow the steps below in order fo
 
 Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem.
 
-==Will email notifications be an added feature in Notify?==
-
-The answer is...it depends...(possibly).
+==Email notifications information.==
 
 At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
 
