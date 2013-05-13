@@ -198,7 +198,7 @@ In my experience, many phones only show the LED when the screen is off. If the o
 
 ==The missed call status bar notification is not being dismissed. Why?==
 
-On most phones, the stock missed call status bar notification will not be removed when a missed call popup id dismissed. This status bar notification is a system notification and there is no API to remove it. If you are running Android 2.2, this should not be a problem, but any version of 2.3 or greater, this continues to be an issue. Until Android provides a way to remove system notifications, this issue will remain.
+On most phones, the stock missed call status bar notification will not be removed when a missed call popup id dismissed. This status bar notification is a system notification and there is no API to remove it. If you are running Android 2.2, this should not be a problem, but any version of 2.3 or greater, this continues to be an issue. Until Android provides a way to remove system notifications, this issue will remain. Some phones may have a way to stop notifications for the "phone" app. This is depending on the manufacturer (aka. Samsung, HTC, etc.) Playing around in the device system settings, you may find an option that will stop the system notifications.
 
 If your phone has been rooted, you can install and use a 3rd party add-on called "!NotiGo" which can be found *[http://forum.xda-developers.com/showthread.php?t=1187025 here]* to help remove the system missed call notification.
 
