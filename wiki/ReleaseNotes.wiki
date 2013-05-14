@@ -9,7 +9,9 @@
 *v4.0.3* _Coming Soon..._
  * Fixed bug that prevented the quick reply text from being preserved.
  * Added a quick reply character count feature.
- * 
+ * Fixed a bug which prevented the calendar notifications from working on older versions of Android.
+ * Small bug fixes.
+ * Updated translations.
 
 *v4.0.2* (May 2, 2013)
  * Fixed a bug that prevented the LED color from changing.
