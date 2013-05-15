@@ -8,6 +8,7 @@
 
 *v4.0.4* _Coming Soon..._
  * Added a few more user preferences.
+ * Fixed a bug which may have stopped the Gmail notifications from running.
  * 
  * Small bug fixes.
  * Updated translations.
