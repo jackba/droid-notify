@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v4.0.4* _Coming Soon..._
+*v4.0.5* _Coming Soon..._
  *
+
+*v4.0.4* _Coming Soon..._
+ * Added a few more user preferences.
+ * 
+ * Small bug fixes.
+ * Updated translations.
 
 *v4.0.3* (May 15, 2013)
  * Fixed bug that prevented the quick reply text from being preserved.
