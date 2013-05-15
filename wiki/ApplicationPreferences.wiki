@@ -21,6 +21,7 @@ Basic
  * Quick Reply Settings
   * Insert Signature
   * Signature
+  * Display Character Count
   * Hide Header Panel
   * Hide Contact Panel
   * Hide Button Panel
