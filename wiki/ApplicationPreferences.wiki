@@ -53,6 +53,7 @@ Screen
  * Turn Screen On
  * Dim Screen
  * Unlock Device
+ * Unlock Pattern
  * Screen Timeout
  * Auto Rotate Screen
  * Hide Status Bar
