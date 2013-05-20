@@ -6,12 +6,11 @@
 *v4.0.5* _Coming Soon..._
  *
 
-*v4.0.4* _Coming Soon..._
+*v4.0.4* (May 20, 2013)
  * Added a few more user preferences.
  * Fixed a bug which may have stopped the Gmail notifications from running.
  * Fixed a bug which was overriding the LED pattern set by the user. 
  * Fixed a bug which was overriding the vibrate pattern set by the user. 
- * 
  * Small bug fixes.
  * Updated translations.
 
