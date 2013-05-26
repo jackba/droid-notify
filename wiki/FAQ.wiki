@@ -38,6 +38,7 @@
  * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
  * [FAQ#I_get_multiple_notifications_for_a_single_status_bar_notificatio I get multiple notifications for a single status bar notification, why?]
 
+
 ----
 
 ==What is the difference between Notify and Notify Plus?==
@@ -227,7 +228,9 @@ At this time the Email content on Android phones is secure and 3rd party apps ca
 
 2) !AquaMail email client is supported but you will need to have the !AquaMail app installed on your device for notifications to work. 
 
-3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work.
+3) Gmail is supported but you will need to have the Gmail app (with  version 2.3.6 or newer for Froyo/Gingerbread and version 4.0.5 and newer for Honeycomb and Ice Cream Sandwich) for those notifications to work. 
+
+_Please note:_ Currently the API provided by the Gmail app only gives access to the unread count of the email accounts. No other information is available (e.g. Sender, Email Subject, Email Body, Etc.)
 
 ==Quick Reply information.==
 
