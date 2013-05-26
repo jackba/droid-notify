@@ -36,7 +36,7 @@
  * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify Plus updates, the app stops working. Why?]
  * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify Plus accessibility service my device begins to speak to me, why?]
  * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
- * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con I get multiple notifications for a single status bar notification, why?]
+ * [FAQ#I_get_multiple_notifications_for_a_single_status_bar_notificatio I get multiple notifications for a single status bar notification, why?]
 
 ----
 
