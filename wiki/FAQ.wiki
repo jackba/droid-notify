@@ -36,6 +36,7 @@
  * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify Plus updates, the app stops working. Why?]
  * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify Plus accessibility service my device begins to speak to me, why?]
  * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
+ * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con I get multiple notifications for a single status bar notification, why?]
 
 ----
 
@@ -272,3 +273,8 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
 
 Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
+
+==I get multiple notifications for a single status bar notification, why? ==
+
+Notify Plus simply reads the status bar notification. 
+Allot of apps send multiple status bar notification "updates" to the status bar notification. Each time an app sends information to the status bar, the Notify Plus app will respond and display that information to you. Sometimes this information will be empty and sometimes it will have new, updated information. This behavior is driven by the outside app that is posting the status bar notification and Notify Plus cannot control this unfortunately.
