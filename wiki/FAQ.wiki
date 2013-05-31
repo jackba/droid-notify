@@ -272,11 +272,7 @@ This is a known bug in the Android OS on the device. It appears to happen mostly
 
  * Go to Device Settings->Application Manager. Go to the section/tab titled 'All'. Select the app titled 'Google Text-to-speech Engine' and click 'Disable. Then select the app titled 'Samsung TTS' and click 'Disable'. 
 
- * Go to to Device Settings->Accessibility and enable Notify Plus. The app should function normally without the device speaking to you.
-
-Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105
-
-Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
+ * Go to to Device Settings->Accessibility and enable Notify Plus. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
 
 ==When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why? ==
 
