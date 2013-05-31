@@ -252,7 +252,7 @@ On this user settings screen you can hide some of the notification items if the 
 
 Here are confirmed, known issues that have not been resolved yet:
 
- * There is a known bug in Android Jelly Bean which may cause your screen to stay on. You can read about it here: http://code.google.com/p/android/issues/detail?id=39625. Many users find that by performing a "Factory Reset" after the update fixed this issue. If you experience this issue, the problem is with your phone and not this app.
+ * There is a known bug in Android Jelly Bean which may cause your screen to stay on. You can read about it here: http://code.google.com/p/android/issues/detail?id=39625. If you experience this issue, many users find that by performing a "Factory Reset" after the update fixed this issue.
 
  * There is a known bug in the Samsung devices running Android Jelly Bean. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jelly Bean(4.1, 4.2) and Samsung's custom TouchWiz UI. A possible solution is listed here:
  
