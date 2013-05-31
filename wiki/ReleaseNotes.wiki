@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v4.0.5* _Coming Soon..._
+*v4.0.6* _Coming Soon..._
  *
+
+*v4.0.5* _Coming Soon..._
+ * Fixed a bug which caused the screen to remain on in devices running Android Jelly Bean.
+ * Added Swedish translation.
+ * Updated all translations.
+ * Small updates/fixes.
 
 *v4.0.4* (May 20, 2013)
  * Added a few more user preferences.
