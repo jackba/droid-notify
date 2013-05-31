@@ -254,11 +254,7 @@ Here are confirmed, known issues that have not been resolved yet:
 
  * There is a known bug in Android Jellybean which may cause your screen to stay on. You can read about it here: http://code.google.com/p/android/issues/detail?id=39625. Many users find that by performing a "Factory Reset" after the update fixed this issue. If you experience this issue, the problem is with your phone and not this app.
 
- * This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jellybean(4.1, 4.2) and Samsung's custom !TouchWiz UI. Unfortunately, there is no known remedy for this issue at this time.
-
-Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105
-
-Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387
+ * This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jellybean(4.1, 4.2) and Samsung's custom !TouchWiz UI. Unfortunately, there is no known remedy for this issue at this time. Here is the Google Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
 
  * Facebook Message are notified when an unread message exists on Facebook.com. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/. I am monitoring this and will continue to search for fixes to this known issue.
 
