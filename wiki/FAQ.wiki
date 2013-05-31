@@ -189,7 +189,15 @@ Many phones have built on top of the stock Android OS a custom UI (example: HTC 
 
 There is most likely one of two reasons that this might happen.
 
-1) The most likely reason is that you installed K-9/Kaiten AFTER you installed Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permisoins that Notify uses. If you install Notify first, the permisions are not associated with the app and it will break. All you have to do is uninstall Notify and re-install it again.
+1) The most likely reason is that you installed K-9/Kaiten AFTER you installed Notify. The reason has to do with permissions. Basically, K-9/Kaiten define permissions that Notify uses. If you install Notify first, the permissions are not associated with the app and it will break. All you have to do is uninstall Notify and re-install it again.
+
+2) The less likely reason is that there is a bug in the code. Try step 1 first and if that doesn't solve the problem please send me an email with a debug log.
+
+==Aqua Mail Emails are not being shown. Why?==
+
+There is most likely one of two reasons that this might happen.
+
+1) The most likely reason is that you installed Aqua Mail AFTER you installed Notify. The reason has to do with permissions. Basically, Aqua Mail define permissions that Notify uses. If you install Notify first, the permissions are not associated with the app and it will break. All you have to do is uninstall Notify and re-install it again.
 
 2) The less likely reason is that there is a bug in the code. Try step 1 first and if that doesn't solve the problem please send me an email with a debug log.
 
