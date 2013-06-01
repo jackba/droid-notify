@@ -114,8 +114,8 @@ Notifications
   * Time Is In UTC
   * Load Unread SMS
   * Load Unread MMS
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -140,8 +140,8 @@ Notifications
  * Missed Calls
   * Enable Missed Call
   * Loading Settings
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -173,8 +173,8 @@ Notifications
   * All-Day Event Settings
   * Reminder Frequency
   * Reminder Interval
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -194,8 +194,8 @@ Notifications
  * K-9
   * Enable K9 Email
   * Include Account Name
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -218,8 +218,8 @@ Notifications
  * AquaMail (Pro feature)
   * Enable AquaMail Email
   * Include Account Name
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -242,8 +242,8 @@ Notifications
  * Gmail (Pro feature)
   * Enable Gmail
   * Read Gmail Account
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -268,8 +268,8 @@ Notifications
   * Read Twitter Account
   * Select Preferred Client
   * Polling Frequency
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -299,8 +299,8 @@ Notifications
   * Read Facebook Account
   * Select Preferred Client
   * Polling Frequency
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
@@ -323,8 +323,8 @@ Notifications
   * Read Google Voice Account
   * Select Preferred Client
   * Polling Frequency
-  * Enable Status Bar Notifications
-  * Status Bar Notifications
+  * Enable Notifications
+  * Notifications
    * Display When Blocked
    * Notification Icon
    * Notification Sound
