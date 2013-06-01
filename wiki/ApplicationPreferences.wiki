@@ -215,8 +215,8 @@ Notifications
    * Display Delete Button
    * Display Reply Button
 
- * AquaMail (Pro feature)
-  * Enable AquaMail Email
+ * !AquaMail (Pro feature)
+  * Enable !AquaMail Email
   * Include Account Name
   * Enable Notifications
   * Notifications
