@@ -269,7 +269,7 @@ Here are confirmed, known issues that have not been resolved yet:
 
  Go to to Device Settings->Accessibility and enable Notify Plus. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
 
- * Facebook Message are notified when an unread message exists on Facebook.com. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/. I am monitoring this and will continue to search for fixes to this known issue.
+ * Facebook messages may not work if it's a new message. They are however working when an unread message exists on Facebook. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/. I am monitoring this and will continue to search for fixes to this known issue.
 
 ==After Notify Plus updates, the app stops working. Why?==
 
