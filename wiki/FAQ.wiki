@@ -93,7 +93,7 @@ Yes. There are built in themes that you can choose from. If you have any themes 
 
 ==The notification icon is not removed when I dismiss or acknowledge the new message, why?==
 
-This is likely because you have the messaging app notifications still enabled (or another apps notifications enabled for the type of notification: Calendar app, etc.) Unfortunately, there is no way for developer apps to remove another applications notifications. 
+This is likely because you have the messaging app notifications still enabled (or another apps notifications enabled for the type of notification: Calendar app, etc.) Unfortunately, there is no way for an app to remove another applications notifications. 
 
 Notify supports its own Status Bar Notifications. If you enable this feature, make sure that you disable the notifications from the Messaging App, Calendar App and any other apps that Notify supports.
 
