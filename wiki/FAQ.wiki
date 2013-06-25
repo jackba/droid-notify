@@ -11,7 +11,7 @@
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowled The notification icon is not removed when I dismiss or acknowledge the new message, why?]
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
- * [FAQ#Can_APPLICATION_X_be_integrated_with_Notify? Can APPLICATION X be integrated with Notify?]
+ * [FAQ#Can_Application_X_be_integrated_with_Notify? Can Application X be integrated with Notify?]
  * [FAQ#Can_Notify_be_moved_to_the_SD_card? Can Notify be moved to the SD card?]
  * [FAQ#Known_Issues_with_Go_SMS_&_Notify Known Issues with Go SMS & Notify]
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
@@ -103,7 +103,7 @@ Please note that you may not be able to remove the system Missed Call notificati
 
 There are many 3rd party apps that hook into the phones contacts (e.g. Facebook, Twitter, Linked In, etc.). Although these apps are displaying user photos in the phones address book, these photos are not available by outside apps. The only photos that are available to all 3rd party apps are those that are part of the devices Google Contacts. You can download a few free apps that will sync your Facebook/Twitter/Linked In user data (including their photo) to the Google Contacts.
 
-==Can APPLICATION X be integrated with Notify?==
+==Can Application X be integrated with Notify?==
 
 Unfortunately, the answer is probably no or not at this time.
 
