@@ -13,7 +13,7 @@
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
  * [FAQ#Can_Application_X_be_integrated_with_Notify? Can Application X be integrated with Notify?]
  * [FAQ#Can_Notify_be_moved_to_the_SD_card? Can Notify be moved to the SD card?]
- * [FAQ#After_I_delete_an_SMS_it_is_still_shown_in_my_messaging_app!_Why? After I delete an SMS it is still shown in my messaging app! Why?]
+ * [FAQ#After_I_delete_an_SMS_it_is_still_shown_in_my_messaging_app!_Why After I delete an SMS it is still shown in my messaging app! Why?]
  * [FAQ#Known_Issues_with_Go_SMS_&_Notify Known Issues with Go SMS & Notify]
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
