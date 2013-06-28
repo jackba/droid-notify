@@ -13,6 +13,7 @@
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
  * [FAQ#Can_Application_X_be_integrated_with_Notify? Can Application X be integrated with Notify?]
  * [FAQ#Can_Notify_be_moved_to_the_SD_card? Can Notify be moved to the SD card?]
+ * [FAQ#After_I_delete_an_SMS_it_is_still_shown_in_my_messaging_app!_Why? After I delete an SMS it is still shown in my messaging app! Why?]
  * [FAQ#Known_Issues_with_Go_SMS_&_Notify Known Issues with Go SMS & Notify]
  * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
@@ -132,6 +133,10 @@ While you wait for more notification types, you can use an add-on called *Notify
 Unfortunately, the answer is no.
 
 If the app is moved to the SD Card / External Storage, the functionality of the application will be impacted in a negative manor. This application uses alarms and phone state intent filters to function normally. When apps are moved to the SD Card, the phone state intent filters are not received and if the SD card is ever removed or unmounted, all alarms are cleared from the memory. These issues would be catastrophic in terms of the apps operation so the application must remain on the phones internal memory.
+
+==After I delete an SMS it is still shown in my messaging app! Why?==
+
+Basically, this is what is going on. SMS messaging apps have a cache. They cache your messages so that app starts up faster and appears more responsive. Unfortunately, when an outside app updates the message databsae the messaging app does not know that this update occured. This means that when the messaging app starts it still has older, possibly read, possibly deleted messages displayed. Those messages show up in teh messaging app but are not in the messaging databse any more becuase they were deleted. Depending on the messaging apps user preferences, you should see if there is an optoin to turn off message caching. Either way, you must wait for the messaging app to refresh it's cache before the deleted message dissapears or the message is marked as read. There is nothign that an outside app like Notify can do about this. Messaging app developers need to consider that the SMS database can be updated outside of their app.
 
 ==Known Issues with Go SMS & Notify==
 
