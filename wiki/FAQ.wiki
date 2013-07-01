@@ -268,7 +268,7 @@ Here are confirmed, known issues that have not been resolved yet:
 
  * There is a known bug in Android Jelly Bean which may cause your screen to stay on. You can read about it here: http://code.google.com/p/android/issues/detail?id=39625. If you experience this issue, many users find that performing a "Factory Reset" after the update fixed this issue.
 
- * There is a known bug in the Samsung devices running Android Jelly Bean. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jelly Bean(4.1, 4.2) and Samsung's custom TouchWiz UI. A possible solution is listed here:
+ * There is a known bug in the Samsung devices running Android Jelly Bean which caused the device to begin speaking once an accessibility service is enabled (any accessibility service). It appears to happen mostly, if not exclusively on Samsung Devices running Android Jelly Bean(4.1, 4.2) and Samsung's custom TouchWiz UI. A possible solution is listed here:
  
  Go to Device Settings->Application Manager. Go to the section/tab titled 'All'. Select the app titled 'Google Text-to-speech Engine' and click 'Disable. Then select the app titled 'Samsung TTS' and click 'Disable'.
 
