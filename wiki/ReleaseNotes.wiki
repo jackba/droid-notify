@@ -3,8 +3,18 @@
 
 = Release Notes =
 
-*v4.0.6* _Coming Soon..._
+*v4.0.7* _Coming Soon..._
  *
+
+*v4.0.6* _Coming Soon..._
+ * Fixed a bug which prevented reminders from stopping when a notification was dismissed.
+ * Fixed a bug which prevented SMS delivery reports from working properly.
+ * 
+ * 
+ * 
+ * 
+ * Updated translations.
+ * Small bug fixes.
 
 *v4.0.5* (June 1, 2013)
  * Fixed a bug which caused the screen to remain on in devices running Android Jelly Bean.
