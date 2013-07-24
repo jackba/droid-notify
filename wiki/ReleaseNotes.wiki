@@ -9,8 +9,8 @@
 *v4.0.6* _Coming Soon..._
  * Fixed a bug which prevented reminders from stopping when a notification was dismissed.
  * Fixed a bug which prevented SMS delivery reports from working properly.
- * 
- * 
+ * Fixed a bug which prevented the calendar reminders from working correctly.
+ * Updated the calendar reminder preferences.
  * 
  * 
  * Updated translations.
