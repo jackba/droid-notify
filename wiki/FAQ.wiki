@@ -234,7 +234,7 @@ The answer is, it depends.
 
 2) Lockscreen Apps: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, Go Locker, etc.), you may be able to display a notification over a locked screen. This all depends on that particular app. A lockscreen app is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the lockscreen app). Here are some common lockscreen apps and their behavior:
 
-WidgetLocker - Notifications sometimes breaks this app and freezes the screen (locking the device and unlocking it fixes the issue). Using the "Lockscreen App Support" option in Notify allows a perfect experience with this app but this option does not allow you to display notifications over this lockscreen.
+!WidgetLocker - Notifications sometimes breaks this app and freezes the screen (locking the device and unlocking it fixes the issue). Using the "Lockscreen App Support" option in Notify allows a perfect experience with this app but this option does not allow you to display notifications over this lockscreen.
 
 Go Locker - Notifications appear over the lockscreen as expected. This app does not have a way to unlock it so Notify cannot unlock the phone when this app is in use.
 
