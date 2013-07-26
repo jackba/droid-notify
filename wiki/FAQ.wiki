@@ -230,9 +230,15 @@ Simply enable app blocking and select the apps on your phone that you want to bl
 
 The answer is, it depends. 
 
-1) Android OS: If you are using the Android OS (default, stock) lockscreen, then no, you can't. Android does not currently have a way to display anything "over" a locked lockscreen. Developers can either lock or unlock the device and that's it.
+1) Android OS: If you are using the Android OS (default, stock) lockscreen, then no, you can't. Android does not currently have a way to display anything over/on top of a  lockscreen. Developers can either lock or unlock the device and that's it.
 
-2) 3rd Party Lockscreen App: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, etc.), you may be able to display a notification over a locked screen. This all depends on how the 3rd party developer wrote their application. A 3rd party lockscreen is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the 3rd party lockscreen app).
+2) Lockscreen Apps: If you are using a 3rd party lockscreen app (e.g. WidgetLocker, Go Locker, etc.), you may be able to display a notification over a locked screen. This all depends on that particular app. A lockscreen app is just another app on your device. Just like any other app, a lockscreen app can be pushed to the background when another app (say, Notify) is pushed to the foreground (aka, on top of the lockscreen app). Here are some common lockscreen apps and their behavior:
+
+WidgetLocker - Notifications sometimes breaks this app and freezes the screen (locking the device and unlocking it fixes the issue). Using the "Lockscreen App Support" option in Notify allows a perfect experience with this app but this option does not allow you to display notifications over this lockscreen.
+
+Go Locker - Notifications appear over the lockscreen as expected. This app does not have a way to unlock it so Notify cannot unlock the phone when this app is in use.
+
+
 
 ==Email notifications information.==
 
