@@ -28,7 +28,7 @@
  * [FAQ#The_LED_light_is_not_working._Why? The LED light is not working. Why?]
  * [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Can_I_Suppress_Notifications_When_I_Am_Using_Application_X? Can I Suppress Notifications When I Am Using Application X?]
- * [FAQ#Can_A_Notification_Be_Shown_Over_The_Lock_Screen? Can A Notification Be Shown Over The Lock Screen?]
+ * [FAQ#Can_Notifications_Be_Shown_Over_The_Lockscreen? Can Notifications Be Shown Over The Lockscreen?]
  * [FAQ#Email_notifications_information. Email notifications information.]
  * [FAQ#Quick_Reply_information. Quick Reply information.]
  * [FAQ#Known_Issues Known Issues]
@@ -226,7 +226,7 @@ _*App Settings->Basic->Blocking Apps Settings*_
 
 Simply enable app blocking and select the apps on your phone that you want to block notifications.
 
-==Can A Notification Be Shown Over The Lock Screen?==
+==Can Notifications Be Shown Over The Lockscreen?==
 
 The answer is, it depends. 
 
@@ -236,9 +236,11 @@ The answer is, it depends.
 
 !WidgetLocker - Notifications sometimes breaks this app and freezes the screen (locking the device and unlocking it fixes the issue). Using the "Lockscreen App Support" option in Notify allows a perfect experience with this app but this option does not allow you to display notifications over this lockscreen.
 
-GoLocker - Notifications appear over the lockscreen as expected. This app does not have a way to unlock it so Notify cannot unlock the phone when this app is in use.
+GoLocker - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
 
+Active Lockscreen - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
 
+Most lockscreen apps will display the notifications over them.
 
 ==Email notifications information.==
 
