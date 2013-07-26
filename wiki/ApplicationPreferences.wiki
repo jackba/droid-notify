@@ -50,6 +50,7 @@ Locale
  
 Screen
 
+ * Lockscreen App Support
  * Turn Screen On
  * Dim Screen
  * Unlock Device
