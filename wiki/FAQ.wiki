@@ -236,7 +236,7 @@ The answer is, it depends.
 
 !WidgetLocker - Notifications sometimes breaks this app and freezes the screen (locking the device and unlocking it fixes the issue). Using the "Lockscreen App Support" option in Notify allows a perfect experience with this app but this option does not allow you to display notifications over this lockscreen.
 
-GoLocker - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
+!GoLocker - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
 
 Active Lockscreen - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
 
