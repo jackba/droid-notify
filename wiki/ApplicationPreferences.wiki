@@ -160,17 +160,14 @@ Notifications
   * More Options
 
  * Calendar
-  * Enable Calendar Event
-  * All-Day Notification Time
+  * Enable Calendar Reminders
   * Polling Frequency
   * Select Calendars
   * Enable Calendar Labels
   * Refresh Calendar Alarms
-  * Remind Start Of Event
-  * Send Event Reminders
-  * Use Current Calendar Reminder Settings
-  * Event Settings
-  * All-Day Event Settings
+  * Use Calendar Settings
+  * Reminder Settings
+  * All-Day Reminder Settings
   * Reminder Frequency
   * Reminder Interval
   * Enable Notifications
