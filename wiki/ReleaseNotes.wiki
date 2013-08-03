@@ -12,7 +12,7 @@
  * Fixed a bug which prevented the calendar reminders from working correctly.
  * Updated the calendar reminder preferences.
  * Updated the status bar notification text as well as added enhanced notification for Android 4.0+ devices.
- * 
+ * Updated the notification sounds to obey the ringtone setting (for Android 4.1+ devices).
  * Updated translations.
  * Small bug fixes.
 
