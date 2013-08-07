@@ -13,6 +13,7 @@
  * Updated the calendar reminder preferences.
  * Updated the status bar notification text as well as added enhanced notifications for Android 4.0+ devices.
  * Updated the notification sounds to obey the ringtone setting (for Android 4.1+ devices).
+ * Enhanced the integration with the Notify Plus app.
  * Updated translations.
  * Small bug fixes.
 
