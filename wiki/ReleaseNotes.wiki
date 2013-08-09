@@ -6,7 +6,7 @@
 *v4.0.7* _Coming Soon..._
  *
 
-*v4.0.6* _Coming Soon..._
+*v4.0.6* (August 8, 2013)
  * Fixed a bug which prevented reminders from stopping when a notification was dismissed.
  * Fixed a bug which prevented SMS delivery reports from working properly.
  * Fixed a bug which prevented the calendar reminders from working correctly.
