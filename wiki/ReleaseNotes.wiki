@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v4.0.7* _Coming Soon..._
+*v4.0.8* _Coming Soon..._
  *
+
+*v4.0.7* _Coming Soon..._
+ * Fixed a bug in the In-Call notification feature.
+ * Added a new notification feature that allows you to recover hidden popup notifications.
+ * 
+ * Updated translations.
 
 *v4.0.6* (August 8, 2013)
  * Fixed a bug which prevented reminders from stopping when a notification was dismissed.
