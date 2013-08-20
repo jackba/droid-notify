@@ -29,8 +29,8 @@
  * [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Can_I_Suppress_Notifications_When_I_Am_Using_Application_X? Can I Suppress Notifications When I Am Using Application X?]
  * [FAQ#Can_Notifications_Be_Shown_Over_The_Lockscreen? Can Notifications Be Shown Over The Lockscreen?]
- * [FAQ#Email_notifications_information. Email notifications information.]
- * [FAQ#Quick_Reply_information. Quick Reply information.]
+ * [FAQ#Email_notifications_information Email notifications information]
+ * [FAQ#Quick_Reply_information Quick Reply information]
  * [FAQ#Known_Issues Known Issues]
 
 = *Notify Plus* =
@@ -242,7 +242,7 @@ Active Lockscreen - Notifications appear over the lockscreen as expected. This a
 
 Most lockscreen apps will display the notifications over them.
 
-==Email notifications information.==
+==Email notifications information==
 
 At this time the Email content on Android phones is secure and 3rd party apps cannot read the phones emails. There are a few email clients that have open APIs that 3rd party developers can access.
 
@@ -254,7 +254,7 @@ At this time the Email content on Android phones is secure and 3rd party apps ca
 
 _Please note:_ Currently the API provided by the Gmail app only gives access to the unread count of the email accounts. No other information is available (e.g. Sender, Email Subject, Email Body, Etc.) You can read more about the API that Gmail has provided here https://developers.google.com/gmail/android/
 
-==Quick Reply information.==
+==Quick Reply information==
 
 The quick reply signature can be disable or updated here: _*App Settings->Basic->Quick Reply Settings*_
 
