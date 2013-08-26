@@ -10,6 +10,7 @@
  * Fixed a bug in the In-Call notification feature.
  * Added a new notification feature that allows you to recover hidden popup notifications.
  * Fixes a bug in the K-9 mail integration which caused the wrong email body to be displayed.
+ * Continue to improve the parsing of 3rd party notifications from the Notify Plus app.
  * Updated translations.
  * Small bug fixes.
 
