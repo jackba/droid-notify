@@ -6,7 +6,7 @@
 *v4.0.8* _Coming Soon..._
  *
 
-*v4.0.7* _Coming Soon..._
+*v4.0.7* (August 27, 2013)
  * Fixed a bug in the In-Call notification feature.
  * Added a new notification feature that allows you to recover hidden popup notifications.
  * Fixes a bug in the K-9 mail integration which caused the wrong email body to be displayed.
