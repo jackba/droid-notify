@@ -3,8 +3,12 @@
 
 = Release Notes =
 
-*v4.0.8* _Coming Soon..._
+*v4.0.9* _Coming Soon..._
  *
+
+*v4.0.8* _Coming Soon..._
+ * Small bug fixes
+ * Fixed bug related to displaying Google Voice SMS messages.
 
 *v4.0.7* (August 27, 2013)
  * Fixed a bug in the In-Call notification feature.
