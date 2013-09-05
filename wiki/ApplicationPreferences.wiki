@@ -169,8 +169,8 @@ Notifications
   * Enable Calendar Labels
   * Refresh Calendar Alarms
   * Use Calendar Settings
-  * Reminder Settings
-  * All-Day Reminder Settings
+  * Reminder Time
+  * All-Day Reminder Time
   * Reminder Frequency
   * Reminder Interval
   * Enable Notifications
