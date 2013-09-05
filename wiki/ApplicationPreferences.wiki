@@ -40,6 +40,8 @@ Basic
   * Blocking Action (Pro feature)
  * Customize Contacts (Pro feature)
  * Blacklist (Pro feature)
+ * Notifications
+ * Display Only When Hidden
 
 Locale
 
