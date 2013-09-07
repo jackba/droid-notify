@@ -3,8 +3,8 @@
 
 = Notify - Frequently Asked Questions =
 
- * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plus? What is the difference between Notify and Notify+?]
- * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify_Plus? What is the difference between Notify Pro and Notify+?]
+ * [FAQ#What_is_the_difference_between_Notify_and_Notify+? What is the difference between Notify and Notify+?]
+ * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify+? What is the difference between Notify Pro and Notify+?]
 
 = *Notify* =
 
@@ -36,9 +36,9 @@
 
 = *Notify+* =
 
- * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify+ updates, the app stops working. Why?]
- * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify+ accessibility service my device begins to speak to me, why?]
- * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify+ accessibility service a conflict message is displayed and another service is disabled, why?]
+ * [FAQ#After_Notify+_updates,_the_app_stops_working._Why? After Notify+ updates, the app stops working. Why?]
+ * [FAQ#When_I_enable_the_Notify+_accessibility_service_my_device_be When I enable the Notify+ accessibility service my device begins to speak to me, why?]
+ * [FAQ#When_I_try_to_enable_the_Notify+_accessibility_service_a_con When I try to enable the Notify+ accessibility service a conflict message is displayed and another service is disabled, why?]
  * [FAQ#I_get_multiple_notifications_for_a_single_status_bar_notificatio I get multiple notifications for a single status bar notification, why?]
 
 
