@@ -3,8 +3,8 @@
 
 = Notify - Frequently Asked Questions =
 
- * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plus? What is the difference between Notify and Notify Plus?]
- * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify_Plus? What is the difference between Notify Pro and Notify Plus?]
+ * [FAQ#What_is_the_difference_between_Notify_and_Notify_Plus? What is the difference between Notify and Notify+?]
+ * [FAQ#What_is_the_difference_between_Notify_Pro_and_Notify_Plus? What is the difference between Notify Pro and Notify+?]
 
 = *Notify* =
 
@@ -34,17 +34,17 @@
  * [FAQ#Quick_Reply_information Quick Reply information]
  * [FAQ#Known_Issues Known Issues]
 
-= *Notify Plus* =
+= *Notify+* =
 
- * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify Plus updates, the app stops working. Why?]
- * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify Plus accessibility service my device begins to speak to me, why?]
- * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why?]
+ * [FAQ#After_Notify_Plus_updates,_the_app_stops_working._Why? After Notify+ updates, the app stops working. Why?]
+ * [FAQ#When_I_enable_the_Notify_Plus_accessibility_service_my_device_be When I enable the Notify+ accessibility service my device begins to speak to me, why?]
+ * [FAQ#When_I_try_to_enable_the_Notify_Plus_accessibility_service_a_con When I try to enable the Notify+ accessibility service a conflict message is displayed and another service is disabled, why?]
  * [FAQ#I_get_multiple_notifications_for_a_single_status_bar_notificatio I get multiple notifications for a single status bar notification, why?]
 
 
 ----
 
-==What is the difference between Notify and Notify Plus?==
+==What is the difference between Notify and Notify+?==
 
 *Notify*
 
@@ -59,11 +59,11 @@ Notify (Lite/Pro) is a full featured notification app for very specific notifica
 4) K-9/Kaiten Mail Clients - Delete, reply.
 
 
-*Notify Plus*
+*Notify+*
 
-Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify+ reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
-==What is the difference between Notify Pro and Notify Plus?==
+==What is the difference between Notify Pro and Notify+?==
 
 *Notify Pro*
 
@@ -85,9 +85,9 @@ Includes all the features of the Notify Lite application and adds a few more fea
 
 8) Any new open API programs might be added as features to this app.
 
-*Notify Plus*
+*Notify+*
 
-Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify Plus reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
+Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify+ reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
 ==Can I change the UI of the notification?==
 
@@ -127,7 +127,7 @@ Apps that users have asked for integration (with comments):
 
 8) Hotmail - Looking into the possibility. Why not install K-9 Mail or Kaiten Mail? It works great with Hotmail!
 
-While you wait for more notification types, you can use an add-on called *Notify Plus* which is an accessibility service which offers a simple notification popup for all of the phones other apps. Try it out today!
+While you wait for more notification types, you can use an add-on called *Notify+* which is an accessibility service which offers a simple notification popup for all of the phones other apps. Try it out today!
 
 ==Can Notify be moved to the SD card?==
 
@@ -193,7 +193,7 @@ Check the box "Time Is In UTC" to tell the app that incoming SMS timestamps are 
 
 ==Why is there a number indicating unread messages on top of my app icon?==
 
-Many phones have built on top of the stock Android OS a custom UI (example: HTC Sense, Samsung TouchWiz, Etc...) These phones might have a Message Unread Count number that displays over the app icon. Unfortunately, most of these custom apps do not have a way for 3rd party app to refresh the counter. This means that when Notify updates the SMS data or dismisses an email (using Notify Plus), the counter may not aware of it. This means that even though the Email or SMS has been viewed and is marked as viewed on the phone, the app still says that there are unread messages. Until these apps provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
+Many phones have built on top of the stock Android OS a custom UI (example: HTC Sense, Samsung TouchWiz, Etc...) These phones might have a Message Unread Count number that displays over the app icon. Unfortunately, most of these custom apps do not have a way for 3rd party app to refresh the counter. This means that when Notify updates the SMS data or dismisses an email (using Notify+), the counter may not aware of it. This means that even though the Email or SMS has been viewed and is marked as viewed on the phone, the app still says that there are unread messages. Until these apps provide a way for 3rd party apps to refresh this icon, this will remain an issue on those devices.
 
 ==K-9/Kaiten Emails are not being shown. Why?==
 
@@ -285,23 +285,23 @@ Here are confirmed, known issues that have not been resolved yet:
  
  Go to Device Settings->Application Manager. Go to the section/tab titled 'All'. Select the app titled 'Google Text-to-speech Engine' and click 'Disable. Then select the app titled 'Samsung TTS' and click 'Disable'.
 
- Go to to Device Settings->Accessibility and enable Notify Plus. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
+ Go to to Device Settings->Accessibility and enable Notify+. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
 
  * Facebook messages may not work if it's a new message. They are however working when an unread message exists on Facebook. This is a bug with the Facebook API. It is documented here: https://developers.facebook.com/bugs/227066064081265/. I am monitoring this and will continue to search for fixes to this known issue.
 
-==After Notify Plus updates, the app stops working. Why?==
+==After Notify+ updates, the app stops working. Why?==
 
 There is a bug in all versions of Android which stops the accessibility services from running after an update. You must disable and then re-enable the accessibility service in the phones settings restart/re-enable the service.
 
-==When I enable the Notify Plus accessibility service my device begins to speak to me, why? ==
+==When I enable the Notify+ accessibility service my device begins to speak to me, why? ==
 
 This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jelly Bean(4.1, 4.2) and Samsung's custom !TouchWiz UI. A possible solution is listed here:
 
  * Go to Device Settings->Application Manager. Go to the section/tab titled 'All'. Select the app titled 'Google Text-to-speech Engine' and click 'Disable. Then select the app titled 'Samsung TTS' and click 'Disable'. 
 
- * Go to to Device Settings->Accessibility and enable Notify Plus. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
+ * Go to to Device Settings->Accessibility and enable Notify+. The app should function normally without the device speaking to you. Here is the Google Documented Issue: http://code.google.com/p/android/issues/detail?id=23105. Here is the Samsung Documented Issue: http://developer.samsung.com/forum/board/thread/view.do?boardName=GeneralB&messageId=204387.
 
-==When I try to enable the Notify Plus accessibility service a conflict message is displayed and another service is disabled, why? ==
+==When I try to enable the Notify+ accessibility service a conflict message is displayed and another service is disabled, why? ==
 
 This is a known bug in the Android OS on the device. It appears to happen mostly, if not exclusively on Samsung Devices running Android Jelly Bean(4.1, 4.2) and Samsung's custom !TouchWiz UI. Unfortunately, there is no known remedy for this issue at this time.
 
@@ -311,5 +311,5 @@ Here is the Samsung Issue: http://developer.samsung.com/forum/board/thread/view.
 
 ==I get multiple notifications for a single status bar notification, why? ==
 
-Notify Plus simply reads the status bar notification. 
-Allot of apps send multiple status bar notification "updates" to the status bar notification. Each time an app sends information to the status bar, the Notify Plus app will respond and display that information to you. Sometimes this information will be empty and sometimes it will have new, updated information. This behavior is driven by the outside app that is posting the status bar notification and Notify Plus cannot control this unfortunately.
+Notify+ simply reads the status bar notification. 
+Allot of apps send multiple status bar notification "updates" to the status bar notification. Each time an app sends information to the status bar, the Notify+ app will respond and display that information to you. Sometimes this information will be empty and sometimes it will have new, updated information. This behavior is driven by the outside app that is posting the status bar notification and Notify+ cannot control this unfortunately.
