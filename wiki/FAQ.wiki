@@ -19,6 +19,7 @@
  * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
  * [FAQ#Known_Issues_with_Textra_SMS_&_Notify Known Issues with Textra SMS & Notify]
+ * [FAQ#Known_Issues_with_Chomp_SMS_&_Notify Known Issues with Chomp SMS & Notify]
  * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calendars? Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
@@ -165,7 +166,11 @@ Users have reported that the a bundled app called "ATT Messaging" can stop SMS &
 
 ==Known Issues with Textra SMS & Notify==
 
-The Textra SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadast including the Notify apps. There is no known solution at this time.
+The Textra SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
+
+==Known Issues with Chomp SMS & Notify==
+
+The Chomp SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
 
 ==Will Notify display calendar events by non Android calendars?==
 
