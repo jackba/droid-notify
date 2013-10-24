@@ -168,9 +168,13 @@ Users have reported that the a bundled app called "ATT Messaging" can stop SMS &
 
 The Textra SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
 
+*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same compatibility problems as well.
+
 ==Known Issues with Chomp SMS & Notify==
 
 The Chomp SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
+
+*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same compatibility problems as well.
 
 ==Will Notify display calendar events by non Android calendars?==
 
