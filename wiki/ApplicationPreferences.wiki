@@ -28,12 +28,13 @@ Basic
   * Message Sent Notification
   * Message Delivered Notification
   * Message Failed Notification
- * Enable Quiet Time (Pro feature)
  * Quiet Time Settings (Pro feature)
   * Weekdays Enabled (Pro feature)
   * Weekday Settings (Pro feature)
   * Weekends Enabled (Pro feature)
   * Weekend Settings (Pro feature)
+  * Display Notification (Pro feature)
+  * Display Popup (Pro feature)
  * Enable App Blocking (Pro feature)
  * Blocking Apps Settings (Pro feature)
   * Select Blocking Apps (Pro feature)
