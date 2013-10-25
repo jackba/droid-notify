@@ -10,7 +10,7 @@
  * Small updates to the Quiet Time feature.
  * Small bug fixes.
 
-*v4.0.8* _Coming Soon..._
+*v4.0.8* (September 4, 2013)
  * Small bug fixes
  * Fixed bug related to displaying Google Voice SMS messages.
 
