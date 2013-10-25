@@ -4,7 +4,11 @@
 = Release Notes =
 
 *v4.0.9* _Coming Soon..._
- *
+ * 
+ * 
+ * 
+ * Small updates to the Quiet Time feature.
+ * Small bug fixes.
 
 *v4.0.8* _Coming Soon..._
  * Small bug fixes
