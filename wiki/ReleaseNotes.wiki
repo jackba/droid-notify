@@ -6,7 +6,7 @@
 *v4.0.9* _Coming Soon..._
  * 
  * 
- * 
+ * Fixed the broken app shortcuts.
  * Small updates to the quiet time feature.
  * Added options to display a notification and popup during the quiet time.
  * Small bug fixes.
