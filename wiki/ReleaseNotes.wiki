@@ -7,7 +7,8 @@
  * 
  * 
  * 
- * Small updates to the Quiet Time feature.
+ * Small updates to the quiet time feature.
+ * Added options to display a notification and popup during the quiet time.
  * Small bug fixes.
 
 *v4.0.8* (September 4, 2013)
