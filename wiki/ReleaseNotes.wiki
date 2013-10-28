@@ -5,6 +5,7 @@
 
 *v4.0.9* _Coming Soon..._
  * 
+ * Duplicate notifications from Notify+ should not happen any longer.
  * Fixed bugs with Facebook, Twitter & Google Voice "view" buttons.
  * Fixed the broken app shortcuts.
  * Small updates to the quiet time feature.
