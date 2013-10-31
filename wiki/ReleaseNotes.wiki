@@ -5,6 +5,7 @@
 
 *v4.0.9* _Coming Soon..._
  * 
+ * Added globaly a separate reminder status bar notification settings feature.
  * Added the event location to the calendar notifications.
  * Minor UI updates for newer devices.
  * Duplicate notifications from Notify+ should not happen any longer.
