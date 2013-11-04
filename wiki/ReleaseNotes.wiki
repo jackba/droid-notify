@@ -3,8 +3,10 @@
 
 = Release Notes =
 
-*v4.0.9* _Coming Soon..._
+*v4.0.10* _Coming Soon..._
  * 
+
+*v4.0.9* _Coming Soon..._
  * Added a feature to suppress the popup when the device is charging.
  * Added a feature to suppress the popup and only have status bar notifications.
  * Added globally a separate reminder status bar notification settings feature.
