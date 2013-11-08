@@ -7,6 +7,7 @@ Enable Notify
 
 Basic
 
+ * Display Popup Notifications
  * Disable Context Menu
  * Disable Photo Menu
  * Display TTS Button
