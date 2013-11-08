@@ -7,9 +7,10 @@
  * 
 
 *v4.0.9* _Coming Soon..._
+ * Updated the MMS notifications. They will now display the MMS Text & any images that are sent with it.
  * Added a feature to suppress the popup when the device is charging.
  * Added a feature to suppress the popup and only have status bar notifications.
- * Added globally a separate reminder status bar notification settings feature.
+ * Added a separate reminder status bar notification feature.
  * Added the event location to the calendar notifications.
  * Minor UI updates for newer devices.
  * Duplicate notifications from Notify+ should not happen any longer.
@@ -18,6 +19,7 @@
  * Small updates to the quiet time feature.
  * Added options to display a notification and popup during the quiet time.
  * Small bug fixes.
+ * Updated translations.
 
 *v4.0.8* (September 4, 2013)
  * Small bug fixes
