@@ -18,13 +18,13 @@ Basic
  * Reminder Settings
   * Reminder Frequency
   * Reminder Interval
-  * Custom Reminder Notifications
-  * Notification Sound
-  * Vibrate Setting
-  * Vibrate Pattern
-  * Enable LED
-  * LED Color Setting
-  * LED Pattern
+  * Custom Reminder Notifications (Pro feature)
+  * Notification Sound (Pro feature)
+  * Vibrate Setting (Pro feature)
+  * Vibrate Pattern (Pro feature)
+  * Enable LED (Pro feature)
+  * LED Color Setting (Pro feature)
+  * LED Pattern (Pro feature)
  * Enable Quick Reply
  * Quick Reply Settings
   * Insert Signature
@@ -47,6 +47,7 @@ Basic
  * Blocking Apps Settings (Pro feature)
   * Select Blocking Apps (Pro feature)
   * Blocking Action (Pro feature)
+  * Block Popup While Charging
  * Customize Contacts (Pro feature)
  * Blacklist (Pro feature)
  * Notifications
