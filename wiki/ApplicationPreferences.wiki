@@ -17,6 +17,13 @@ Basic
  * Reminder Settings
   * Reminder Frequency
   * Reminder Interval
+  * Custom Reminder Notifications
+  * Notification Sound
+  * Vibrate Setting
+  * Vibrate Pattern
+  * Enable LED
+  * LED Color Setting
+  * LED Pattern
  * Enable Quick Reply
  * Quick Reply Settings
   * Insert Signature
@@ -118,6 +125,7 @@ Notifications
   * Time Is In UTC
   * Load Unread SMS
   * Load Unread MMS
+  * Display Message Button
   * Enable Notifications
   * Notifications
    * Display When Blocked
