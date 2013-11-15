@@ -6,7 +6,7 @@
 *v4.0.10* _Coming Soon..._
  * 
 
-*v4.0.9* _Coming Soon..._
+*v4.0.9* (November 14, 2013)
  * Updated the MMS notifications. They will now display the MMS Text & any images that are sent with it.
  * Added a feature to suppress the popup when the device is charging.
  * Added a feature to suppress the popup and only have status bar notifications.
