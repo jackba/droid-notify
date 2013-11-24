@@ -3,8 +3,14 @@
 
 = Release Notes =
 
-*v4.0.11* _Coming Soon..._
+*v4.0.12* _Coming Soon..._
  * 
+
+*v4.0.11* _Coming Soon..._
+ * Fixed compatibility with the following apps: Hangouts (with new SMS feature), Textra SMS, Chomp SMS
+ * 
+ * Small bug fixes
+
 *v4.0.10* (November 16, 2013)
  * Fixed bug which caused the theme picking screen to crash.
 
