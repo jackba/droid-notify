@@ -8,7 +8,6 @@
 
 *v4.0.11* _Coming Soon..._
  * Fixed compatibility with the following apps: Hangouts (with new SMS feature), Textra SMS, Chomp SMS
- * 
  * Small bug fixes
 
 *v4.0.10* (November 16, 2013)
