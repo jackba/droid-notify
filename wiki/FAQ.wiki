@@ -15,8 +15,8 @@
  * [FAQ#Can_Notify_be_moved_to_the_SD_card? Can Notify be moved to the SD card?]
  * [FAQ#After_I_delete_an_SMS_it_is_still_shown_in_my_messaging_app!_Why After I delete an SMS it is still shown in my messaging app! Why?]
  * [FAQ#Known_Issues_with_Go_SMS_&_Notify Known Issues with Go SMS & Notify]
- * [FAQ#Known_Issues_with_Pansi_SMS_&_Notify Known Issues with Pansi SMS & Notify]
- * [FAQ#Known_Issues_with_Zlango_Messaging_&_Notify Known Issues with Zlango Messaging & Notify]
+ * [FAQ#Known_Issues_with_Easy_SMS_&_Notify Known Issues with Easy SMS & Notify]
+ * [FAQ#Known_Issues_with_Lango_Messaging_&_Notify Known Issues with Lango Messaging & Notify]
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
  * [FAQ#Known_Issues_with_Textra_SMS_&_Notify Known Issues with Textra SMS & Notify]
  * [FAQ#Known_Issues_with_Chomp_SMS_&_Notify Known Issues with Chomp SMS & Notify]
@@ -144,21 +144,19 @@ Basically, this is what is going on. SMS messaging apps have a cache. They cache
 
 If you want to use GO SMS, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Receive Settings). If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Disable other message notifications" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Other Settings->Disable other message notifications). If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-2) Uncheck/deselect the "Enable Go SMS run persistently" option in the GO SMS Pro settings/preferences (App Settings->Advanced Tab->Important Tips). If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+==Known Issues with Easy SMS & Notify==
 
-==Known Issues with Pansi SMS & Notify==
+If you want to use Easy SMS, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-If you want to use Pansi SMS, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
+1) Uncheck/deselect the "Disable other message notifications" option in the Easy SMS settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
-1) Uncheck/deselect the "Disable other message notifications" option in the Pansi SMS settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+==Known Issues with Lango Messaging & Notify==
 
-==Known Issues with Zlango Messaging & Notify==
+If you want to use Lango Messaging, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
 
-If you want to use Zlango Messaging, you must follow the steps below in order for Notify to work with SMS/MMS notifications.
-
-1) Uncheck/deselect the "Set as default messaging client" option in the Zlango Messaging settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
+1) Uncheck/deselect the "Set as default messaging client" option in the Lango Messaging settings/preferences. If this option is checked/selected then Notify may not work (i.e. SMS/MMS notifications may not be displayed).
 
 ==Known Issues with ATT Messaging App & Notify==
 
