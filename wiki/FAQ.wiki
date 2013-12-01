@@ -20,6 +20,7 @@
  * [FAQ#Known_Issues_with_ATT_Messaging_App_&_Notify Known Issues with ATT Messaging App & Notify]
  * [FAQ#Known_Issues_with_Textra_SMS_&_Notify Known Issues with Textra SMS & Notify]
  * [FAQ#Known_Issues_with_Chomp_SMS_&_Notify Known Issues with Chomp SMS & Notify]
+ * [FAQ#Known_Issues_with_Handcent_SMS_&_Notify Known Issues with Handcent SMS & Notify]
  * [FAQ#Will_Notify_display_calendar_events_by_non_Android_calendars? Will Notify display calendar events by non Android calendars?]
  * [FAQ#I_get_status_bar_notifications_but_no_popup,_why? I get status bar notifications but no popup, why?]
  * [FAQ#Can_I_help_translate_this_application? Can I help translate this application?]
@@ -173,6 +174,10 @@ The Textra SMS app can have compatibility issues with earlier version of Notify.
 The Chomp SMS app app can have compatibility issues with earlier version of Notify. Updating the Notify app to the latest version should solve these issues.
 
 *Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same possible compatibility problems as well.
+
+==Known Issues with Handcent SMS & Notify==
+
+The Handcent SMS app has compatibility issues with almost all other SMS apps. They appear to be aborting the SMS broadcast which disables most other SMS apps. At this time there is no solution.
 
 ==Will Notify display calendar events by non Android calendars?==
 
