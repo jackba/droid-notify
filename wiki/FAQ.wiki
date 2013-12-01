@@ -160,19 +160,19 @@ If you want to use Lango, you must follow the steps below in order for Notify to
 
 ==Known Issues with ATT Messaging App & Notify==
 
-Users have reported that the a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem. 
+Users have reported that a bundled app called "ATT Messaging" can stop SMS & MMS notifications from appearing. Uninstalling this application can solve this problem. 
 
 ==Known Issues with Textra SMS & Notify==
 
-The Textra SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
+The Textra SMS app can have compatibility issues with earlier version of Notify. Updating the Notify app to the latest version should solve these issues.
 
-*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same compatibility problems as well.
+*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same possible compatibility problems as well.
 
 ==Known Issues with Chomp SMS & Notify==
 
-The Chomp SMS app appears to abort the SMS broadcast of new SMS messages. This breaks any app that uses the SMS broadcast including the Notify apps. There is no known solution at this time.
+The Chomp SMS app app can have compatibility issues with earlier version of Notify. Updating the Notify app to the latest version should solve these issues.
 
-*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same compatibility problems as well.
+*Note* Chomp SMS & Textra SMS are made by the same developers, so they have the same possible compatibility problems as well.
 
 ==Will Notify display calendar events by non Android calendars?==
 
