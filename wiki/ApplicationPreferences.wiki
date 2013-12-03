@@ -64,10 +64,11 @@ Screen
 
  * Lockscreen App Support
  * Turn Screen On
+ * Poke Screen
+ * Screen Timeout
  * Dim Screen
  * Unlock Device
  * Unlock Pattern
- * Screen Timeout
  * Auto Rotate Screen
  * Hide Status Bar
  * Show Wallpaper
