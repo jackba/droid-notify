@@ -32,6 +32,7 @@
  * [FAQ#The_missed_call_status_bar_notification_is_not_being_dismissed. The missed call status bar notification is not being dismissed. Why?]
  * [FAQ#Can_I_Suppress_Notifications_When_I_Am_Using_Application_X? Can I Suppress Notifications When I Am Using Application X?]
  * [FAQ#Can_Notifications_Be_Shown_Over_The_Lockscreen? Can Notifications Be Shown Over The Lockscreen?]
+ * [FAQ#The_Show_When_Locked/Unlocked_options_are_not_working._Why? The Show When Locked/Unlocked options are not working. Why?]
  * [FAQ#Email_notifications_information Email notifications information]
  * [FAQ#Quick_Reply_information Quick Reply information]
  * [FAQ#Known_Issues Known Issues]
@@ -258,6 +259,10 @@ The answer is, it depends.
 Active Lockscreen - Notifications appear over the lockscreen as expected. This app does not have an API so Notify cannot unlock the phone when this app is in use.
 
 Most lockscreen apps will display the notifications over them.
+
+==The Show When Locked/Unlocked options are not working. Why?==
+
+These options are not compatible with 3rd party lockscreens. If these options are not working properly on your device it's because you are using a 3rd party lockscreen. These lockscreen apps "fake" a device lockscreen and always have the device in an unlocked state. THis is why those options might not be working.
 
 ==Email notifications information==
 
