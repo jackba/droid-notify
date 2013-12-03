@@ -3,8 +3,13 @@
 
 = Release Notes =
 
-*v4.0.12* _Coming Soon..._
+*v4.0.13* _Coming Soon..._
  * 
+
+*v4.0.12* _Coming Soon..._
+ * Fixed bugs related to the Show When Locked/Unlocked settings.
+ * Updated the screen controls and added a new setting called "Poke Screen". The default settings should turn your screen off faster now.
+ * Small bug fixes.
 
 *v4.0.11* (November 28, 2013)
  * Fixed compatibility with the following apps: Hangouts (with new SMS feature), Textra SMS, Chomp SMS
