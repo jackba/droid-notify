@@ -6,9 +6,10 @@
 *v4.0.13* _Coming Soon..._
  * 
 
-*v4.0.12* _Coming Soon..._
+*v4.0.12* (December 13, 2013)
  * Fixed bugs related to the Show When Locked/Unlocked settings.
  * Updated the screen controls and added a new setting called "Poke Screen". The default settings should turn your screen off faster now.
+ * Updated translations.
  * Small bug fixes.
 
 *v4.0.11* (November 28, 2013)
