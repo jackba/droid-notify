@@ -94,9 +94,9 @@ Includes all the features of the Notify Lite application and adds a few more fea
 
 Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify+ reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
-==Android KitKat (4.4+) and Notify.==
+==Android !KitKat (4.4+) and Notify.==
 
-All the Notify apps (Notify Lite/Pro, Notify+ etc.) work with Android KitKat and above (Android 4.4+),  however, as of Android KitKat (4.4) there were changes to how it deals with SMS/MMS data. Notify can no longer delete or mark messages as read if they are running on Android 4.4+ devices. All other features work as expected.
+All the Notify apps (Notify Lite/Pro, Notify+ etc.) work with Android !KitKat and above (Android 4.4+),  however, as of Android !KitKat (4.4) there were changes to how it deals with SMS/MMS data. Notify can no longer delete or mark messages as read if they are running on Android 4.4+ devices. All other features work as expected.
 
 ==Can I change the UI of the notification?==
 
