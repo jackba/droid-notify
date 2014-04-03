@@ -8,7 +8,7 @@
 
 = *Notify* =
 
- * [FAQ#Android_KitKat_(4.4+)_and_Notify. Android KitKat (4.4+) and Notify.]
+ * [FAQ#Android_KitKat_(4.4+)_and_Notify Android KitKat (4.4+) and Notify]
  * [FAQ#Can_I_change_the_UI_of_the_notification? Can I change the UI of the notification?]
  * [FAQ#The_notification_icon_is_not_removed_when_I_dismiss_or_acknowled The notification icon is not removed when I dismiss or acknowledge the new message, why?]
  * [FAQ#The_contact_photo_in_the_notification_doesn't_display_even The contact photo in the notification doesn't display even though it shows in the system contacts, why?]
@@ -94,7 +94,7 @@ Includes all the features of the Notify Lite application and adds a few more fea
 
 Adds very basic notifications for almost any app installed on the phone (as long as they post status bar notifications). Notify+ reads a posted status bar notification and displays it as a popup window. Only the information provided in the status bar notification can be used in the popup window.
 
-==Android !KitKat (4.4+) and Notify.==
+==Android !KitKat (4.4+) and Notify==
 
 All the Notify apps (Notify Lite/Pro, Notify+ etc.) work with Android !KitKat and above (Android 4.4+),  however, as of Android !KitKat (4.4) there were changes to how it deals with SMS/MMS data. Notify can no longer delete or mark messages as read if they are running on Android 4.4+ devices. All other features work as expected.
 
