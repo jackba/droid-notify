@@ -98,6 +98,8 @@ Adds very basic notifications for almost any app installed on the phone (as long
 
 All the Notify apps (Notify Lite/Pro, Notify+ etc.) work with Android !KitKat and above (Android 4.4+),  however, as of Android !KitKat (4.4) there were changes to how it deals with SMS/MMS data. Notify can no longer delete or mark messages as read if they are running on Android 4.4+ devices. All other features work as expected.
 
+The reason for this is due to changes that Google made to the Android OS. In Android 4.4+, only the Messaging app that is selected as the "Main" messaging app can modify the SMS/MMS data. All other apps only have read-only access. All "notification" apps were affected the same way. Notification popups that are included in the main messaging app will be able to delete or mark the messages as read from the popup.
+
 ==Can I change the UI of the notification?==
 
 Yes. There are built in themes that you can choose from. If you have any themes (any phone styles like a 3rd party rom, etc.) that you would like to see the notifications in, please contact me and I will do my best to create a theme in that style.
